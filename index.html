@@ -625,6 +625,24 @@
   }
   .qload-in-ta:focus{border-color:var(--gold)}
   .qload-in-ta::placeholder{color:rgba(212,160,23,.22)}
+
+  /* ── SIDE PANELS ── */
+  .side-panel{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
+    display:none;align-items:center;justify-content:center;
+  }
+  .side-panel.open{display:flex}
+  .side-panel-box{
+    background:linear-gradient(160deg,#1a0a00,#0d0500);
+    border:1px solid var(--border);border-radius:12px;
+    padding:1.4rem 1.6rem;width:min(92vw,420px);
+    box-shadow:0 8px 40px rgba(0,0,0,.8);
+  }
+  .side-panel-title{
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:1rem;
+    color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem;
+  }
+  .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
 </style>
 </head>
 <body>
@@ -748,6 +766,41 @@
     </div>
   </div>
 
+  <!-- Image Generation -->
+  <div class="sp-card">
+    <div class="sp-card-title">🖼️ 圖片生成 <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">選填 · Pollinations API</span></div>
+    <div class="toggle-row">
+      <div class="toggle-label">
+        啟用 AI 圖片生成
+        <span class="toggle-sub">需填寫 Key 才會生效</span>
+      </div>
+      <label class="tog">
+        <input type="checkbox" id="tog-img" onchange="document.getElementById('img-settings').style.display=this.checked?'block':'none'">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <div id="img-settings" style="display:none; margin-top:.7rem; border-top:1px solid rgba(212,160,23,.15); padding-top:.7rem">
+      <label class="field-label">圖片 API Key</label>
+      <input class="text-inp" id="img-key-inp" placeholder="輸入您的 Pollinations API Key">
+      <label class="field-label" style="margin-top:.5rem">生圖模型 (預設 flux)</label>
+      <input class="text-inp" id="img-model-inp" value="flux" placeholder="例如: flux, nanobanana">
+    </div>
+  </div>
+
+  <!-- BGM -->
+  <div class="sp-card">
+    <div class="sp-card-title">🎵 背景音樂 <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">選填 · 二選一 · 自動循環</span></div>
+    <div class="field-hint" style="margin-bottom:.7rem">若同時設定，優先播放本機檔案</div>
+
+    <label class="field-label">方案 A：音頻直連網址 (.mp3 / .ogg / .wav)</label>
+    <input class="text-inp" id="bgm-url-inp" placeholder="https://example.com/music.mp3" style="margin-bottom:.75rem">
+
+    <label class="field-label">方案 B：上傳本機音樂檔</label>
+    <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;padding:.4rem .6rem;">
+      <input type="file" id="bgm-file-inp" accept="audio/*" style="color:rgba(245,230,200,.6);font-size:.75rem;width:100%;cursor:pointer;">
+    </div>
+  </div>
+
   <!-- Theme Colors -->
   <div class="sp-card">
     <div class="sp-card-title">🎨 介面色彩主題(上限≦5)</div>
@@ -786,6 +839,21 @@
     <div class="s-label">對話</div>
     <button class="s-btn" onclick="openClearChat()" style="color:rgba(220,120,100,.7)">🗑 清空對話</button>
     <div class="s-pin-badge" id="hist-badge">— 則對話</div>
+    <hr>
+    <div class="s-label">音樂</div>
+    <button class="s-btn" id="btn-bgm-toggle" onclick="toggleBGM()">🔇 BGM 未設定</button>
+    <button class="s-btn" onclick="openSidePanel('bgm-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">🎵 更換音樂來源</button>
+    <div class="s-pin-badge" id="bgm-badge">—</div>
+    <hr>
+    <div class="s-label">圖片生成</div>
+    <div class="s-toggle-row">
+      <span>🖼️ 啟用生圖</span>
+      <label class="tog">
+        <input type="checkbox" id="ig-tog-img" onchange="toggleImgIG(this.checked)">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">🔑 更換圖片 Key / 模型</button>
     <hr>
     <div class="s-label">外觀</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 色彩主題</button>
@@ -862,6 +930,12 @@
       </div>
       <textarea id="ui" rows="1" placeholder="輸入行動或對話… (如含 2d6 會自動骰)"
         onkeydown="hkey(event)" oninput="ar(this)"></textarea>
+      <button id="img-gen-btn" onclick="openImgGen()" title="AI 生圖"
+        style="background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.3);
+        color:rgba(212,160,23,.7);padding:.6rem .75rem;border-radius:6px;cursor:pointer;
+        font-size:1rem;transition:all .25s;flex-shrink:0;display:none"
+        onmouseover="this.style.background='rgba(212,160,23,.22)'"
+        onmouseout="this.style.background='rgba(212,160,23,.12)'">🖼️</button>
       <button id="sb" onclick="send()">送出</button>
     </div>
   </div>
@@ -922,6 +996,9 @@ let gameCfg = {
   deltaEnabled: true,
   renderTags: true,
   injectRealTime: false,
+  imgEnabled: false,
+  imgKey: '',
+  imgModel: 'flux',
 };
 
 const DEFAULT_STATE = () => ({
@@ -1172,11 +1249,24 @@ const RENDER_ADDON =
 [OPT]選項文字|送出內容|顏色[/OPT] — 玩家選項按鈕
 [SAVE]角色卡摘要[/SAVE] — 可折疊的存檔摘要`;
 
+const IMG_ADDON =
+`\n\n【圖片生成標籤】
+當場景切換、新角色登場或發生重要事件時，請務必使用 [IMG]英文提示詞[/IMG] 來產生畫面。
+【提示詞嚴格規範】
+1. 必須全英文，以名詞和形容詞為主，逗號分隔。
+2. 絕對避開敏感詞彙(NSFW/Violence)：
+   - 禁止 alluring/seductive/sexy → 改用 gentle/charming
+   - 禁止 petite body → 改用 slender build
+   - 禁止 vulnerable/helpless → 改用 melancholic/tired
+   - 禁止 dim/dark room → 改用 softly lit room
+3. 範例：[IMG]a slender build girl, charming smile, softly lit room, high quality, anime style[/IMG]`;
+
 function buildSYS() {
   const moduleText = getActiveModuleText();
   let base = moduleText || FREE_MODE_PROMPT;
   if (gameCfg.deltaEnabled) base += DELTA_ADDON;
   if (gameCfg.renderTags)   base += RENDER_ADDON;
+  // 生圖改為玩家手動觸發，不再注入 IMG_ADDON 讓 AI 自動生成
   return base;
 }
 
@@ -1476,11 +1566,20 @@ function go(){
   gameCfg.renderTags=document.getElementById('tog-render').checked;
   gameCfg.injectRealTime=document.getElementById('tog-realtime').checked;
 
+  gameCfg.imgEnabled = document.getElementById('tog-img').checked;
+  gameCfg.imgKey = document.getElementById('img-key-inp').value.trim();
+  gameCfg.imgModel = document.getElementById('img-model-inp').value.trim() || 'flux';
+  // 防呆：勾選了啟用但沒填 Key，強制關閉
+  if (gameCfg.imgEnabled && !gameCfg.imgKey) {
+    gameCfg.imgEnabled = false;
+  }
+
   const info=P[cfg.provider];
   document.getElementById('sbadge').innerHTML=info.label+'<br><span style="color:rgba(212,160,23,.8);font-size:.7rem">'+cfg.model+'</span>';
   document.getElementById('model-tag').textContent=cfg.provider.toUpperCase()+' · '+cfg.model;
   updateRuleTag();
   if(gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display='';
+  if(gameCfg.imgEnabled) document.getElementById('img-gen-btn').style.display='';
 
   const igRt = document.getElementById('ig-tog-realtime');
   if (igRt) igRt.checked = gameCfg.injectRealTime;
@@ -1491,6 +1590,7 @@ function go(){
     sp.style.display='none';
     document.getElementById('app').classList.add('on');
     GS=DEFAULT_STATE();
+    initBGM();
     initGame();
   },700);
 }
@@ -1734,7 +1834,7 @@ async function callAPI(_msg, init){
         deltaInfo=`<div class="delta-badge err">⚠ 未收到 DELTA（數值未更新）</div>`;
       }
     }
-    const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').trim();
+    const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
     addMsg('a', (gameCfg.renderTags?renderNarrative(displayRaw):esc(displayRaw)) + deltaInfo, r);
   }catch(e){
     rmThink(tid);
@@ -1811,6 +1911,19 @@ function renderNarrative(raw){
       const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
       optIdx++;
       return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
+    })
+    .replace(/\[IMG\]([\s\S]*?)\[\/IMG\]/gi,(_,prompt)=>{
+      if (!gameCfg.imgEnabled || !gameCfg.imgKey) return '';
+      const encodedPrompt = encodeURIComponent(prompt.trim());
+      const model = encodeURIComponent(gameCfg.imgModel);
+      const key = encodeURIComponent(gameCfg.imgKey);
+      const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?model=${model}&width=1024&height=1024&seed=0&enhance=false&key=${key}`;
+      return `<div style="margin: 0.8rem 0; text-align: center;">
+                <img src="${imgUrl}" alt="Generating..."
+                     style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.5); opacity:0; transition: opacity 0.5s;"
+                     onload="this.style.opacity=1">
+                <div style="font-size: 0.65rem; color: rgba(212,160,23,0.4); margin-top: 0.3rem;">🖼️ ${prompt.trim().replace(/</g,'&lt;')}</div>
+              </div>`;
     });
   if(optIdx>0) html=html.replace(/(<span class="r-opt"[\s\S]*?<\/span>\s*)+/g,m=>`<div class="r-opts">${m}</div>`);
   return html;
@@ -2057,6 +2170,15 @@ function restoreFromData(data) {
     restoreThemeFromCfg();
     const igRt = document.getElementById('ig-tog-realtime');
     if (igRt) igRt.checked = !!gameCfg.injectRealTime;
+    // 復原圖片生成設定 UI
+    const togImg = document.getElementById('tog-img');
+    const imgKeyInp = document.getElementById('img-key-inp');
+    const imgModelInp = document.getElementById('img-model-inp');
+    const imgSettings = document.getElementById('img-settings');
+    if (togImg) togImg.checked = !!gameCfg.imgEnabled;
+    if (imgKeyInp) imgKeyInp.value = gameCfg.imgKey || '';
+    if (imgModelInp) imgModelInp.value = gameCfg.imgModel || 'flux';
+    if (imgSettings) imgSettings.style.display = gameCfg.imgEnabled ? 'block' : 'none';
   }
   if (Array.isArray(data.modules) && data.modules.length) {
     modules = [...data.modules]; _modId = modules.length;
@@ -2074,12 +2196,13 @@ function restoreFromData(data) {
   document.getElementById('model-tag').textContent = (cfg.provider || '').toUpperCase() + ' · ' + cfg.model;
   updateRuleTag();
   if (gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display = '';
+  if (gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display = '';
 
   const msgWrap = document.getElementById('msgs'); msgWrap.innerHTML = ''; _msgIdx = 0;
   hist.forEach(m => {
     if (m.role === 'user') addMsg('u', esc(m.content), m.content);
     else if (m.role === 'assistant') {
-      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').trim();
+      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi, '').trim();
       addMsg('a', gameCfg.renderTags ? renderNarrative(disp) : esc(disp), m.content);
     }
   });
@@ -2675,6 +2798,32 @@ window.addEventListener('load', () => {
   </div>
 </div>
 
+<!-- ══ IMG GEN MODAL ══ -->
+<div id="imggen-modal" class="modal-bg" onclick="if(event.target===this)closeImgGen()">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-title">🖼️ AI 生圖</div>
+    <div class="modal-desc">AI 將根據目前對話內容設計提示詞並生成圖片</div>
+
+    <label class="field-label" style="margin-top:.8rem">補充關鍵詞 <span style="color:rgba(212,160,23,.35);font-size:.7rem">（選填）</span></label>
+    <input class="text-inp" id="imggen-hint"
+      placeholder="例如：特寫臉部、夜晚場景、戰鬥姿態…">
+    <div class="field-hint">留空則 AI 自動分析當前對話設計提示詞；有填則優先納入</div>
+
+    <div id="imggen-prompt-preview" style="display:none;margin-top:.7rem;
+      background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.2);border-radius:5px;
+      padding:.55rem .75rem;font-size:.72rem;font-family:monospace;
+      color:rgba(212,160,23,.65);line-height:1.6;word-break:break-all">
+    </div>
+
+    <div id="imggen-result" style="display:none;margin-top:.8rem;text-align:center"></div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" id="imggen-submit-btn" onclick="submitImgGen()">✨ 生成圖片</button>
+      <button class="btn-cancel" onclick="closeImgGen()">取消</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ THEME MODAL ══ -->
 <div id="theme-modal" class="modal-bg" onclick="if(event.target===this)closeThemeModal()">
   <div class="modal-box" style="max-width:500px">
@@ -2847,7 +2996,340 @@ document.addEventListener('DOMContentLoaded', function() {
     console.warn('AutoSave read failed:', e);
   }
 });
+
+// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// IMG GEN SYSTEM
+// ══════════════════════════════════════════════
+
+function openImgGen() {
+  // Reset state
+  document.getElementById('imggen-hint').value = '';
+  document.getElementById('imggen-prompt-preview').style.display = 'none';
+  document.getElementById('imggen-prompt-preview').textContent = '';
+  document.getElementById('imggen-result').style.display = 'none';
+  document.getElementById('imggen-result').innerHTML = '';
+  document.getElementById('imggen-submit-btn').disabled = false;
+  document.getElementById('imggen-submit-btn').textContent = '✨ 生成圖片';
+  document.getElementById('imggen-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('imggen-hint').focus(), 50);
+}
+
+function closeImgGen() {
+  document.getElementById('imggen-modal').style.display = 'none';
+}
+
+async function submitImgGen() {
+  const hint = document.getElementById('imggen-hint').value.trim();
+  const btn  = document.getElementById('imggen-submit-btn');
+  const preview = document.getElementById('imggen-prompt-preview');
+  const result  = document.getElementById('imggen-result');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ AI 設計提示詞中…';
+  preview.style.display = 'none';
+  result.style.display = 'none';
+
+  // Build recent context (last 6 messages)
+  const recentHist = hist.slice(-6).map(m =>
+    `${m.role === 'user' ? '玩家' : 'GM'}：${m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').slice(0,300)}`
+  ).join('\n');
+
+  const promptInstruction = hint
+    ? `根據以下對話內容，設計一段 Stable Diffusion 風格的英文圖片提示詞。玩家補充關鍵詞：「${hint}」，請優先納入。`
+    : `根據以下對話內容，分析當前場景，設計一段 Stable Diffusion 風格的英文圖片提示詞。`;
+
+  const sysPrompt = `你是一個專業的 AI 圖片提示詞設計師。
+${promptInstruction}
+
+【規則】
+1. 只輸出提示詞本身，不要任何說明、前言、標點。
+2. 全英文，名詞和形容詞為主，逗號分隔。
+3. 風格參考：high quality, detailed, cinematic lighting, anime style（可依場景調整）。
+4. 避開 NSFW 詞彙：禁用 alluring/sexy → 用 charming；禁用 dim room → 用 softly lit room。
+5. 提示詞長度約 15～30 個詞。`;
+
+  try {
+    // Call AI to generate prompt
+    let generatedPrompt = '';
+    const SYS = sysPrompt;
+    const messages = [{ role: 'user', content: `【近期對話】\n${recentHist}\n\n請設計圖片提示詞：` }];
+
+    let resp;
+    if (cfg.provider === 'anthropic') {
+      resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': cfg.key,
+          'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 200, system: SYS, messages })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.content.map(b => b.type === 'text' ? b.text : '').join('').trim();
+    } else if (cfg.provider === 'gemini') {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${cfg.key}`;
+      resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYS }] },
+          contents: messages.map(m => ({ role: 'user', parts: [{ text: m.content }] })),
+          generationConfig: { maxOutputTokens: 200 }
+        })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim() || '';
+    } else {
+      const ep = cfg.provider === 'custom' && cfg.ep ? cfg.ep : 'https://api.openai.com/v1/chat/completions';
+      resp = await fetch(ep, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 200,
+          messages: [{ role: 'system', content: SYS }, ...messages] })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.choices[0].message.content.trim();
+    }
+
+    // Clean up prompt (remove quotes, newlines)
+    generatedPrompt = generatedPrompt.replace(/^["'`]|["'`]$/g, '').replace(/\n/g, ', ').trim();
+
+    // Show prompt preview
+    preview.textContent = '📝 ' + generatedPrompt;
+    preview.style.display = 'block';
+
+    btn.textContent = '⏳ 生圖中…';
+
+    // Call Pollinations
+    const encodedPrompt = encodeURIComponent(generatedPrompt);
+    const model  = encodeURIComponent(gameCfg.imgModel || 'flux');
+    const key    = encodeURIComponent(gameCfg.imgKey);
+    const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?model=${model}&width=1024&height=1024&seed=${Math.floor(Math.random()*99999)}&enhance=false&key=${key}`;
+
+    // Insert image into chat as a message
+    const imgHtml = `<div style="text-align:center">
+      <div style="font-size:.7rem;color:rgba(212,160,23,.4);margin-bottom:.4rem">🖼️ ${generatedPrompt.replace(/</g,'&lt;')}</div>
+      <img src="${imgUrl}" alt="生成中…"
+        style="max-width:100%;border-radius:8px;border:1px solid var(--border);
+        box-shadow:0 4px 16px rgba(0,0,0,.6);opacity:0;transition:opacity .5s"
+        onload="this.style.opacity=1"
+        onerror="this.outerHTML='<div style=&quot;color:#f66;font-size:.78rem&quot;>❌ 圖片載入失敗，請確認 Key 是否正確</div>'">
+    </div>`;
+
+    addMsg('a', imgHtml);
+    closeImgGen();
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = '✨ 重試';
+    preview.textContent = '❌ 錯誤：' + e.message;
+    preview.style.display = 'block';
+    preview.style.color = 'rgba(255,100,100,.7)';
+  }
+}
+
+// BGM SYSTEM
+// ══════════════════════════════════════════════
+let bgmState = { type: 'none', isPlaying: false };
+
+function initBGM() {
+  const fileInp = document.getElementById('bgm-file-inp');
+  const urlInp  = document.getElementById('bgm-url-inp').value.trim();
+  const badge   = document.getElementById('bgm-badge');
+
+  if (fileInp.files.length > 0) {
+    const audio = document.getElementById('bgm-audio');
+    audio.src = URL.createObjectURL(fileInp.files[0]);
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'local', isPlaying: true };
+      badge.textContent = '🎵 ' + fileInp.files[0].name;
+      updateBGMBtn();
+    }).catch(e => console.warn('BGM autoplay blocked:', e));
+
+  } else if (urlInp) {
+    const audio = document.getElementById('bgm-audio');
+    audio.src = urlInp;
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'url', isPlaying: true };
+      badge.textContent = '🎵 音頻串流';
+      updateBGMBtn();
+    }).catch(e => console.warn('BGM autoplay blocked:', e));
+
+  } else {
+    updateBGMBtn();
+  }
+
+  // Sync img sidebar toggle
+  const igTogImg = document.getElementById('ig-tog-img');
+  if (igTogImg) igTogImg.checked = !!gameCfg.imgEnabled;
+}
+
+function toggleBGM() {
+  const audio = document.getElementById('bgm-audio');
+  if (bgmState.type === 'none') { toast('⚠ 尚未設定 BGM'); return; }
+  if (audio.paused) {
+    audio.play();
+    bgmState.isPlaying = true;
+    toast('🔊 BGM 播放中');
+  } else {
+    audio.pause();
+    bgmState.isPlaying = false;
+    toast('🔇 BGM 已暫停');
+  }
+  updateBGMBtn();
+}
+
+function updateBGMBtn() {
+  const btn = document.getElementById('btn-bgm-toggle');
+  if (!btn) return;
+  if (bgmState.type === 'none') {
+    btn.textContent = '🔇 BGM 未設定';
+    btn.style.color = '';
+  } else if (bgmState.isPlaying) {
+    btn.textContent = '🔇 暫停 BGM';
+    btn.style.color = 'rgba(100,220,100,.8)';
+  } else {
+    btn.textContent = '🔊 播放 BGM';
+    btn.style.color = 'rgba(212,160,23,.7)';
+  }
+}
+
+// ── Side Panel helpers ──
+function openSidePanel(id) {
+  // Pre-fill current values when opening
+  if (id === 'img-panel') {
+    document.getElementById('ig-img-key').value = gameCfg.imgKey || '';
+    document.getElementById('ig-img-model').value = gameCfg.imgModel || 'flux';
+  }
+  if (id === 'bgm-panel') {
+    document.getElementById('ig-bgm-url').value =
+      (bgmState.type === 'url') ? document.getElementById('bgm-audio').src : '';
+  }
+  document.getElementById(id).classList.add('open');
+}
+function closeSidePanel(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ── Image settings in-game apply ──
+function applyImgSettings() {
+  const key   = document.getElementById('ig-img-key').value.trim();
+  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
+  gameCfg.imgKey   = key;
+  gameCfg.imgModel = model;
+  gameCfg.imgEnabled = !!(key);
+  const tog = document.getElementById('ig-tog-img');
+  if (tog) tog.checked = gameCfg.imgEnabled;
+  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  closeSidePanel('img-panel');
+  toast(key ? '✅ 圖片設定已更新，生圖功能' + (gameCfg.imgEnabled ? '啟用' : '已停用（Key 為空）') : '⚠ Key 為空，生圖已停用');
+}
+
+function toggleImgIG(checked) {
+  if (checked && !gameCfg.imgKey) {
+    document.getElementById('ig-tog-img').checked = false;
+    openSidePanel('img-panel');
+    toast('⚠ 請先填入 API Key');
+    return;
+  }
+  gameCfg.imgEnabled = checked && !!gameCfg.imgKey;
+  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  toast(gameCfg.imgEnabled ? '🖼️ 生圖已啟用' : '🖼️ 生圖已停用');
+}
+
+// ── BGM in-game apply ──
+function applyBGMChange() {
+  const fileInp = document.getElementById('ig-bgm-file');
+  const urlVal  = document.getElementById('ig-bgm-url').value.trim();
+  const audio   = document.getElementById('bgm-audio');
+  const badge   = document.getElementById('bgm-badge');
+
+  audio.pause(); audio.src = '';
+
+  if (fileInp.files.length > 0) {
+    const file = fileInp.files[0];
+    audio.src = URL.createObjectURL(file);
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'local', isPlaying: true };
+      badge.textContent = '🎵 ' + file.name;
+      updateBGMBtn();
+      toast('🎵 BGM 已切換：' + file.name);
+    }).catch(e => toast('❌ 播放失敗：' + e.message));
+
+  } else if (urlVal) {
+    audio.src = urlVal;
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'url', isPlaying: true };
+      badge.textContent = '🎵 音頻串流';
+      updateBGMBtn();
+      toast('🎵 BGM 已切換：音頻串流');
+    }).catch(e => toast('❌ 播放失敗，請確認網址'));
+
+  } else {
+    toast('⚠ 請填入音樂來源');
+    return;
+  }
+  closeSidePanel('bgm-panel');
+}
+
+function stopBGM() {
+  const audio = document.getElementById('bgm-audio');
+  audio.pause(); audio.src = '';
+  bgmState = { type: 'none', isPlaying: false };
+  document.getElementById('bgm-badge').textContent = '—';
+  updateBGMBtn();
+  closeSidePanel('bgm-panel');
+  toast('⏹ 音樂已停止');
+}
 </script>
+<!-- ══ BGM SIDE PANEL ══ -->
+<div id="bgm-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('bgm-panel')">
+  <div class="side-panel-box">
+    <div class="side-panel-title">🎵 更換音樂來源</div>
+    <div class="side-panel-desc">二選一，優先播放本機檔案</div>
+
+    <label class="field-label" style="margin-top:.6rem">方案 A：音頻直連網址 (.mp3 / .ogg)</label>
+    <input class="text-inp" id="ig-bgm-url" placeholder="https://example.com/music.mp3">
+
+    <label class="field-label" style="margin-top:.6rem">方案 B：上傳本機音樂檔</label>
+    <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;padding:.4rem .6rem;margin-bottom:.2rem">
+      <input type="file" id="ig-bgm-file" accept="audio/*" style="color:rgba(245,230,200,.6);font-size:.75rem;width:100%;cursor:pointer;">
+    </div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" onclick="applyBGMChange()">▶ 套用並播放</button>
+      <button class="btn-cancel" onclick="stopBGM()">⏹ 停止音樂</button>
+      <button class="btn-cancel" onclick="closeSidePanel('bgm-panel')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ IMG SIDE PANEL ══ -->
+<div id="img-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('img-panel')">
+  <div class="side-panel-box">
+    <div class="side-panel-title">🖼️ 圖片生成設定</div>
+    <div class="side-panel-desc">調整 Pollinations API Key 與模型</div>
+
+    <label class="field-label" style="margin-top:.6rem">圖片 API Key</label>
+    <input class="text-inp" id="ig-img-key" placeholder="輸入您的 Pollinations API Key">
+
+    <label class="field-label" style="margin-top:.6rem">生圖模型</label>
+    <input class="text-inp" id="ig-img-model" placeholder="flux, nanobanana …">
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" onclick="applyImgSettings()">✅ 套用</button>
+      <button class="btn-cancel" onclick="closeSidePanel('img-panel')">取消</button>
+    </div>
+  </div>
+</div>
+
+<audio id="bgm-audio" loop></audio>
 
 </body>
 </html>
