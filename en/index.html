@@ -623,6 +623,24 @@
   }
   .qload-in-ta:focus{border-color:var(--gold)}
   .qload-in-ta::placeholder{color:rgba(212,160,23,.22)}
+
+  /* ── SIDE PANELS ── */
+  .side-panel{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
+    display:none;align-items:center;justify-content:center;
+  }
+  .side-panel.open{display:flex}
+  .side-panel-box{
+    background:linear-gradient(160deg,#1a0a00,#0d0500);
+    border:1px solid var(--border);border-radius:12px;
+    padding:1.4rem 1.6rem;width:min(92vw,420px);
+    box-shadow:0 8px 40px rgba(0,0,0,.8);
+  }
+  .side-panel-title{
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:1rem;
+    color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem;
+  }
+  .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
 </style>
 </head>
 <body>
@@ -748,6 +766,41 @@
     </div>
   </div>
 
+  <!-- Image Generation -->
+  <div class="sp-card">
+    <div class="sp-card-title">🖼️ Image Generation <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Pollinations API</span></div>
+    <div class="toggle-row">
+      <div class="toggle-label">
+        Enable AI Image Generation
+        <span class="toggle-sub">Requires an API Key to activate</span>
+      </div>
+      <label class="tog">
+        <input type="checkbox" id="tog-img" onchange="document.getElementById('img-settings').style.display=this.checked?'block':'none'">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <div id="img-settings" style="display:none; margin-top:.7rem; border-top:1px solid rgba(212,160,23,.15); padding-top:.7rem">
+      <label class="field-label">Image API Key</label>
+      <input class="text-inp" id="img-key-inp" placeholder="Enter your Pollinations API Key">
+      <label class="field-label" style="margin-top:.5rem">Image Model (default: flux)</label>
+      <input class="text-inp" id="img-model-inp" value="flux" placeholder="e.g. flux, nanobanana">
+    </div>
+  </div>
+
+  <!-- BGM -->
+  <div class="sp-card">
+    <div class="sp-card-title">🎵 Background Music <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Choose one · Auto-loop</span></div>
+    <div class="field-hint" style="margin-bottom:.7rem">If both are set, local file takes priority</div>
+
+    <label class="field-label">Option A: Audio direct URL (.mp3 / .ogg / .wav)</label>
+    <input class="text-inp" id="bgm-url-inp" placeholder="https://example.com/music.mp3" style="margin-bottom:.75rem">
+
+    <label class="field-label">Option B: Upload local audio file</label>
+    <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;padding:.4rem .6rem;">
+      <input type="file" id="bgm-file-inp" accept="audio/*" style="color:rgba(245,230,200,.6);font-size:.75rem;width:100%;cursor:pointer;">
+    </div>
+  </div>
+
   <!-- Theme Colors -->
   <div class="sp-card">
     <div class="sp-card-title">🎨 Interface Color Theme (max 5)</div>
@@ -786,6 +839,21 @@
     <div class="s-label">HISTORY</div>
     <button class="s-btn" onclick="openClearChat()" style="color:rgba(220,120,100,.7)">🗑 Clear History</button>
     <div class="s-pin-badge" id="hist-badge">— messages</div>
+    <hr>
+    <div class="s-label">MUSIC</div>
+    <button class="s-btn" id="btn-bgm-toggle" onclick="toggleBGM()">🔇 No BGM set</button>
+    <button class="s-btn" onclick="openSidePanel('bgm-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">🎵 Change Music Source</button>
+    <div class="s-pin-badge" id="bgm-badge">—</div>
+    <hr>
+    <div class="s-label">IMAGE GEN</div>
+    <div class="s-toggle-row">
+      <span>🖼️ Enable Generation</span>
+      <label class="tog">
+        <input type="checkbox" id="ig-tog-img" onchange="toggleImgIG(this.checked)">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">🔑 Change Image Key / Model</button>
     <hr>
     <div class="s-label">APPEARANCE</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 Color Theme</button>
@@ -862,6 +930,12 @@
       </div>
       <textarea id="ui" rows="1" placeholder="Enter your action or dialogue… (expressions like 2d6 will auto-roll)"
         onkeydown="hkey(event)" oninput="ar(this)"></textarea>
+      <button id="img-gen-btn" onclick="openImgGen()" title="AI Image Gen"
+        style="background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.3);
+        color:rgba(212,160,23,.7);padding:.6rem .75rem;border-radius:6px;cursor:pointer;
+        font-size:1rem;transition:all .25s;flex-shrink:0;display:none"
+        onmouseover="this.style.background='rgba(212,160,23,.22)'"
+        onmouseout="this.style.background='rgba(212,160,23,.12)'">🖼️</button>
       <button id="sb" onclick="send()">Send</button>
     </div>
   </div>
@@ -922,6 +996,9 @@ let gameCfg = {
   deltaEnabled: true,
   renderTags: true,
   injectRealTime: false,
+  imgEnabled: false,
+  imgKey: '',
+  imgModel: 'flux',
 };
 
 const DEFAULT_STATE = () => ({
@@ -1476,11 +1553,17 @@ function go(){
   gameCfg.renderTags=document.getElementById('tog-render').checked;
   gameCfg.injectRealTime=document.getElementById('tog-realtime').checked;
 
+  gameCfg.imgEnabled = document.getElementById('tog-img').checked;
+  gameCfg.imgKey = document.getElementById('img-key-inp').value.trim();
+  gameCfg.imgModel = document.getElementById('img-model-inp').value.trim() || 'flux';
+  if (gameCfg.imgEnabled && !gameCfg.imgKey) gameCfg.imgEnabled = false;
+
   const info=P[cfg.provider];
   document.getElementById('sbadge').innerHTML=info.label+'<br><span style="color:rgba(212,160,23,.8);font-size:.7rem">'+cfg.model+'</span>';
   document.getElementById('model-tag').textContent=cfg.provider.toUpperCase()+' · '+cfg.model;
   updateRuleTag();
   if(gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display='';
+  if(gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display='';
 
   const igRt = document.getElementById('ig-tog-realtime');
   if (igRt) igRt.checked = gameCfg.injectRealTime;
@@ -1491,6 +1574,7 @@ function go(){
     sp.style.display='none';
     document.getElementById('app').classList.add('on');
     GS=DEFAULT_STATE();
+    initBGM();
     initGame();
   },700);
 }
@@ -1734,7 +1818,7 @@ async function callAPI(_msg, init){
         deltaInfo=`<div class="delta-badge err">⚠ No DELTA received (values not updated)</div>`;
       }
     }
-    const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').trim();
+    const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
     addMsg('a', (gameCfg.renderTags?renderNarrative(displayRaw):esc(displayRaw)) + deltaInfo, r);
   }catch(e){
     rmThink(tid);
@@ -2057,6 +2141,17 @@ function restoreFromData(data) {
     restoreThemeFromCfg();
     const igRt = document.getElementById('ig-tog-realtime');
     if (igRt) igRt.checked = !!gameCfg.injectRealTime;
+    // Restore image settings UI
+    const togImg     = document.getElementById('tog-img');
+    const imgKeyInp  = document.getElementById('img-key-inp');
+    const imgModelInp= document.getElementById('img-model-inp');
+    const imgSettings= document.getElementById('img-settings');
+    const igTogImg   = document.getElementById('ig-tog-img');
+    if (togImg)      togImg.checked       = !!gameCfg.imgEnabled;
+    if (imgKeyInp)   imgKeyInp.value      = gameCfg.imgKey   || '';
+    if (imgModelInp) imgModelInp.value    = gameCfg.imgModel || 'flux';
+    if (imgSettings) imgSettings.style.display = gameCfg.imgEnabled ? 'block' : 'none';
+    if (igTogImg)    igTogImg.checked     = !!gameCfg.imgEnabled;
   }
   if (Array.isArray(data.modules) && data.modules.length) {
     modules = [...data.modules]; _modId = modules.length;
@@ -2074,12 +2169,13 @@ function restoreFromData(data) {
   document.getElementById('model-tag').textContent = (cfg.provider || '').toUpperCase() + ' · ' + cfg.model;
   updateRuleTag();
   if (gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display = '';
+  if (gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display = '';
 
   const msgWrap = document.getElementById('msgs'); msgWrap.innerHTML = ''; _msgIdx = 0;
   hist.forEach(m => {
     if (m.role === 'user') addMsg('u', esc(m.content), m.content);
     else if (m.role === 'assistant') {
-      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').trim();
+      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi, '').trim();
       addMsg('a', gameCfg.renderTags ? renderNarrative(disp) : esc(disp), m.content);
     }
   });
@@ -2491,7 +2587,7 @@ function applyClearChat() {
   hist.forEach(m => {
     if (m.role === 'user') addMsg('u', esc(m.content), m.content);
     else if (m.role === 'assistant') {
-      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').trim();
+      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi, '').trim();
       addMsg('a', gameCfg.renderTags ? renderNarrative(disp) : esc(disp), m.content);
     }
   });
@@ -2848,7 +2944,351 @@ document.addEventListener('DOMContentLoaded', function() {
     console.warn('AutoSave read failed:', e);
   }
 });
+
+// ══════════════════════════════════════════════
+// IMG GEN SYSTEM
+// ══════════════════════════════════════════════
+
+function openImgGen() {
+  document.getElementById('imggen-hint').value = '';
+  document.getElementById('imggen-prompt-preview').style.display = 'none';
+  document.getElementById('imggen-prompt-preview').textContent = '';
+  document.getElementById('imggen-result').style.display = 'none';
+  document.getElementById('imggen-result').innerHTML = '';
+  document.getElementById('imggen-submit-btn').disabled = false;
+  document.getElementById('imggen-submit-btn').textContent = '✨ Generate Image';
+  document.getElementById('imggen-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('imggen-hint').focus(), 50);
+}
+
+function closeImgGen() {
+  document.getElementById('imggen-modal').style.display = 'none';
+}
+
+async function submitImgGen() {
+  const hint    = document.getElementById('imggen-hint').value.trim();
+  const btn     = document.getElementById('imggen-submit-btn');
+  const preview = document.getElementById('imggen-prompt-preview');
+  const result  = document.getElementById('imggen-result');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ AI designing prompt…';
+  preview.style.display = 'none';
+  result.style.display = 'none';
+
+  const recentHist = hist.slice(-6).map(m =>
+    `${m.role === 'user' ? 'Player' : 'GM'}: ${m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').slice(0,300)}`
+  ).join('\n');
+
+  const promptInstruction = hint
+    ? `Based on the conversation below, design a Stable Diffusion style English image prompt. The player provided these hints: "${hint}" — please incorporate them.`
+    : `Based on the conversation below, analyze the current scene and design a Stable Diffusion style English image prompt.`;
+
+  const sysPrompt = `You are a professional AI image prompt designer.
+${promptInstruction}
+
+Rules:
+1. Output only the prompt itself — no explanation, no preamble, no punctuation wrapping.
+2. All English, mostly nouns and adjectives, comma-separated.
+3. Style references: high quality, detailed, cinematic lighting, anime style (adjust to scene).
+4. Avoid NSFW terms: replace alluring/sexy → charming; dim room → softly lit room.
+5. Prompt length: roughly 15–30 words.`;
+
+  try {
+    let generatedPrompt = '';
+    const messages = [{ role: 'user', content: `[Recent Dialogue]\n${recentHist}\n\nPlease design the image prompt:` }];
+
+    let resp;
+    if (cfg.provider === 'anthropic') {
+      resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': cfg.key,
+          'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 200, system: sysPrompt, messages })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.content.map(b => b.type === 'text' ? b.text : '').join('').trim();
+    } else if (cfg.provider === 'gemini') {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${cfg.key}`;
+      resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: sysPrompt }] },
+          contents: messages.map(m => ({ role: 'user', parts: [{ text: m.content }] })),
+          generationConfig: { maxOutputTokens: 200 }
+        })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim() || '';
+    } else {
+      const ep = cfg.provider === 'custom' && cfg.ep ? cfg.ep : 'https://api.openai.com/v1/chat/completions';
+      resp = await fetch(ep, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 200,
+          messages: [{ role: 'system', content: sysPrompt }, ...messages] })
+      });
+      const d = await resp.json();
+      if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
+      generatedPrompt = d.choices[0].message.content.trim();
+    }
+
+    generatedPrompt = generatedPrompt.replace(/^["'`]|["'`]$/g, '').replace(/\n/g, ', ').trim();
+
+    preview.textContent = '📝 ' + generatedPrompt;
+    preview.style.display = 'block';
+    preview.style.color = 'rgba(212,160,23,.65)';
+    btn.textContent = '⏳ Generating image…';
+
+    const encodedPrompt = encodeURIComponent(generatedPrompt);
+    const model  = encodeURIComponent(gameCfg.imgModel || 'flux');
+    const key    = encodeURIComponent(gameCfg.imgKey);
+    const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?model=${model}&width=1024&height=1024&seed=${Math.floor(Math.random()*99999)}&enhance=false&key=${key}`;
+
+    const imgHtml = `<div style="text-align:center">
+      <div style="font-size:.7rem;color:rgba(212,160,23,.4);margin-bottom:.4rem">🖼️ ${generatedPrompt.replace(/</g,'&lt;')}</div>
+      <img src="${imgUrl}" alt="Generating…"
+        style="max-width:100%;border-radius:8px;border:1px solid var(--border);
+        box-shadow:0 4px 16px rgba(0,0,0,.6);opacity:0;transition:opacity .5s"
+        onload="this.style.opacity=1"
+        onerror="this.outerHTML='<div style=&quot;color:#f66;font-size:.78rem&quot;>❌ Image failed to load — please check your API Key</div>'">
+    </div>`;
+
+    addMsg('a', imgHtml);
+    closeImgGen();
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = '✨ Retry';
+    preview.textContent = '❌ Error: ' + e.message;
+    preview.style.display = 'block';
+    preview.style.color = 'rgba(255,100,100,.7)';
+  }
+}
+
+// ── Image settings in-game ──
+function applyImgSettings() {
+  const key   = document.getElementById('ig-img-key').value.trim();
+  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
+  gameCfg.imgKey   = key;
+  gameCfg.imgModel = model;
+  gameCfg.imgEnabled = !!(key);
+  const tog = document.getElementById('ig-tog-img');
+  if (tog) tog.checked = gameCfg.imgEnabled;
+  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  closeSidePanel('img-panel');
+  toast(key ? '✅ Image settings updated — generation ' + (gameCfg.imgEnabled ? 'enabled' : 'disabled (empty key)') : '⚠ Key is empty — image gen disabled');
+}
+
+function toggleImgIG(checked) {
+  if (checked && !gameCfg.imgKey) {
+    document.getElementById('ig-tog-img').checked = false;
+    openSidePanel('img-panel');
+    toast('⚠ Please enter an API Key first');
+    return;
+  }
+  gameCfg.imgEnabled = checked && !!gameCfg.imgKey;
+  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  toast(gameCfg.imgEnabled ? '🖼️ Image gen enabled' : '🖼️ Image gen disabled');
+}
+
+// ── Side Panel helpers ──
+function openSidePanel(id) {
+  if (id === 'img-panel') {
+    document.getElementById('ig-img-key').value   = gameCfg.imgKey   || '';
+    document.getElementById('ig-img-model').value = gameCfg.imgModel || 'flux';
+  }
+  if (id === 'bgm-panel') {
+    document.getElementById('ig-bgm-url').value =
+      (bgmState.type === 'url') ? document.getElementById('bgm-audio').src : '';
+  }
+  document.getElementById(id).classList.add('open');
+}
+function closeSidePanel(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ══════════════════════════════════════════════
+// BGM SYSTEM
+// ══════════════════════════════════════════════
+let bgmState = { type: 'none', isPlaying: false };
+
+function initBGM() {
+  const fileInp = document.getElementById('bgm-file-inp');
+  const urlInp  = document.getElementById('bgm-url-inp').value.trim();
+  const badge   = document.getElementById('bgm-badge');
+
+  if (fileInp.files.length > 0) {
+    const audio = document.getElementById('bgm-audio');
+    audio.src = URL.createObjectURL(fileInp.files[0]);
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'local', isPlaying: true };
+      badge.textContent = '🎵 ' + fileInp.files[0].name;
+      updateBGMBtn();
+    }).catch(e => console.warn('BGM autoplay blocked:', e));
+  } else if (urlInp) {
+    const audio = document.getElementById('bgm-audio');
+    audio.src = urlInp;
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'url', isPlaying: true };
+      badge.textContent = '🎵 Audio stream';
+      updateBGMBtn();
+    }).catch(e => console.warn('BGM autoplay blocked:', e));
+  } else {
+    updateBGMBtn();
+  }
+
+  const igTogImg = document.getElementById('ig-tog-img');
+  if (igTogImg) igTogImg.checked = !!gameCfg.imgEnabled;
+}
+
+function toggleBGM() {
+  const audio = document.getElementById('bgm-audio');
+  if (bgmState.type === 'none') { toast('⚠ No BGM set'); return; }
+  if (audio.paused) {
+    audio.play();
+    bgmState.isPlaying = true;
+    toast('🔊 BGM playing');
+  } else {
+    audio.pause();
+    bgmState.isPlaying = false;
+    toast('🔇 BGM paused');
+  }
+  updateBGMBtn();
+}
+
+function updateBGMBtn() {
+  const btn = document.getElementById('btn-bgm-toggle');
+  if (!btn) return;
+  if (bgmState.type === 'none') {
+    btn.textContent = '🔇 No BGM set';
+    btn.style.color = '';
+  } else if (bgmState.isPlaying) {
+    btn.textContent = '🔇 Pause BGM';
+    btn.style.color = 'rgba(100,220,100,.8)';
+  } else {
+    btn.textContent = '🔊 Play BGM';
+    btn.style.color = 'rgba(212,160,23,.7)';
+  }
+}
+
+function applyBGMChange() {
+  const fileInp = document.getElementById('ig-bgm-file');
+  const urlVal  = document.getElementById('ig-bgm-url').value.trim();
+  const audio   = document.getElementById('bgm-audio');
+  const badge   = document.getElementById('bgm-badge');
+
+  audio.pause(); audio.src = '';
+
+  if (fileInp.files.length > 0) {
+    const file = fileInp.files[0];
+    audio.src = URL.createObjectURL(file);
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'local', isPlaying: true };
+      badge.textContent = '🎵 ' + file.name;
+      updateBGMBtn();
+      toast('🎵 BGM switched: ' + file.name);
+    }).catch(e => toast('❌ Playback failed: ' + e.message));
+  } else if (urlVal) {
+    audio.src = urlVal;
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      bgmState = { type: 'url', isPlaying: true };
+      badge.textContent = '🎵 Audio stream';
+      updateBGMBtn();
+      toast('🎵 BGM switched: audio stream');
+    }).catch(e => toast('❌ Playback failed — please check the URL'));
+  } else {
+    toast('⚠ Please enter a music source');
+    return;
+  }
+  closeSidePanel('bgm-panel');
+}
+
+function stopBGM() {
+  const audio = document.getElementById('bgm-audio');
+  audio.pause(); audio.src = '';
+  bgmState = { type: 'none', isPlaying: false };
+  document.getElementById('bgm-badge').textContent = '—';
+  updateBGMBtn();
+  closeSidePanel('bgm-panel');
+  toast('⏹ Music stopped');
+}
 </script>
+<!-- ══ IMG GEN MODAL ══ -->
+<div id="imggen-modal" class="modal-bg" onclick="if(event.target===this)closeImgGen()">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-title">🖼️ AI Image Generation</div>
+    <div class="modal-desc">AI will analyze the current conversation and design a prompt to generate an image</div>
+
+    <label class="field-label" style="margin-top:.8rem">Supplementary hints <span style="color:rgba(212,160,23,.35);font-size:.7rem">(Optional)</span></label>
+    <input class="text-inp" id="imggen-hint"
+      placeholder="e.g. close-up face, night scene, battle pose…">
+    <div class="field-hint">Leave blank for AI to auto-analyze the scene; hints will be prioritized if provided</div>
+
+    <div id="imggen-prompt-preview" style="display:none;margin-top:.7rem;
+      background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.2);border-radius:5px;
+      padding:.55rem .75rem;font-size:.72rem;font-family:monospace;
+      color:rgba(212,160,23,.65);line-height:1.6;word-break:break-all">
+    </div>
+
+    <div id="imggen-result" style="display:none;margin-top:.8rem;text-align:center"></div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" id="imggen-submit-btn" onclick="submitImgGen()">✨ Generate Image</button>
+      <button class="btn-cancel" onclick="closeImgGen()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BGM SIDE PANEL ══ -->
+<div id="bgm-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('bgm-panel')">
+  <div class="side-panel-box">
+    <div class="side-panel-title">🎵 Change Music Source</div>
+    <div class="side-panel-desc">Choose one — local file takes priority</div>
+
+    <label class="field-label" style="margin-top:.6rem">Option A: Audio direct URL (.mp3 / .ogg)</label>
+    <input class="text-inp" id="ig-bgm-url" placeholder="https://example.com/music.mp3">
+
+    <label class="field-label" style="margin-top:.6rem">Option B: Upload local audio file</label>
+    <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;padding:.4rem .6rem;margin-bottom:.2rem">
+      <input type="file" id="ig-bgm-file" accept="audio/*" style="color:rgba(245,230,200,.6);font-size:.75rem;width:100%;cursor:pointer;">
+    </div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" onclick="applyBGMChange()">▶ Apply & Play</button>
+      <button class="btn-cancel" onclick="stopBGM()">⏹ Stop Music</button>
+      <button class="btn-cancel" onclick="closeSidePanel('bgm-panel')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ IMG SIDE PANEL ══ -->
+<div id="img-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('img-panel')">
+  <div class="side-panel-box">
+    <div class="side-panel-title">🖼️ Image Generation Settings</div>
+    <div class="side-panel-desc">Update your Pollinations API Key and model</div>
+
+    <label class="field-label" style="margin-top:.6rem">Image API Key</label>
+    <input class="text-inp" id="ig-img-key" placeholder="Enter your Pollinations API Key">
+
+    <label class="field-label" style="margin-top:.6rem">Image Model</label>
+    <input class="text-inp" id="ig-img-model" placeholder="flux, nanobanana …">
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" onclick="applyImgSettings()">✅ Apply</button>
+      <button class="btn-cancel" onclick="closeSidePanel('img-panel')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<audio id="bgm-audio" loop></audio>
 
 </body>
 </html>
