@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI · RPG Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Cinzel+Decorative:wght@900&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#f5e6c8;--gold:#d4a017;--gold2:#f0c040;
@@ -26,7 +26,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;background:var(--th-bg);color:var(--th-text);
-    font-family:'Georgia','Palatino Linotype','Book Antiqua',serif}
+    font-family:'Georgia','Palatino Linotype',serif}
 
   /* ── SPLASH ── */
   #splash{
@@ -46,7 +46,7 @@
     padding:1.4rem 1.6rem;width:min(96vw,560px);
   }
   .sp-card-title{
-    font-family:'Cinzel',serif;font-weight:900;font-size:.95rem;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:.95rem;
     color:var(--gold2);letter-spacing:.18em;margin-bottom:1rem;
     display:flex;align-items:center;gap:.5rem;
   }
@@ -97,7 +97,7 @@
   .opening-ta{
     width:100%;background:rgba(8,3,0,.8);border:1px solid var(--border);
     color:var(--paper);padding:.65rem .9rem;border-radius:6px;font-size:.83rem;
-    font-family:'Georgia',serif;outline:none;
+    font-family:'Segoe UI',sans-serif;outline:none;
     resize:vertical;min-height:80px;max-height:200px;line-height:1.7;
     -webkit-user-select:text;user-select:text;transition:border-color .3s;
   }
@@ -108,7 +108,7 @@
     width:100%;padding:.88rem;
     background:linear-gradient(135deg,var(--red),#5a0f0f);
     border:1px solid var(--red2);color:var(--gold2);
-    font-family:'Cinzel',serif;font-weight:900;font-size:1.1rem;letter-spacing:.3em;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:1.1rem;letter-spacing:.3em;
     cursor:pointer;border-radius:8px;transition:all .3s;
   }
   .start-btn:hover{background:linear-gradient(135deg,var(--red2),var(--red));box-shadow:0 0 20px rgba(192,57,43,.45)}
@@ -131,7 +131,7 @@
   .qs-btns{display:flex;gap:.5rem;margin-top:.55rem}
   .qs-btn{
     flex:1;padding:.48rem;border-radius:5px;cursor:pointer;font-size:.8rem;
-    font-family:'Cinzel',serif;font-weight:900;letter-spacing:.1em;transition:all .25s;
+    font-family:'Noto Serif TC',serif;font-weight:900;letter-spacing:.1em;transition:all .25s;
   }
   .qs-btn-load{
     background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.35);color:var(--gold);
@@ -145,6 +145,8 @@
     color:rgba(212,160,23,.65);font-size:.8rem;cursor:pointer;text-align:center;transition:all .25s;
   }
   .load-bar:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(212,160,23,.08);border-style:solid}
+
+
   /* ── LANGUAGE SWITCHER ── */
   .lang-switch {
     position: absolute;
@@ -183,7 +185,7 @@
     border-right:1px solid var(--border);display:flex;flex-direction:column;
     padding:.9rem .75rem;gap:.35rem;overflow-y:auto;
   }
-  .s-logo{font-family:'Cinzel',serif;font-weight:900;font-size:1.2rem;color:var(--gold2);
+  .s-logo{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1.2rem;color:var(--gold2);
     text-align:center;padding:.3rem 0 .6rem;text-shadow:0 0 15px var(--gold);letter-spacing:.15em}
   .s-badge{font-size:.66rem;text-align:center;padding:.25rem;border:1px solid rgba(212,160,23,.2);
     border-radius:3px;margin-bottom:.25rem;color:rgba(212,160,23,.45);line-height:1.5;}
@@ -192,7 +194,7 @@
   .s-btn{
     background:transparent;border:1px solid transparent;color:rgba(245,230,200,.6);
     padding:.4rem .62rem;border-radius:4px;cursor:pointer;
-    font-family:'Georgia',serif;
+    font-family:'Segoe UI',sans-serif;
     font-size:.76rem;text-align:left;transition:all .2s;width:100%;
   }
   .s-btn:hover{background:var(--smoke);border-color:var(--border);color:var(--gold)}
@@ -249,7 +251,7 @@
     padding:.68rem 1.1rem;border-bottom:1px solid var(--border);
     display:flex;align-items:center;gap:.6rem;background:var(--th-surface3);flex-shrink:0;
   }
-  .title-text{font-family:'Cinzel',serif;font-weight:900;font-size:.95rem;color:var(--gold);letter-spacing:.15em}
+  .title-text{font-family:'Noto Serif TC',serif;font-weight:900;font-size:.95rem;color:var(--gold);letter-spacing:.15em}
   .sdot{width:7px;height:7px;border-radius:50%;background:#4caf50;box-shadow:0 0 6px #4caf50;flex-shrink:0}
   .sdot.on{background:var(--gold);animation:pulse 1s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
@@ -293,7 +295,7 @@
   .r-opt{
     padding:.4rem .82rem;border-radius:4px;cursor:pointer;font-size:.81rem;
     color:var(--paper);border:1px solid rgba(255,255,255,.14);
-    transition:all .2s;font-family:'Georgia',serif;
+    transition:all .2s;font-family:'Segoe UI',sans-serif;
   }
   .r-opt:hover{filter:brightness(1.25);transform:translateY(-1px)}
 
@@ -304,7 +306,7 @@
   #ui{
     flex:1;background:var(--th-surface);border:1px solid var(--border);
     color:var(--paper);padding:.6rem .85rem;border-radius:6px;font-size:.86rem;
-    font-family:'Georgia',serif;outline:none;
+    font-family:'Segoe UI',sans-serif;outline:none;
     resize:none;max-height:110px;transition:border-color .3s;
     -webkit-user-select:text;user-select:text;
   }
@@ -313,7 +315,7 @@
     background:linear-gradient(135deg,var(--red),#5a0f0f);
     border:1px solid var(--red2);color:var(--gold2);
     padding:.6rem 1rem;border-radius:6px;cursor:pointer;
-    font-family:'Cinzel',serif;font-weight:900;font-size:.9rem;letter-spacing:.1em;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:.9rem;letter-spacing:.1em;
     transition:all .3s;white-space:nowrap;flex-shrink:0;
   }
   #sb:hover:not(:disabled){background:linear-gradient(135deg,var(--red2),var(--red));box-shadow:0 0 12px rgba(192,57,43,.38)}
@@ -341,13 +343,13 @@
     z-index:997;align-items:flex-start;justify-content:center;padding:2.5rem 1rem;overflow-y:auto}
   .modal-box{background:#180800;border:1px solid var(--border);border-radius:10px;
     padding:1.5rem;width:min(94vw,560px)}
-  .modal-title{font-family:'Cinzel',serif;font-weight:900;font-size:1.05rem;
+  .modal-title{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1.05rem;
     color:var(--gold2);margin-bottom:.25rem;letter-spacing:.15em}
   .modal-desc{font-size:.73rem;color:rgba(212,160,23,.42);margin-bottom:1rem;line-height:1.55}
   .modal-ta{
     width:100%;background:rgba(0,0,0,.6);border:1px solid var(--border);
     color:var(--paper);padding:.65rem .9rem;border-radius:5px;font-size:.82rem;
-    font-family:'Georgia',serif;outline:none;
+    font-family:'Segoe UI',sans-serif;outline:none;
     resize:vertical;min-height:130px;-webkit-user-select:text;user-select:text;line-height:1.7;
   }
   .modal-ta:focus{border-color:var(--gold)}
@@ -356,12 +358,12 @@
   .btn-confirm{
     flex:1;padding:.62rem;background:linear-gradient(135deg,var(--red),#5a0f0f);
     border:1px solid var(--red2);color:var(--gold2);
-    font-family:'Cinzel',serif;font-weight:900;font-size:.95rem;letter-spacing:.2em;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:.95rem;letter-spacing:.2em;
     cursor:pointer;border-radius:5px;
   }
   .btn-cancel{
     padding:.62rem 1rem;background:rgba(0,0,0,.5);border:1px solid var(--border);
-    color:rgba(245,230,200,.58);font-family:'Georgia',serif;
+    color:rgba(245,230,200,.58);font-family:'Segoe UI',sans-serif;
     font-size:.83rem;cursor:pointer;border-radius:5px;
   }
 
@@ -390,7 +392,7 @@
     background:rgba(0,0,0,.65);border:1px solid rgba(212,160,23,.22);
     color:rgba(212,160,23,.55);border-radius:3px;padding:.16rem .38rem;
     font-size:.67rem;cursor:pointer;transition:all .17s;white-space:nowrap;
-    font-family:'Georgia',serif;
+    font-family:'Segoe UI',sans-serif;
   }
   .msg-act:hover{background:rgba(20,10,0,.9);border-color:var(--gold);color:var(--gold2)}
   .msg-act-del:hover{border-color:#c0392b!important;color:#f66!important}
@@ -481,13 +483,13 @@
     z-index:200;display:none;flex-direction:column;gap:.7rem;
   }
   #dice-panel.open{display:flex}
-  .dp-title{font-family:'Cinzel',serif;font-weight:900;font-size:.9rem;
+  .dp-title{font-family:'Noto Serif TC',serif;font-weight:900;font-size:.9rem;
     color:var(--gold2);letter-spacing:.15em;text-align:center}
   .dp-dice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
   .dp-die{
     padding:.5rem .3rem;border:1px solid rgba(212,160,23,.3);border-radius:8px;
     background:rgba(0,0,0,.45);color:rgba(245,230,200,.75);
-    font-family:'Cinzel',serif;font-weight:900;font-size:.82rem;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:.82rem;
     cursor:pointer;text-align:center;transition:all .2s;letter-spacing:.05em;
   }
   .dp-die:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(212,160,23,.12);transform:translateY(-2px)}
@@ -512,7 +514,7 @@
   .dp-roll-btn{
     padding:.35rem .65rem;background:linear-gradient(135deg,var(--red),#5a0f0f);
     border:1px solid var(--red2);color:var(--gold2);border-radius:4px;cursor:pointer;
-    font-family:'Cinzel',serif;font-weight:900;font-size:.8rem;white-space:nowrap;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:.8rem;white-space:nowrap;
   }
   .dp-roll-btn:hover{background:linear-gradient(135deg,var(--red2),var(--red))}
   .dp-result{
@@ -530,7 +532,7 @@
   }
   .dp-die-result.crit{border-color:#f66;color:#f66;background:rgba(255,80,80,.1);box-shadow:0 0 6px rgba(255,80,80,.3)}
   .dp-die-result.min{border-color:rgba(150,150,255,.5);color:#aaf;background:rgba(100,100,255,.08)}
-  .dp-result-total{font-size:1.05rem;font-family:'Cinzel',serif;font-weight:900;
+  .dp-result-total{font-size:1.05rem;font-family:'Noto Serif TC',serif;font-weight:900;
     color:var(--gold2);text-align:right;text-shadow:0 0 10px rgba(212,160,23,.3)}
   .dp-send-btn{
     width:100%;padding:.42rem;background:rgba(212,160,23,.1);
@@ -626,6 +628,7 @@
 
   /* ── CUSTOM COLOR TAGS ── */
   .r-cx{font-style:normal;font-weight:bold}
+  .ctag-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-top:.5rem}
   .ctag-item{display:flex;align-items:center;gap:.35rem;background:rgba(0,0,0,.3);
     border:1px solid rgba(212,160,23,.15);border-radius:5px;padding:.32rem .5rem}
   .ctag-name-inp{flex:1;background:transparent;border:none;outline:none;
@@ -645,18 +648,6 @@
   .token-inp:focus{border-color:var(--gold2)}
 
   /* ── SIDE PANELS ── */
-  .side-panel{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
-    display:none;align-items:center;justify-content:center}
-  .side-panel.open{display:flex}
-  .side-panel-box{background:linear-gradient(160deg,#1a0a00,#0d0500);
-    border:1px solid var(--border);border-radius:12px;
-    padding:1.4rem 1.6rem;width:min(92vw,420px);
-    box-shadow:0 8px 40px rgba(0,0,0,.8)}
-  .side-panel-title{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1rem;
-    color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem}
-  .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
-
-  /* ── SIDE PANELS ── */
   .side-panel{
     position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
     display:none;align-items:center;justify-content:center;
@@ -673,32 +664,408 @@
     color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem;
   }
   .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
+
+  /* ══════════════════════════════════════
+     VISUAL FX SYSTEM
+  ══════════════════════════════════════ */
+
+  /* ── FX Panel UI ── */
+  .fx-section{margin-bottom:1rem}
+  .fx-section-title{font-size:.7rem;color:rgba(212,160,23,.5);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:.45rem;padding-bottom:.25rem;
+    border-bottom:1px solid rgba(212,160,23,.12)}
+  .fx-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+  .fx-chip{padding:.28rem .7rem;border-radius:20px;font-size:.75rem;cursor:pointer;
+    border:1px solid rgba(212,160,23,.25);color:rgba(245,230,200,.5);
+    background:rgba(0,0,0,.3);transition:all .22s;user-select:none}
+  .fx-chip:hover{border-color:rgba(212,160,23,.5);color:rgba(245,230,200,.8)}
+  .fx-chip.on{background:rgba(212,160,23,.18);border-color:var(--gold2);
+    color:var(--gold2);box-shadow:0 0 8px rgba(212,160,23,.2)}
+
+  /* ── Volume slider ── */
+  .vol-row{display:flex;align-items:center;gap:.6rem;margin:.55rem 0 .2rem}
+  .vol-row label{font-size:.72rem;color:rgba(212,160,23,.55);flex-shrink:0;min-width:3rem}
+  .vol-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;
+    background:rgba(212,160,23,.2);border-radius:2px;outline:none;cursor:pointer}
+  .vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
+    border-radius:50%;background:var(--gold2);cursor:pointer;
+    box-shadow:0 0 6px rgba(212,160,23,.4)}
+  .vol-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:var(--gold2);cursor:pointer;border:none}
+  .vol-val{font-size:.72rem;color:rgba(212,160,23,.5);min-width:2.5rem;text-align:right}
+
+  /* ── 1. Message entrance animations ── */
+  /* default already has .fi — we override per class on #msgs */
+  #msgs.fx-anim-fade    .msg{animation:fx-fade .5s ease both}
+  #msgs.fx-anim-slide   .msg{animation:fx-slide .4s cubic-bezier(.22,1,.36,1) both}
+  #msgs.fx-anim-type    .msg.a .bbl{animation:none}
+  #msgs.fx-anim-type    .msg.a .bbl *{animation:none}
+
+  @keyframes fx-fade {from{opacity:0} to{opacity:1}}
+  @keyframes fx-slide{from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none}}
+
+  /* ── 2. Background FX (canvas layer) ── */
+  #fx-canvas{
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    opacity:0;transition:opacity .6s;
+  }
+  #fx-canvas.active{opacity:1}
+
+  /* ── 3. Text FX on AI bubbles ── */
+  /* glow */
+  #msgs.fx-text-glow .msg.a .bbl{
+    text-shadow:0 0 8px rgba(212,160,23,.35),0 0 20px rgba(212,160,23,.12);
+  }
+  /* deep shadow */
+  #msgs.fx-text-shadow .msg.a .bbl{
+    text-shadow:1px 2px 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,1);
+  }
+  /* gradient text */
+  #msgs.fx-text-grad .msg.a .bbl{
+    background:-webkit-linear-gradient(left,#f0c040,#fff8e0,#f0c040);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;background-size:200% auto;
+    animation:fx-grad-shift 4s linear infinite;
+  }
+  @keyframes fx-grad-shift{to{background-position:200% center}}
+
+  /* ── 4. Bubble skin ── */
+  /* parchment */
+  #msgs.fx-bbl-parchment .msg.a .bbl{
+    background:linear-gradient(160deg,rgba(62,42,18,.92),rgba(38,24,8,.88)) !important;
+    border:1px solid rgba(180,140,60,.45) !important;
+    border-radius:2px 2px 2px 2px !important;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.6);
+    font-family:'Georgia','Times New Roman',serif;
+    letter-spacing:.03em;
+  }
+  #msgs.fx-bbl-parchment .msg.a .bbl::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;opacity:.35;
+  }
+  #msgs.fx-bbl-parchment .msg.a .bbl{position:relative}
+
+  /* neon */
+  #msgs.fx-bbl-neon .msg.a .bbl{
+    background:rgba(0,5,20,.92) !important;
+    border:1px solid rgba(0,200,255,.5) !important;
+    border-radius:4px !important;
+    box-shadow:0 0 8px rgba(0,200,255,.3),inset 0 0 20px rgba(0,200,255,.04);
+    color:rgba(180,240,255,.9) !important;
+    text-shadow:0 0 6px rgba(0,200,255,.4);
+  }
+  #msgs.fx-bbl-neon .r-n{color:#0ff !important;text-shadow:0 0 10px #0ff}
+  #msgs.fx-bbl-neon .r-p{color:#0f8 !important;text-shadow:0 0 10px #0f8}
+  #msgs.fx-bbl-neon .r-h{color:#ff0 !important;text-shadow:0 0 10px #ff0}
+
+  /* slate */
+  #msgs.fx-bbl-slate .msg.a .bbl{
+    background:linear-gradient(160deg,rgba(28,32,36,.96),rgba(18,20,24,.94)) !important;
+    border:1px solid rgba(120,140,160,.35) !important;
+    border-radius:3px !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 12px rgba(0,0,0,.6);
+    font-family:'Courier New',monospace;
+    color:rgba(200,215,225,.88) !important;
+    letter-spacing:.025em;
+  }
+
+  /* ── hacker ── */
+  #msgs.fx-bbl-hacker .msg.a .bbl{
+    background:rgba(0,8,0,.95) !important;
+    border:1px solid rgba(0,255,70,.35) !important;
+    border-radius:2px !important;
+    box-shadow:0 0 12px rgba(0,255,70,.12),inset 0 0 30px rgba(0,20,0,.6);
+    color:rgba(0,255,70,.92) !important;
+    font-family:'Courier New','Lucida Console',monospace !important;
+    font-size:.82rem !important;
+    letter-spacing:.04em;
+    text-shadow:0 0 4px rgba(0,255,70,.5);
+  }
+  #msgs.fx-bbl-hacker .r-n{color:#0f0 !important;text-shadow:0 0 8px #0f0}
+  #msgs.fx-bbl-hacker .r-p{color:#0ff !important;text-shadow:0 0 8px #0ff}
+  #msgs.fx-bbl-hacker .r-h{color:#ff0 !important;text-shadow:0 0 8px #ff0}
+  #msgs.fx-bbl-hacker .msg.a .bbl::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,70,.015) 2px,rgba(0,255,70,.015) 4px);
+  }
+  #msgs.fx-bbl-hacker .msg.a .bbl{position:relative;overflow:hidden}
+
+  /* ── chat ── */
+  #msgs.fx-bbl-chat .msg.a .bbl{
+    background:rgba(255,255,255,.07) !important;
+    border:1px solid rgba(255,255,255,.12) !important;
+    border-radius:18px 18px 18px 4px !important;
+    color:rgba(255,255,255,.88) !important;
+    padding:.55rem .9rem !important;
+    font-size:.84rem !important;
+  }
+  #msgs.fx-bbl-chat .msg.u .bbl{
+    border-radius:18px 18px 4px 18px !important;
+    background:linear-gradient(135deg,rgba(100,120,220,.5),rgba(60,80,180,.5)) !important;
+  }
+
+  /* ── live ── */
+  #msgs.fx-bbl-live .msg.a{
+    max-width:100%;align-self:stretch;
+  }
+  #msgs.fx-bbl-live .msg.a .bbl{
+    background:transparent !important;
+    border:none !important;
+    border-left:3px solid rgba(255,80,80,.6) !important;
+    border-radius:0 !important;
+    padding:.35rem .75rem !important;
+    font-size:.82rem !important;
+    color:rgba(255,255,255,.82) !important;
+    animation:live-in .25s ease both !important;
+  }
+  @keyframes live-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+  #msgs.fx-bbl-live .msg.a .bbl::before{
+    content:'💬 GM · ';color:rgba(255,80,80,.8);font-weight:bold;font-size:.75rem;
+  }
+  #msgs.fx-bbl-live{ gap:.25rem !important; }
+
+  /* ── glass ── */
+  #msgs.fx-bbl-glass .msg.a .bbl{
+    background:rgba(255,255,255,.06) !important;
+    backdrop-filter:blur(12px) saturate(1.4) !important;
+    -webkit-backdrop-filter:blur(12px) saturate(1.4) !important;
+    border:1px solid rgba(255,255,255,.15) !important;
+    border-radius:12px !important;
+    box-shadow:0 4px 20px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1) !important;
+    color:rgba(255,255,255,.9) !important;
+  }
+  #msgs.fx-bbl-glass .msg.u .bbl{
+    backdrop-filter:blur(12px) !important;
+    -webkit-backdrop-filter:blur(12px) !important;
+    background:rgba(180,120,50,.15) !important;
+    border:1px solid rgba(212,160,23,.25) !important;
+    border-radius:12px 12px 2px 12px !important;
+  }
+
+  /* ══ EFFECT CLASSES ══ */
+
+  /* 9. scanline */
+  .fx-scanline::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);
+    animation:fx-scan-move 8s linear infinite;
+  }
+  @keyframes fx-scan-move{
+    0%{background-position:0 0}
+    100%{background-position:0 100vh}
+  }
+  .fx-scanline-bar::before{
+    content:'';position:fixed;left:0;right:0;height:3px;
+    background:rgba(0,255,100,.18);z-index:9999;pointer-events:none;
+    animation:fx-scanbar 4s linear infinite;
+    box-shadow:0 0 8px rgba(0,255,100,.3);
+  }
+  @keyframes fx-scanbar{from{top:-4px}to{top:100vh}}
+
+  /* 10. heartbeat — on AI bubble appear */
+  #msgs.fx-heartbeat .msg.a{
+    animation:fx-heartbeat .6s cubic-bezier(.36,.07,.19,.97) both !important;
+  }
+  @keyframes fx-heartbeat{
+    0%{transform:scale(1)}
+    14%{transform:scale(1.04)}
+    28%{transform:scale(.98)}
+    42%{transform:scale(1.02)}
+    70%{transform:scale(1)}
+  }
+
+  /* 11. bounce */
+  #msgs.fx-bounce .msg{
+    animation:fx-bounce-in .5s cubic-bezier(.34,1.56,.64,1) both !important;
+  }
+  @keyframes fx-bounce-in{
+    from{opacity:0;transform:translateY(20px) scale(.92)}
+    to{opacity:1;transform:none}
+  }
+
+  /* 12. glitch */
+  #msgs.fx-glitch .msg.a .bbl{
+    animation:fx-glitch-idle 6s infinite;
+  }
+  @keyframes fx-glitch-idle{
+    0%,95%{clip-path:none;transform:none;filter:none}
+    96%{clip-path:inset(20% 0 60% 0);transform:translate(-3px,0);filter:hue-rotate(90deg)}
+    97%{clip-path:inset(60% 0 20% 0);transform:translate(3px,0);filter:hue-rotate(-90deg)}
+    98%{clip-path:none;transform:translate(-1px,0)}
+    99%{clip-path:inset(40% 0 40% 0);transform:translate(2px,0);filter:saturate(3)}
+    100%{clip-path:none;transform:none;filter:none}
+  }
+  .fx-glitch-global{animation:fx-glitch-global 8s infinite}
+  @keyframes fx-glitch-global{
+    0%,93%{filter:none}
+    94%{filter:hue-rotate(60deg) saturate(2)}
+    95%{filter:invert(.08)}
+    96%{filter:hue-rotate(-30deg)}
+    97%{filter:none}
+  }
+
+  /* 8. dynamic theme drift */
+  .fx-theme-dynamic{
+    animation:fx-theme-drift 20s ease-in-out infinite alternate;
+  }
+  @keyframes fx-theme-drift{
+    0%{filter:hue-rotate(0deg) brightness(1)}
+    50%{filter:hue-rotate(15deg) brightness(1.04)}
+    100%{filter:hue-rotate(-10deg) brightness(.97)}
+  }
+
+  /* 7. responsive — already handled but add smooth sidebar collapse */
+  @media(max-width:768px){
+    #app{flex-direction:column}
+    #sidebar{
+      width:100% !important;height:auto !important;
+      max-height:52px;overflow:hidden;transition:max-height .3s ease;
+      border-right:none !important;border-bottom:1px solid var(--border);
+    }
+    #sidebar.mob-open{max-height:80vh;overflow-y:auto}
+    #mob-sidebar-toggle{display:flex !important}
+  }
+  #mob-sidebar-toggle{
+    display:none;position:fixed;bottom:4.5rem;right:.8rem;z-index:400;
+    width:42px;height:42px;border-radius:50%;
+    background:rgba(212,160,23,.2);border:1px solid var(--gold);
+    color:var(--gold2);font-size:1.1rem;cursor:pointer;
+    align-items:center;justify-content:center;
+    box-shadow:0 2px 12px rgba(0,0,0,.5);
+  }
+
+  /* ══════════════════════════════════════
+     IMAGE SYSTEM
+  ══════════════════════════════════════ */
+
+  /* ── Floating image window ── */
+  #img-float{
+    position:fixed;z-index:300;
+    width:300px;height:360px;
+    min-width:140px;min-height:100px;
+    background:rgba(8,3,0,.88);
+    border:1px solid rgba(212,160,23,.35);
+    border-radius:10px;
+    box-shadow:0 8px 32px rgba(0,0,0,.7);
+    overflow:hidden;
+    display:none;
+    flex-direction:column;
+    user-select:none;
+    transition:box-shadow .2s;
+    bottom:5rem;right:1rem;
+  }
+  #img-float.visible{display:flex}
+  #img-float:hover{box-shadow:0 10px 40px rgba(0,0,0,.85)}
+
+  #img-float-bar{
+    display:flex;align-items:center;gap:.3rem;
+    padding:.3rem .55rem;background:rgba(212,160,23,.1);
+    border-bottom:1px solid rgba(212,160,23,.2);
+    cursor:move;flex-shrink:0;
+  }
+  #img-float-title{
+    flex:1;font-size:.7rem;color:rgba(212,160,23,.7);
+    font-family:monospace;letter-spacing:.04em;overflow:hidden;
+    white-space:nowrap;text-overflow:ellipsis;
+  }
+  .img-float-btn{
+    background:none;border:none;color:rgba(212,160,23,.5);
+    cursor:pointer;font-size:.82rem;padding:0 .2rem;line-height:1;
+    transition:color .15s;
+  }
+  .img-float-btn:hover{color:var(--gold2)}
+
+  #img-float-img{
+    width:100%;display:block;cursor:pointer;
+    flex:1;min-height:0;
+    object-fit:contain;
+    background:rgba(0,0,0,.4);
+    transition:opacity .3s;
+  }
+  #img-float-img.loading{opacity:.3}
+
+  #img-float-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.25rem .55rem;font-size:.68rem;color:rgba(212,160,23,.5);
+    background:rgba(0,0,0,.3);flex-shrink:0;
+  }
+  .img-nav-btn{
+    background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;
+    font-size:.88rem;padding:0 .2rem;transition:color .15s;
+  }
+  .img-nav-btn:hover{color:var(--gold2)}
+
+  /* resize handle */
+  #img-float-resize{
+    position:absolute;bottom:0;right:0;width:22px;height:22px;cursor:se-resize;
+    background:linear-gradient(135deg,transparent 40%,rgba(212,160,23,.45) 40%);
+    z-index:1;
+  }
+  #img-float-resize:hover{
+    background:linear-gradient(135deg,transparent 40%,rgba(212,160,23,.8) 40%);
+  }
+
+  /* ── Image manager panel ── */
+  .img-slot-list{display:flex;flex-direction:column;gap:.5rem;max-height:300px;overflow-y:auto;margin:.5rem 0}
+  .img-slot{
+    display:flex;align-items:center;gap:.5rem;
+    background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.15);
+    border-radius:6px;padding:.4rem .6rem;cursor:pointer;transition:border-color .2s;
+  }
+  .img-slot:hover{border-color:rgba(212,160,23,.4)}
+  .img-slot.active{border-color:var(--gold2);background:rgba(212,160,23,.08)}
+  .img-slot-thumb{
+    width:44px;height:44px;object-fit:cover;border-radius:4px;
+    background:rgba(0,0,0,.5);flex-shrink:0;
+  }
+  .img-slot-info{flex:1;min-width:0}
+  .img-slot-name{font-size:.78rem;color:rgba(245,230,200,.8);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .img-slot-kw{font-size:.68rem;color:rgba(212,160,23,.45);margin-top:.1rem;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .img-slot-del{background:none;border:none;color:rgba(255,100,100,.35);
+    cursor:pointer;font-size:.88rem;flex-shrink:0;padding:0;transition:color .15s}
+  .img-slot-del:hover{color:rgba(255,100,100,.8)}
+
+  /* ── Inline chat image ── */
+  .chat-img-wrap{
+    margin:.4rem 0;border-radius:8px;overflow:hidden;
+    border:1px solid rgba(212,160,23,.2);display:inline-block;
+    max-width:280px;position:relative;
+  }
+  .chat-img-wrap img{width:100%;display:block;cursor:pointer}
+  .chat-img-remove{
+    position:absolute;top:.3rem;right:.3rem;
+    background:rgba(0,0,0,.7);border:none;color:rgba(255,100,100,.7);
+    border-radius:50%;width:20px;height:20px;font-size:.7rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .15s;
+  }
+  .chat-img-remove:hover{background:rgba(180,30,30,.8);color:#fff}
 </style>
 </head>
 <body>
 
 <!-- ══ SPLASH ══ -->
 <div id="splash">
-  <a href="../index.html" class="lang-switch">🌐 繁體中文</a>
-  
-  <div style="position:fixed;inset:0;opacity:.04;pointer-events:none;
+  <a href="./en/index.html" class="lang-switch">🌐 ENGLISH</a> <div style="position:fixed;inset:0;opacity:.04;pointer-events:none;
     background:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Ctext y=%22160%22 font-size=%22180%22 fill=%22%23d4a017%22%3E⚔%3C/text%3E%3C/svg%3E') center/55% no-repeat"></div>
 
   <h1>AI · RPG Engine</h1>
-  <div class="subtitle">UNIVERSAL AI ROLE-PLAYING ENGINE</div>
+  <div class="subtitle">Universal AI Role-Playing Engine</div>
 
   <!-- Quick Save/Load -->
   <div class="quick-save-card">
     <div class="sp-card-title">⚡ Quick Save / Load</div>
     <textarea class="qs-ta" id="splash-qload-ta"
-      placeholder="Paste your save code here and click 'Load' to restore your progress…"></textarea>
+      placeholder="Paste save code here and click Load to restore progress…"></textarea>
     <div class="qs-btns">
       <button class="qs-btn qs-btn-load" onclick="splashQuickLoad()">⚡ Load Save Code</button>
     </div>
-    <div class="qs-hint">Save codes can be obtained from the in-game "⚡ Quick Save" option. Copy and paste here to continue your adventure.</div>
+    <div class="qs-hint">Save code can be obtained from the in-game "⚡ Quick Save" button. Paste it here to continue your adventure.</div>
     <div style="margin-top:.6rem;border-top:1px solid rgba(212,160,23,.15);padding-top:.6rem">
       <div class="load-bar" onclick="document.getElementById('file-inp-load').click()">
-        📂 Load .rpg Save File
+        📂 Load .rpg save file
       </div>
     </div>
   </div>
@@ -729,7 +1096,7 @@
       </div>
     </div>
     <div class="custom-ep-row" id="cer">
-      <label class="field-label">API Endpoint (OpenAI-compatible)</label>
+      <label class="field-label">API Endpoint (OpenAI Compatible)</label>
       <input class="text-inp" id="cei" placeholder="https://your-proxy.com/v1/chat/completions" style="margin-bottom:.7rem">
     </div>
     <div>
@@ -741,26 +1108,26 @@
 
   <!-- Rule Modules -->
   <div class="sp-card">
-    <div class="sp-card-title">📜 Rule Modules <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Without modules, enters pure free-form mode</span></div>
+    <div class="sp-card-title">📜 Rule Modules <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Leave blank for pure free mode</span></div>
     <div class="mod-drop-zone" id="mod-drop-zone"
          ondragover="event.preventDefault();this.classList.add('drag')"
          ondragleave="this.classList.remove('drag')"
          ondrop="dropModules(event)">
       <div class="uz-icon">📂</div>
       <div class="uz-title">Click or drag to add modules</div>
-      <div class="uz-sub">.txt / .md / .json — multiple files supported</div>
+      <div class="uz-sub">.txt / .md / .json — Multiple files supported</div>
       <input type="file" accept=".txt,.md,.json,.text" multiple onchange="loadModuleFiles(event)">
     </div>
-    <div class="mod-order-hint" id="mod-order-hint" style="display:none">Modules injected in order ↓ — enabled ones only</div>
+    <div class="mod-order-hint" id="mod-order-hint" style="display:none">Modules injected in order ↓ — enabled only</div>
     <div class="mod-list" id="mod-list"></div>
     <div class="mod-count" id="mod-count"></div>
   </div>
 
   <!-- Opening Message -->
   <div class="sp-card">
-    <div class="sp-card-title">🎬 Opening Message <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · First message sent to the AI</span></div>
+    <div class="sp-card-title">🎬 Opening Prompt <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · First message sent to AI</span></div>
     <textarea class="opening-ta" id="opening-ta"
-      placeholder="e.g.: Begin the game, introduce the world and let me create my character.&#10;Or leave blank to let the AI open freely."></textarea>
+      placeholder="e.g. Start the game. Introduce the world and let me create a character.&#10;Leave blank to let AI open freely."></textarea>
   </div>
 
   <!-- Advanced Settings -->
@@ -769,7 +1136,7 @@
     <div class="toggle-row">
       <div class="toggle-label">
         DELTA Frontend State Tracking
-        <span class="toggle-sub">AI outputs value changes; frontend calculates precise values</span>
+        <span class="toggle-sub">AI outputs delta values, frontend computes exact stats</span>
       </div>
       <label class="tog">
         <input type="checkbox" id="tog-delta" checked>
@@ -779,7 +1146,7 @@
     <div class="toggle-row" style="margin-top:.4rem">
       <div class="toggle-label">
         Built-in Narrative Tags [H] [N] [P] [T]
-        <span class="toggle-sub">Convert AI output tags to colorized formatting (gold names, blue locations…)</span>
+        <span class="toggle-sub">Render built-in tags as colored text (gold names, blue locations, etc.)</span>
       </div>
       <label class="tog">
         <input type="checkbox" id="tog-render" checked>
@@ -789,7 +1156,7 @@
     <div class="toggle-row" style="margin-top:.4rem">
       <div class="toggle-label">
         Custom Color Tags [N1] [N2]…
-        <span class="toggle-sub">Render custom color tags defined below</span>
+        <span class="toggle-sub">Render the custom color tags defined above</span>
       </div>
       <label class="tog">
         <input type="checkbox" id="tog-render-custom" checked>
@@ -799,7 +1166,7 @@
     <div class="toggle-row" style="margin-top:.4rem">
       <div class="toggle-label">
         Inject Real-World Time
-        <span class="toggle-sub">Sends the current date, time, and day of week with each message (useful for atmosphere or seasonal events)</span>
+        <span class="toggle-sub">Pass current date, time, and weekday to AI each turn (for atmosphere or events)</span>
       </div>
       <label class="tog">
         <input type="checkbox" id="tog-realtime">
@@ -810,22 +1177,22 @@
       <div style="font-size:.75rem;color:rgba(212,160,23,.6);margin-bottom:.35rem;letter-spacing:.06em">TOKEN LIMITS</div>
       <div class="token-row">
         <div class="token-field">
-          <label class="field-label">Output limit (max_tokens)</label>
-          <input class="token-inp" id="tok-out" type="number" min="256" max="32000" placeholder="Empty = unlimited">
+          <label class="field-label">Output Limit (max_tokens)</label>
+          <input class="token-inp" id="tok-out" type="number" min="256" max="32000" placeholder="Blank = unlimited">
         </div>
         <div class="token-field">
-          <label class="field-label">Context window (messages)</label>
-          <input class="token-inp" id="tok-ctx" type="number" min="1" max="200" placeholder="Empty = all">
+          <label class="field-label">Context Window (turns)</label>
+          <input class="token-inp" id="tok-ctx" type="number" min="1" max="200" placeholder="Blank = keep all">
         </div>
       </div>
-      <div class="field-hint">Leave empty for no limit. Context N = only send the last N messages to the AI.</div>
+      <div class="field-hint">Blank = unlimited; setting context to N sends only the latest N messages to AI</div>
     </div>
   </div>
 
   <!-- Custom Color Tags -->
   <div class="sp-card">
-    <div class="sp-card-title">🎨 Custom Color Tags <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Unlimited</span></div>
-    <div class="field-hint" style="margin-bottom:.6rem">Define a tag purpose and color. AI will wrap matching content with the tag.<br>e.g. "NPC dialogue" → AI uses [N1]…[/N1] around NPC speech, rendered in your chosen color.</div>
+    <div class="sp-card-title">🎨 Custom Color Tags <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Unlimited tags</span></div>
+    <div class="field-hint" style="margin-bottom:.6rem">Define a tag's "purpose" and color. AI will apply the tag to matching text.<br>e.g. set "NPC Dialogue" → AI wraps NPC speech in [N1]…[/N1] shown in your chosen color.</div>
     <div id="ctag-rows" style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem"></div>
     <button onclick="addCtagRow()" style="background:rgba(212,160,23,.1);border:1px dashed rgba(212,160,23,.3);color:rgba(212,160,23,.6);padding:.35rem .8rem;border-radius:4px;cursor:pointer;font-size:.78rem;width:100%;transition:all .2s"
       onmouseover="this.style.background='rgba(212,160,23,.18)'" onmouseout="this.style.background='rgba(212,160,23,.1)'">＋ Add Tag</button>
@@ -843,9 +1210,9 @@
     <button id="byop-btn" onclick="byopAuth()" style="width:100%;background:linear-gradient(135deg,rgba(212,160,23,.15),rgba(212,160,23,.08));border:1px solid rgba(212,160,23,.35);color:rgba(245,230,200,.85);padding:.65rem 1rem;border-radius:6px;cursor:pointer;font-size:.85rem;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:.5rem"
       onmouseover="this.style.background='linear-gradient(135deg,rgba(212,160,23,.25),rgba(212,160,23,.15))'"
       onmouseout="this.style.background='linear-gradient(135deg,rgba(212,160,23,.15),rgba(212,160,23,.08))'">
-      🌼 Connect Pollinations (free image gen)
+      🌼 Connect Pollinations (Free Image Gen)
     </button>
-    <div class="field-hint">After connecting, image costs are charged to your own account — developer pays $0. Keys expire in 30 days.</div>
+    <div class="field-hint">After authorization, image costs are charged to your own account. Developer pays $0. Key valid 30 days, revocable anytime.</div>
     <div id="img-settings" style="margin-top:.7rem;border-top:1px solid rgba(212,160,23,.12);padding-top:.6rem;display:none">
       <label class="field-label">Image Model (default: flux)</label>
       <input class="text-inp" id="img-model-inp" value="flux" placeholder="e.g. flux, nanobanana">
@@ -876,7 +1243,7 @@
     </div>
   </div>
 
-  <!-- Start -->
+  <!-- START -->
   <div style="width:min(96vw,560px)">
     <button class="start-btn" onclick="go()">▶ START GAME</button>
   </div>
@@ -902,7 +1269,7 @@
     <button class="s-btn" onclick="savGame()">💾 Download Save</button>
     <button class="s-btn" onclick="document.getElementById('file-inp-load').click()">📂 Load Save</button>
     <hr>
-    <div class="s-label">HISTORY</div>
+    <div class="s-label">CHAT</div>
     <button class="s-btn" onclick="openClearChat()" style="color:rgba(220,120,100,.7)">🗑 Clear History</button>
     <div class="s-pin-badge" id="hist-badge">— messages</div>
     <hr>
@@ -912,10 +1279,10 @@
     <div class="s-pin-badge" id="bgm-badge">—</div>
     <hr>
     <div class="s-label">IMAGE GEN</div>
-    <div class="s-pin-badge" id="ig-byop-badge">🔗 Not connected</div>
+    <div class="s-pin-badge" id="ig-byop-badge">🔗 Not connected to Pollinations</div>
     <button class="s-btn" id="ig-byop-btn" onclick="byopAuth()">🌼 Connect Pollinations</button>
     <div class="s-toggle-row">
-      <span>🖼️ Enable Generation</span>
+      <span>🖼️ Enable Image Gen</span>
       <label class="tog">
         <input type="checkbox" id="ig-tog-img" onchange="toggleImgIG(this.checked)">
         <span class="tog-slider"></span>
@@ -923,8 +1290,13 @@
     </div>
     <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">⚙️ Change Image Model</button>
     <hr>
+    <div class="s-label">PORTRAIT / SCENE</div>
+    <button class="s-btn" onclick="imgFloatToggle()">🖼 Show/Hide Float Window</button>
+    <button class="s-btn" onclick="openSidePanel('imgmgr-panel')">📁 Image Library</button>
+    <hr>
     <div class="s-label">APPEARANCE</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 Color Theme</button>
+    <button class="s-btn" onclick="openSidePanel('fx-panel')">✨ Visual Effects</button>
     <div class="s-toggle-row">
       <span>🏷️ Built-in Narrative Tags</span>
       <label class="tog">
@@ -935,13 +1307,13 @@
     <div class="s-toggle-row">
       <span>🎨 Custom Color Tags</span>
       <label class="tog">
-        <input type="checkbox" id="ig-tog-render-custom" onchange="gameCfg.renderCustomTags=this.checked;reRenderAllMsgs()">
+        <input type="checkbox" id="ig-tog-render-custom" onchange="gameCfg.renderCustomTags=this.checked">
         <span class="tog-slider"></span>
       </label>
     </div>
     <button class="s-btn" onclick="openCtagPanel()" style="font-size:.72rem;color:rgba(212,160,23,.5)">✏️ Edit Color Tags</button>
     <div class="s-toggle-row">
-      <span>🕐 Inject Real Time</span>
+      <span>🕐 Inject Real-World Time</span>
       <label class="tog">
         <input type="checkbox" id="ig-tog-realtime" onchange="gameCfg.injectRealTime=this.checked">
         <span class="tog-slider"></span>
@@ -953,15 +1325,15 @@
         <input type="number" id="ig-tok-out" min="256" max="32000"
           style="width:80px;background:rgba(0,0,0,.5);border:1px solid var(--border);
           color:var(--paper);padding:.2rem .4rem;border-radius:3px;font-size:.74rem;
-          font-family:monospace;outline:none;text-align:right" placeholder="∞"
+          font-family:monospace;outline:none;text-align:right" placeholder="Unlimited"
           onchange="gameCfg.maxTokens=this.value?parseInt(this.value):null">
       </div>
       <div style="display:flex;align-items:center;gap:.4rem">
-        <span style="flex:1">✂️ context messages</span>
+        <span style="flex:1">✂️ Context Turns</span>
         <input type="number" id="ig-tok-ctx" min="1" max="200"
           style="width:80px;background:rgba(0,0,0,.5);border:1px solid var(--border);
           color:var(--paper);padding:.2rem .4rem;border-radius:3px;font-size:.74rem;
-          font-family:monospace;outline:none;text-align:right" placeholder="∞"
+          font-family:monospace;outline:none;text-align:right" placeholder="Unlimited"
           onchange="gameCfg.ctxLimit=this.value?parseInt(this.value):null">
       </div>
     </div>
@@ -975,6 +1347,7 @@
   </div>
 
   <div id="chat-wrap">
+    <button id="mob-sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('mob-open')" title="Menu">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
@@ -1002,7 +1375,7 @@
       <div id="dice-wrap">
         <button id="dice-btn" onclick="toggleDicePanel()" title="Dice">🎲</button>
         <div id="dice-panel">
-          <div class="dp-title">⚔️ Dice Roller</div>
+          <div class="dp-title">⚔️ Dice</div>
           <div class="dp-dice-grid">
             <div class="dp-die" onclick="quickRoll(4)">d4</div>
             <div class="dp-die" onclick="quickRoll(6)">d6</div>
@@ -1012,9 +1385,9 @@
             <div class="dp-die" onclick="quickRoll(100)">d100</div>
           </div>
           <div class="dp-count-row">
-            <span class="dp-count-label">Roll:</span>
+            <span class="dp-count-label">Dice count:</span>
             <input class="dp-count-inp" id="dice-count" type="number" value="1" min="1" max="20">
-            <span class="dp-count-label" style="margin-left:.2rem">dice</span>
+            <span class="dp-count-label" style="margin-left:.2rem">d</span>
           </div>
           <div class="dp-custom-row">
             <input class="dp-custom-inp" id="dice-custom" placeholder="Custom: 2d6+3, 1d20, 3d8…"
@@ -1022,14 +1395,14 @@
             <button class="dp-roll-btn" onclick="rollCustom()">🎲 Roll</button>
           </div>
           <div class="dp-result" id="dp-result">
-            <div class="dp-result-expr" id="dp-expr" style="color:rgba(212,160,23,.25)">Click a die or enter a custom expression</div>
+            <div class="dp-result-expr" id="dp-expr" style="color:rgba(212,160,23,.25)">Click dice or enter custom expression</div>
             <div class="dp-result-rolls" id="dp-rolls"></div>
             <div class="dp-result-total" id="dp-total"></div>
           </div>
-          <button class="dp-send-btn" id="dp-send-btn" onclick="sendDiceResult()" disabled>📨 Send Result to GM</button>
+          <button class="dp-send-btn" id="dp-send-btn" onclick="sendDiceResult()" disabled>📨 Send result to GM</button>
         </div>
       </div>
-      <textarea id="ui" rows="1" placeholder="Enter your action or dialogue… (expressions like 2d6 will auto-roll)"
+      <textarea id="ui" rows="1" placeholder="Enter action or dialogue… (expressions like 2d6 auto-roll)"
         onkeydown="hkey(event)" oninput="ar(this)"></textarea>
       <button id="img-gen-btn" onclick="openImgGen()" title="AI Image Gen"
         style="background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.3);
@@ -1037,6 +1410,14 @@
         font-size:1rem;transition:all .25s;flex-shrink:0;display:none"
         onmouseover="this.style.background='rgba(212,160,23,.22)'"
         onmouseout="this.style.background='rgba(212,160,23,.12)'">🖼️</button>
+      <button onclick="openChatImgInsert()" title="Insert image to chat"
+        style="background:rgba(100,160,212,.1);border:1px solid rgba(100,160,212,.3);
+        color:rgba(150,200,255,.7);padding:.6rem .72rem;border-radius:6px;cursor:pointer;
+        font-size:1rem;transition:all .25s;flex-shrink:0"
+        onmouseover="this.style.background='rgba(100,160,212,.2)'"
+        onmouseout="this.style.background='rgba(100,160,212,.1)'"
+        >📎</button>
+      <input type="file" id="chat-img-file-inp" accept="image/*" style="display:none" onchange="chatImgFromFile(event)">
       <button id="sb" onclick="send()">Send</button>
     </div>
   </div>
@@ -1049,7 +1430,7 @@
 const P={
   anthropic:{
     label:'Anthropic',ph:'sk-ant-api03-...',
-    hint:'Visit <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> to get a Key',
+    hint:'Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>',
     models:[
       {id:'claude-sonnet-4-6',l:'Sonnet 4.6'},
       {id:'claude-sonnet-4-5',l:'Sonnet 4.5'},
@@ -1061,7 +1442,7 @@ const P={
   },
   openai:{
     label:'OpenAI',ph:'sk-...',
-    hint:'Visit <a href="https://platform.openai.com" target="_blank">platform.openai.com</a> to get a Key',
+    hint:'Get your key at <a href="https://platform.openai.com" target="_blank">platform.openai.com</a>',
     models:[
       {id:'gpt-4o',l:'GPT-4o'},
       {id:'gpt-4o-mini',l:'GPT-4o mini'},
@@ -1072,7 +1453,7 @@ const P={
   },
   gemini:{
     label:'Google Gemini',ph:'AIza...',
-    hint:'Visit <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> to get a Key',
+    hint:'Get your key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a>',
     models:[
       {id:'gemini-2.5-flash',l:'Gemini 2.5 Flash'},
       {id:'gemini-2.5-pro',l:'Gemini 2.5 Pro'},
@@ -1083,7 +1464,7 @@ const P={
     ]
   },
   custom:{
-    label:'Custom (OpenAI-compatible)',ph:'your-api-key',
+    label:'Custom (OpenAI Compatible)',ph:'your-api-key',
     hint:'Compatible with OpenAI /v1/chat/completions format',
     models:[{id:'__c',l:'Enter Model ID'}]
   }
@@ -1101,9 +1482,10 @@ let gameCfg = {
   imgEnabled: false,
   imgKey: '',
   imgModel: 'flux',
-  maxTokens: null,
-  ctxLimit: null,
-  customTags: [],
+  maxTokens: 4096,
+  ctxLimit: 0,
+  customTags: [], // [{name, color}, ...]
+  fx: { anim:'', bg:'', text:'', bbl:'' },
 };
 
 const DEFAULT_STATE = () => ({
@@ -1171,7 +1553,7 @@ function renderModuleList() {
     list.appendChild(div);
   });
   const on = modules.filter(m => m.enabled).length;
-  count.textContent = modules.length ? `${on} / ${modules.length} modules enabled` : '';
+  count.textContent = modules.length ? `${on} / ${modules.length} module(s) enabled` : '';
 }
 
 function toggleModule(id, enabled) {
@@ -1211,7 +1593,7 @@ function updateRuleTag() {
     }
   }
   if (badge) {
-    badge.textContent = modules.length ? `📦 ${on}/${modules.length} modules enabled` : 'No modules loaded';
+    badge.textContent = modules.length ? `📦 ${on}/${modules.length} module(s) on` : 'No modules loaded';
     badge.style.color = on > 0 ? 'rgba(100,220,100,.6)' : 'rgba(212,160,23,.4)';
   }
 }
@@ -1249,7 +1631,7 @@ function renderInGameModuleList() {
       <div class="mod-kw-row" title="Auto-enable this module when AI response contains these keywords">
         <span class="mod-kw-icon">🔍</span>
         <input class="mod-kw-inp" id="kwinp_${m.id}"
-          placeholder="Auto-trigger keywords (comma-separated, leave blank to disable)"
+          placeholder="Auto-trigger keywords (comma-separated, blank = manual)"
           value="${esc(kw)}"
           oninput="setModKeywords('${m.id}', this.value)">
         <span class="mod-kw-badge ${hasKw ? '' : 'off'}" id="kwbadge_${m.id}">
@@ -1296,7 +1678,7 @@ function checkKeywordTriggers(responseText) {
   });
   if (triggered.length > 0) {
     updateRuleTag();
-    toast(`🔍 Auto-enabled module(s): ${triggered.join(', ')}`);
+    toast(`🔍 Auto-activated modules: ${triggered.join(', ')}`);
   }
 }
 function addModulesIG(evt) {
@@ -1316,43 +1698,55 @@ function addModulesIG(evt) {
 // ══════════════════════════════════════════════
 const FREE_MODE_PROMPT =
 `You are an excellent interactive fiction GM (Game Master).
-Narrate in third person, respond to player actions and advance the story.
-Maintain world consistency, give characters distinct personalities, and create dramatic tension.
+Narrate in third person, respond to player actions, and advance the story.
+Maintain world consistency, vivid characters, and narrative tension.
 Respond in English.`;
 
 const DELTA_ADDON =
 `\n\n════════════════════════════════════════
-[Value System: Frontend Calculation Mode · Universal DELTA Format]
+[STATS SYSTEM: Frontend Calculation Mode · Universal DELTA Format]
 ════════════════════════════════════════
-All values are calculated by the frontend. You only need to output "change amounts" or "set values".
-At the end of each response you MUST append [DELTA]...[/DELTA], supporting any field names:
+All stats are computed by the frontend. You only output delta/set values.
+Append [DELTA]...[/DELTA] at the end of every response. Supports any field name:
 
 [DELTA]
-time:current time (direct set)
-loc:current location (direct set)
-PC:any field=value OR field+change OR field-change
-EntityName:any field=value OR +/- change
-warn:warning message (optional, multiple lines ok)
-rumor:rumor text|+reputation value (optional)
-route:EntityName|route (optional)
+time: current time (set directly)
+loc: current location (set directly)
+PC: fieldName=value or fieldName+delta or fieldName-delta
+entityName: fieldName=value or +/- delta
+warn: warning message (optional, multi-line)
+rumor: rumor|+reputationValue (optional)
+route: entityName|route (optional)
 [/DELTA]
 
 Rules:
-• Field names can be anything (letters, numbers, underscores)
-• = sets value directly　+ adds　- subtracts
-• String values use = (e.g. type=grass/poison, phase=final)
-• Only write fields that changed; if nothing changed, still output empty [DELTA][/DELTA]
-• Never write numeric values in narrative text — only describe what happened`;
+• Field names can be any word (letters, underscores)
+• = set value directly  + add  - subtract
+• String values use = (e.g. type=Grass/Poison, phase=final)
+• Only output changed fields; still output empty [DELTA][/DELTA] if nothing changed
+• Never write raw numbers in narrative text — only describe what happened`;
 
 const RENDER_ADDON =
-`\n\n[Narrative Tag Format]
-[H]paragraph text[/H] — body paragraph
+`\n\n[NARRATIVE TAG FORMAT]
+[H]paragraph text[/H] — main paragraph
 [N]character name[/N] — character name (gold)
-[P]location[/P] — location (blue)
-[T]inner thought[/T] — internal monologue (italic red)
+[P]location[/P] — place name (blue)
+[T]internal thought[/T] — inner monologue (italic red)
 [K]keyword[/K] — emphasis (red)
-[OPT]label|send value|color[/OPT] — player choice button
-[SAVE]character card summary[/SAVE] — collapsible save summary`;
+[OPT]option text|submit content|color[/OPT] — player choice button
+[SAVE]character summary[/SAVE] — collapsible save summary`;
+
+const IMG_ADDON =
+`\n\n[IMAGE GENERATION TAGS]
+When scenes change, new characters appear, or important events happen, use [IMG]prompt[/IMG] to generate imagery.
+[PROMPT STRICT RULES]
+1. All English, mostly nouns and adjectives, comma-separated.
+2. Strictly avoid sensitive words (NSFW/Violence):
+   - No alluring/seductive/sexy → use gentle/charming
+   - No petite body → use slender build
+   - No vulnerable/helpless → use melancholic/tired
+   - No dim/dark room → use softly lit room
+3. Example:[IMG]a slender build girl, charming smile, softly lit room, high quality, anime style[/IMG]`;
 
 function buildSYS() {
   const moduleText = getActiveModuleText();
@@ -1363,44 +1757,17 @@ function buildSYS() {
     const tagLines = gameCfg.customTags.map(t =>
       `  [N${t.slot}]text[/N${t.slot}] → purpose: ${t.name}`
     ).join('\n');
-    base += `\n\n[Custom Color Tags]\nUse the following tags to mark matching content in your narration:\n${tagLines}\nRule: wrap any text matching the purpose with the tag, e.g. if N1 is "NPC dialogue", wrap NPC speech with [N1]...[/N1].`;
+    base += `\n\n[CUSTOM COLOR TAGS]\nApply the following tags by purpose in your narrative:\n${tagLines}\nRule: wrap matching text with the tag, e.g. if N1 purpose is "NPC Dialogue", wrap NPC speech in [N1]...[/N1].`;
   }
+  // Image gen is now manually triggered by player
   return base;
-}
-
-function buildMsgs() {
-  const pre = [];
-  if (gameCfg.deltaEnabled && GS.turn >= 0) {
-    pre.push(
-      {role:'user', content: buildStateContext()},
-      {role:'assistant', content:'Current world state confirmed. Will use this as the baseline for narration and output DELTA changes.'}
-    );
-  } else if (gameCfg.injectRealTime) {
-    const now = new Date();
-    const rtStr = now.toLocaleString('en-US', {
-      year:'numeric', month:'2-digit', day:'2-digit',
-      weekday:'short', hour:'2-digit', minute:'2-digit'
-    });
-    pre.push(
-      {role:'user', content:`[Real-world Time] ${rtStr}`},
-      {role:'assistant', content:'Real-world time noted. Will incorporate appropriately into narrative atmosphere.'}
-    );
-  }
-  if (pins.length) {
-    pre.push(
-      {role:'user', content:'[Priority Memory]\n'+pins.map((p,i)=>`${i+1}. [${p.tag}] ${p.text}`).join('\n')},
-      {role:'assistant', content:'Priority memory noted and remembered.'}
-    );
-  }
-  const limitedHist = (gameCfg.ctxLimit > 0) ? hist.slice(-gameCfg.ctxLimit) : hist;
-  return [...pre, ...limitedHist];
 }
 
 function buildStateContext() {
   const pcEntries = Object.entries(GS.pc);
   const pcLine = pcEntries.length
     ? pcEntries.map(([k,v])=>`${k}:${v}`).join(' ')
-    : '(No PC values)';
+    : '(no PC stats)';
   const charLines = Object.entries(GS.chars).map(([n,c]) => {
     const fields = Object.entries(c).filter(([k])=>k!=='_route').map(([k,v])=>`${k}:${v}`).join(' ');
     return `  ${n}${c._route?' ['+c._route+']':''}  ${fields}`;
@@ -1408,17 +1775,45 @@ function buildStateContext() {
   let realTimeLine = '';
   if (gameCfg.injectRealTime) {
     const now = new Date();
-    const rtStr = now.toLocaleString('en-US', {
+    const rtStr = now.toLocaleString('zh-TW', {
       year:'numeric', month:'2-digit', day:'2-digit',
       weekday:'short', hour:'2-digit', minute:'2-digit'
     });
-    realTimeLine = `\nReal-world time: ${rtStr}`;
+    realTimeLine = `\nReal time: ${rtStr}`;
   }
   return `[Current World State (Turn ${GS.turn})]
-Time: ${GS.time}　Location: ${GS.location}${realTimeLine}
+Time: ${GS.time}  Location: ${GS.location}${realTimeLine}
 PC: ${pcLine}
-${charLines?'Entity States:\n'+charLines:'(No entities on scene yet)'}
-——The above are precise values calculated by the frontend. Use these as reference.——`;
+${charLines?'Entity Stats:\n'+charLines:'(no entities yet)'}
+— Precise frontend-calculated stats. Use as ground truth. —`;
+}
+
+function buildMsgs() {
+  const pre = [];
+  if (gameCfg.deltaEnabled && GS.turn >= 0) {
+    pre.push(
+      {role:'user', content: buildStateContext()},
+      {role:'assistant', content:'Confirmed current world state. Will narrate based on this and output DELTA.'}
+    );
+  } else if (gameCfg.injectRealTime) {
+    const now = new Date();
+    const rtStr = now.toLocaleString('zh-TW', {
+      year:'numeric', month:'2-digit', day:'2-digit',
+      weekday:'short', hour:'2-digit', minute:'2-digit'
+    });
+    pre.push(
+      {role:'user', content:`[Real Time] ${rtStr}`},
+      {role:'assistant', content:'Noted real-world time. Will weave it into the narrative.'}
+    );
+  }
+  if (pins.length) {
+    pre.push(
+      {role:'user', content:'[Priority Memory]\n'+pins.map((p,i)=>`${i+1}. [${p.tag}] ${p.text}`).join('\n')},
+      {role:'assistant', content:'Noted the above priority memory.'}
+    );
+  }
+  const limitedHist = (gameCfg.ctxLimit > 0) ? hist.slice(-gameCfg.ctxLimit) : hist;
+  return [...pre, ...limitedHist];
 }
 
 // ══════════════════════════════════════════════
@@ -1680,7 +2075,7 @@ function go(){
   document.getElementById('model-tag').textContent=cfg.provider.toUpperCase()+' · '+cfg.model;
   updateRuleTag();
   if(gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display='';
-  if(gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display='';
+  if(gameCfg.imgEnabled) document.getElementById('img-gen-btn').style.display='';
 
   const igRt = document.getElementById('ig-tog-realtime');
   if (igRt) igRt.checked = gameCfg.injectRealTime;
@@ -1688,7 +2083,6 @@ function go(){
   if (igRender) igRender.checked = gameCfg.renderTags;
   const igRenderCustom = document.getElementById('ig-tog-render-custom');
   if (igRenderCustom) igRenderCustom.checked = gameCfg.renderCustomTags;
-  updateByopUI(!!gameCfg.imgKey);
 
   const sp=document.getElementById('splash');
   sp.style.opacity='0';
@@ -1697,13 +2091,14 @@ function go(){
     document.getElementById('app').classList.add('on');
     GS=DEFAULT_STATE();
     initBGM();
+    fxRestoreAll();
     initGame();
   },700);
 }
 
 function flashKey(){
   const i=document.getElementById('ki');
-  i.style.borderColor='#c0392b';i.placeholder='Please enter an API Key first';
+  i.style.borderColor='#c0392b';i.placeholder='Please enter your API Key first';
   setTimeout(()=>{i.style.borderColor='';i.placeholder=P[cfg.provider].ph;},2000);
   i.scrollIntoView({behavior:'smooth'});
 }
@@ -1731,17 +2126,41 @@ function initGame(){
 
 function showHelp(){
   const deltaInfo = gameCfg.deltaEnabled
-    ? '• DELTA state tracking is ON — values are calculated precisely by the frontend\n• Use "Edit Values Manually" in the sidebar to directly modify gameState JSON'
-    : '• Pure narrative mode — no frontend value tracking';
-  addMsg('a',`<div style="padding:8px 10px;background:rgba(0,0,0,.3);border-radius:6px;font-size:.83rem;line-height:1.8">
-<b style="color:#fd0">AI · RPG Engine — Help</b><br><br>
-<b style="color:#f66">Controls</b><br>
-Enter to send · Shift+Enter for new line<br>
-Hover over a message to copy / pin / edit / delete<br><br>
-<b style="color:#f66">Saving</b><br>
-⚡ Quick Save → generates a save code (paste it back on the home screen to restore)<br>
-💾 Download Save → downloads a .rpg file<br><br>
-<b style="color:#f66">Mode</b><br>
+    ? '• DELTA state tracking enabled, stats computed by frontend\n• Sidebar \'Edit Values Manually\' to directly edit gameState JSON'
+    : '• Pure narrative mode, no frontend stat tracking';
+  addMsg('a',`<div style="padding:10px 12px;background:rgba(0,0,0,.35);border-radius:8px;font-size:.82rem;line-height:2;border:1px solid rgba(212,160,23,.15)">
+<b style="color:#fd0;font-size:.9rem">AI · RPG Engine Help</b><br>
+<hr style="border:none;border-top:1px solid rgba(212,160,23,.15);margin:.4rem 0">
+
+<b style="color:#f66">⌨️ Controls</b><br>
+Enter to send · Shift+Enter for newline<br>
+Hover over message → Copy / Pin / Rewrite / Delete<br>
+🎲 Type <code style="background:rgba(255,255,255,.08);padding:0 .3rem;border-radius:3px">2d6</code> syntax to auto-roll dice — result appended to message<br>
+
+<b style="color:#f66">💾 Save</b><br>
+⚡ Quick Save → generates a save code (paste on homepage to restore)<br>
+💾 Download Save → downloads a .rpg file<br>
+
+<b style="color:#f66">🎵 Music</b><br>
+Sidebar → Change Music Source, supports URL / local upload<br>
+🔊 Volume slider at bottom of panel for real-time adjustment<br>
+
+<b style="color:#f66">🖼 Images / Portraits</b><br>
+📎 (next to input) → Insert image to chat (URL or upload)<br>
+Sidebar "PORTRAIT / SCENE" → manage floating window image library<br>
+• Float window: draggable, resizable (bottom-right corner), collapsible<br>
+• Each image can have keywords — auto-switch when AI response matches<br>
+🖼️ (next to input, after connecting Pollinations) → AI generates images from story<br>
+
+<b style="color:#f66">✨ Visual Effects</b><br>
+Sidebar "APPEARANCE" → "Visual Effects" panel<br>
+• Entry animations: Fade / Slide / Typewriter / Bounce / Heartbeat<br>
+• Backgrounds: Particles / Stars / Snow / Fire (Canvas animation)<br>
+• Text: Glow / Shadow / Gradient color<br>
+• Bubbles: Parchment / Neon / Slate / Hacker / Chat / Live / Frosted Glass<br>
+• Global: Scanlines / Glitch / Dynamic color drift<br>
+
+<b style="color:#f66">⚙️ Modes</b><br>
 ${deltaInfo.replace(/\n/g,'<br>')}
 </div>`);
 }
@@ -1878,7 +2297,7 @@ function rollCustom() {
   if (!inp) return;
   const parsed = parseDiceExpr(inp);
   if (!parsed) {
-    document.getElementById('dp-expr').textContent = '❌ Invalid format. Try: 2d6, 1d20+3';
+    document.getElementById('dp-expr').textContent = '❌ Invalid format, try e.g. 2d6, 1d20+3';
     document.getElementById('dp-rolls').innerHTML = '';
     document.getElementById('dp-total').textContent = '';
     return;
@@ -1934,14 +2353,14 @@ async function callAPI(_msg, init){
       if(result!==null){
         applyDelta(result.changes);renderStatePanel();
         deltaInfo=result.parsed>0
-          ?`<div class="delta-badge">△ ${result.parsed} value(s) updated</div>`
-          :`<div class="delta-badge">△ No value changes this turn</div>`;
+          ?`<div class="delta-badge">△ ${result.parsed} stat(s) updated</div>`
+          :`<div class="delta-badge">△ No stat changes this turn</div>`;
       } else {
-        deltaInfo=`<div class="delta-badge err">⚠ No DELTA received (values not updated)</div>`;
+        deltaInfo=`<div class="delta-badge err">⚠ No DELTA received (stats not updated)</div>`;
       }
     }
     const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
-    addMsg('a', renderNarrative(displayRaw) + deltaInfo, r);
+    addMsg('a', (renderNarrative(displayRaw)) + deltaInfo, r);
   }catch(e){
     rmThink(tid);
     addMsg('a',`<span style="color:#f66">⚠ Error: ${esc(e.message)}</span><br>
@@ -1953,7 +2372,8 @@ async function callAPI(_msg, init){
 
 async function apiAnthropic(SYS){
   const body={model:cfg.model,system:SYS,messages:buildMsgs()};
-  body.max_tokens = gameCfg.maxTokens || 8192;
+  if(gameCfg.maxTokens) body.max_tokens=gameCfg.maxTokens;
+  else body.max_tokens=8192; // Anthropic requires max_tokens, use generous default
   const r=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':cfg.key,
@@ -1993,7 +2413,7 @@ async function apiGemini(SYS){
   const d=await r.json();
   if(!r.ok)throw new Error(d.error?.message||'HTTP '+r.status);
   const parts=d.candidates?.[0]?.content?.parts;
-  if(!parts)throw new Error('Gemini response format unexpected');
+  if(!parts)throw new Error('Gemini response format error');
   return parts.map(p=>p.text||'').join('');
 }
 
@@ -2004,17 +2424,23 @@ const OPT_COLORS=['#944','#649','#974','#494','#446','#694'];
 function renderNarrative(raw){
   raw=raw.replace(/\r\n/g,'\n').replace(/\n/g,'<br>');
   raw=raw.replace(/\[ST\][\s\S]*?\[\/ST\]/gi,'');
-  // Custom color tags (N1, N2…)
+
+  // Custom color tags (N1, N2, N3…) — guarded by renderCustomTags
   if (gameCfg.renderCustomTags && gameCfg.customTags && gameCfg.customTags.length > 0) {
     gameCfg.customTags.forEach(tag => {
       const n = tag.slot;
       const re = new RegExp(`\\[N${n}\\]([\\s\\S]*?)\\[/N${n}\\]`, 'g');
-      raw = raw.replace(re, (_, t) => `<span class="r-cx" style="color:${tag.color}">${t}</span>`);
+      raw = raw.replace(re, (_, t) =>
+        `<span class="r-cx" style="color:${tag.color}">${t}</span>`
+      );
     });
   } else if (!gameCfg.renderCustomTags) {
+    // Strip custom tags if disabled
     raw = raw.replace(/\[N\d+\]([\s\S]*?)\[\/N\d+\]/g, '$1');
   }
+
   let optIdx=0;
+  // Built-in tags — guarded by renderTags
   let html;
   if (gameCfg.renderTags) {
     html=raw
@@ -2035,9 +2461,23 @@ function renderNarrative(raw){
         const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
         optIdx++;
         return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
+      })
+      .replace(/\[IMG\]([\s\S]*?)\[\/IMG\]/gi,(_,prompt)=>{
+        if (!gameCfg.imgEnabled || !gameCfg.imgKey) return '';
+        const encodedPrompt = encodeURIComponent(prompt.trim());
+        const model = encodeURIComponent(gameCfg.imgModel);
+        const key = encodeURIComponent(gameCfg.imgKey);
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?model=${model}&width=1024&height=1024&seed=0&enhance=false&key=${key}`;
+        return `<div style="margin: 0.8rem 0; text-align: center;">
+                  <img src="${imgUrl}" alt="Generating..."
+                       style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.5); opacity:0; transition: opacity 0.5s;"
+                       onload="this.style.opacity=1">
+                  <div style="font-size: 0.65rem; color: rgba(212,160,23,0.4); margin-top: 0.3rem;">🖼️ ${prompt.trim().replace(/</g,'&lt;')}</div>
+                </div>`;
       });
   } else {
-    html=raw
+    // Strip built-in tags when disabled, keep OPT and plain text
+    html = raw
       .replace(/\[H\]([\s\S]*?)\[\/H\]/g,'$1')
       .replace(/\[N\]([\s\S]*?)\[\/N\]/g,'$1')
       .replace(/\[P\]([\s\S]*?)\[\/P\]/g,'$1')
@@ -2055,7 +2495,8 @@ function renderNarrative(raw){
         const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
         optIdx++;
         return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
-      });
+      })
+      .replace(/\[IMG\]([\s\S]*?)\[\/IMG\]/gi,'');
   }
   if(optIdx>0) html=html.replace(/(<span class="r-opt"[\s\S]*?<\/span>\s*)+/g,m=>`<div class="r-opts">${m}</div>`);
   return html;
@@ -2083,7 +2524,9 @@ function addMsg(role,html,rawContent){
     ${role==='a'?`<span class="msg-act" title="Retry" onclick="retryMsg(${idx})">🔄</span>`:''}
     <span class="msg-act msg-act-del" onclick="delMsg(${idx})" title="Delete">🗑</span>
   </div>`;
-  w.appendChild(d);w.scrollTop=w.scrollHeight;updateHistBadge();return d;
+  w.appendChild(d);w.scrollTop=w.scrollHeight;updateHistBadge();
+  if (role==='a') { fxTypeMsg(d); imgCheckKeywords(d.querySelector('.bbl')?.innerText||''); }
+  return d;
 }
 function addThink(){
   const id='t'+(++tc);const w=document.getElementById('msgs');const d=document.createElement('div');
@@ -2143,8 +2586,8 @@ function pinMsg(idx){
   const raw=el.dataset.raw||el.querySelector('.bbl')?.innerText||'';
   if(!raw.trim())return;
   const isUser=el.classList.contains('u');
-  pins.push({tag:isUser?'Player Message':'GM Message',text:raw});
-  updatePinBadge();toast(`📌 Pinned`);
+  pins.push({tag:isUser?'Player Dialogue':'GM Dialogue',text:raw});
+  updatePinBadge();toast('📌 Pinned');
 }
 function delMsg(idx){
   const el=getMsgEl(idx);if(!el)return;
@@ -2154,7 +2597,7 @@ function delMsg(idx){
   const conf=document.createElement('div');
   conf.className='del-confirm';
   conf.innerHTML=`<span style="font-size:.72rem;opacity:.8">Delete this message?</span>
-    <button onclick="confirmDelMsg(${idx})">Confirm</button>
+      <button onclick="confirmDelMsg(${idx})">Confirm</button>
     <button onclick="this.closest('.del-confirm').remove()">Cancel</button>`;
   el.appendChild(conf);
   setTimeout(()=>conf.isConnected&&conf.remove(),3000);
@@ -2192,7 +2635,7 @@ function editApply(){
   if(pos>=0&&pos<hist.length) hist[pos].content=newRaw;
   const isUser=el.classList.contains('u');
   el.dataset.raw=newRaw;
-  el.querySelector('.bbl').innerHTML=isUser?esc(newRaw):(gameCfg.renderTags?renderNarrative(newRaw):esc(newRaw));
+  el.querySelector('.bbl').innerHTML=isUser?esc(newRaw):(renderNarrative(newRaw));
   editClose();toast('✏️ Updated');
 }
 
@@ -2207,7 +2650,7 @@ function openStateEditor(){
 function closeStateEditor(){document.getElementById('state-modal').style.display='none';}
 function applyStateEdit(){
   const ta=document.getElementById('state-ta');const errEl=document.getElementById('state-err');
-  try{GS=JSON.parse(ta.value);renderStatePanel();closeStateEditor();toast('✅ Values updated');}
+  try{GS=JSON.parse(ta.value);renderStatePanel();closeStateEditor();toast('✅ Stats updated');}
   catch(e){errEl.textContent='❌ JSON format error: '+e.message;}
 }
 
@@ -2227,6 +2670,7 @@ function buildSaveData() {
     history: hist, pins, gameState: GS, gameCfg,
     modules,
     badge: document.getElementById('sbadge').innerHTML,
+    imgState: { library: imgState.library, autoKw: imgState.autoKw, current: imgState.current, idCnt: _imgIdCnt },
   };
 }
 
@@ -2250,7 +2694,7 @@ function decodeQuickSave(code) {
 }
 
 function openQSave() {
-  if (!hist.length) { toast('❌ No conversation history yet'); return; }
+  if (!hist.length) { toast('❌ No conversation yet'); return; }
   const code = encodeQuickSave();
   if (!code) return;
   const outTa = document.getElementById('qsave-out-ta');
@@ -2265,7 +2709,7 @@ function closeQSave() {
 }
 function copyQSaveCode() {
   const ta = document.getElementById('qsave-out-ta');
-  navigator.clipboard.writeText(ta.value).then(() => toast('📋 Save code copied! Paste on the home screen to restore')).catch(() => {
+  navigator.clipboard.writeText(ta.value).then(() => toast('📋 Save code copied! Paste on homepage to restore')).catch(() => {
     ta.select(); document.execCommand('copy'); toast('📋 Save code copied');
   });
 }
@@ -2274,19 +2718,19 @@ function applyQLoad() {
   const errEl = document.getElementById('qsave-err');
   if (!code) { errEl.textContent = 'Please paste a save code'; return; }
   const data = decodeQuickSave(code);
-  if (!data || !Array.isArray(data.history)) { errEl.textContent = '❌ Invalid or corrupted save code'; return; }
+  if (!data || !Array.isArray(data.history)) { errEl.textContent = '❌ Save code invalid or corrupted'; return; }
   closeQSave();
   restoreFromData(data);
-  toast('⚡ Quick load successful — ' + hist.length + ' messages restored');
+  toast('⚡ Quick load successful, ' + hist.length + ' messages');
 }
 
 function splashQuickLoad() {
   const code = document.getElementById('splash-qload-ta').value.trim();
-  if (!code) { toast('Please paste a save code first'); return; }
+  if (!code) { toast('Please paste a save code'); return; }
   const data = decodeQuickSave(code);
-  if (!data || !Array.isArray(data.history)) { toast('❌ Invalid or corrupted save code'); return; }
+  if (!data || !Array.isArray(data.history)) { toast('❌ Save code invalid or corrupted'); return; }
   restoreFromData(data);
-  toast('⚡ Quick load successful — ' + hist.length + ' messages restored');
+  toast('⚡ Quick load successful, ' + hist.length + ' messages');
 }
 
 function restoreFromData(data) {
@@ -2306,12 +2750,17 @@ function restoreFromData(data) {
     if (igRender) igRender.checked = gameCfg.renderTags !== false;
     const igRenderCustom = document.getElementById('ig-tog-render-custom');
     if (igRenderCustom) igRenderCustom.checked = gameCfg.renderCustomTags !== false;
+    // Restore image gen settings UI
+    const togImg = document.getElementById('tog-img');
+    const imgKeyInp = document.getElementById('img-key-inp');
     const imgModelInp = document.getElementById('img-model-inp');
     const imgSettings = document.getElementById('img-settings');
-    const igTogImg    = document.getElementById('ig-tog-img');
+    if (togImg) togImg.checked = !!gameCfg.imgEnabled;
+    if (imgKeyInp) imgKeyInp.value = gameCfg.imgKey || '';
     if (imgModelInp) imgModelInp.value = gameCfg.imgModel || 'flux';
     if (imgSettings) imgSettings.style.display = gameCfg.imgEnabled ? 'block' : 'none';
-    if (igTogImg)    igTogImg.checked = !!gameCfg.imgEnabled;
+    updateByopUI(!!gameCfg.imgKey);
+    // Restore token + custom tag UI
     const tokOut = document.getElementById('tok-out');
     const tokCtx = document.getElementById('tok-ctx');
     const igTokOut = document.getElementById('ig-tok-out');
@@ -2321,7 +2770,6 @@ function restoreFromData(data) {
     if (igTokOut) igTokOut.value = gameCfg.maxTokens || '';
     if (igTokCtx) igTokCtx.value = gameCfg.ctxLimit  || '';
     if (Array.isArray(gameCfg.customTags)) restoreCustomTagsUI(gameCfg.customTags);
-    updateByopUI(!!gameCfg.imgKey);
   }
   if (Array.isArray(data.modules) && data.modules.length) {
     modules = [...data.modules]; _modId = modules.length;
@@ -2340,6 +2788,8 @@ function restoreFromData(data) {
   updateRuleTag();
   if (gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display = '';
   if (gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display = '';
+  fxRestoreAll();
+  imgRestoreFromSave(data);
 
   const msgWrap = document.getElementById('msgs'); msgWrap.innerHTML = ''; _msgIdx = 0;
   hist.forEach(m => {
@@ -2362,14 +2812,14 @@ function restoreFromData(data) {
 
 const THEMES = [
   {
-    id:'wuxia', name:'Dark Crimson', emoji:'⚔️',
+    id:'wuxia', name:'Dark Red Wuxia', emoji:'⚔️',
     bg:'#0d0500', bg2:'#1a0a00', accent:'#d4a017', accent2:'#f0c040',
     ub1:'#8b1a1a', ub2:'#4b0a0a', uborder:'#c0392b',
     abg:'#000000', abordera:'d4a017', text:'#f5e6c8',
     _ubgAlpha:.7, _abgAlpha:.38, _aborderAlpha:.3,
   },
   {
-    id:'ocean', name:'Deep Ocean', emoji:'🌊',
+    id:'ocean', name:'Deep Ocean Blue', emoji:'🌊',
     bg:'#020d1a', bg2:'#04192e', accent:'#2196f3', accent2:'#64b5f6',
     ub1:'#0d3a6b', ub2:'#051e3d', uborder:'#1565c0',
     abg:'#000d1a', abordera:'2196f3', text:'#cce4ff',
@@ -2383,7 +2833,7 @@ const THEMES = [
     _ubgAlpha:.75, _abgAlpha:.4, _aborderAlpha:.32,
   },
   {
-    id:'cyber', name:'Cyber Gray', emoji:'🤖',
+    id:'cyber', name:'Cyber Grayscale', emoji:'🤖',
     bg:'#0a0a0f', bg2:'#111118', accent:'#00e5ff', accent2:'#80deea',
     ub1:'#1a1a2e', ub2:'#0d0d1a', uborder:'#00acc1',
     abg:'#050508', abordera:'00e5ff', text:'#e0f7fa',
@@ -2640,13 +3090,13 @@ function restoreThemeFromCfg() {
 }
 
 function savGame(){
-  if(!hist.length){toast('❌ No conversation history yet');return;}
+  if(!hist.length){toast('❌ No conversation yet');return;}
   const data = buildSaveData();
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');
   const snippet=(hist[0]?.content||'save').slice(0,20).replace(/[\s\n]+/g,'_').replace(/[^\w_]/g,'');
   a.href=url;a.download='rpg_save_'+snippet+'_'+Date.now()+'.rpg';a.click();
-  URL.revokeObjectURL(url);toast('💾 Save file downloaded');
+  URL.revokeObjectURL(url);toast('💾 Save downloaded');
 }
 
 function loadSave(evt){
@@ -2658,7 +3108,7 @@ function loadSave(evt){
       if(!data.version||!Array.isArray(data.history)) throw new Error('Invalid format');
       restoreFromData(data);
       const modNote = modules.length ? ` · ${modules.filter(m=>m.enabled).length}/${modules.length} modules` : '';
-      toast('📂 Loaded successfully — ' + hist.length + ' messages' + modNote);
+      toast('📂 Loaded successfully, ' + hist.length + ' messages' + modNote);
     }catch(err){toast('❌ Load failed: ' + err.message);}
   };
   reader.readAsText(file,'utf-8');
@@ -2697,18 +3147,18 @@ function updateClearPreview() {
   const estTokens = Math.round(hist.reduce((s, m) => s + m.content.length, 0) / 2);
   document.getElementById('clear-stats').innerHTML =
     `Currently <b style="color:var(--gold2)">${hist.length}</b> messages` +
-    ` (Player ${userCount} / GM ${aiCount})` +
+    ` (Player: ${userCount} / GM: ${aiCount})` +
     `　~<b style="color:var(--gold2)">${estTokens.toLocaleString()}</b> tokens`;
 
   const previewEl = document.getElementById('clear-preview');
   if (removed === 0) {
-    previewEl.textContent = '✅ No messages will be cleared with current settings';
+    previewEl.textContent = '✅ Nothing will be cleared with current settings';
   } else {
     previewEl.innerHTML =
       `Will clear <b style="color:#f99">${removed}</b>, ` +
       `keep <b style="color:rgba(100,220,100,.8)">${kept}</b>` +
       (keepRecent ? ` (latest ${Math.min(keepN, hist.length)})` : '') +
-      (keepPinned && pins.length ? ` + messages containing pinned content` : '');
+      (keepPinned && pins.length ? ` + messages with pinned content` : '');
   }
 }
 
@@ -2757,8 +3207,8 @@ function applyClearChat() {
   hist.forEach(m => {
     if (m.role === 'user') addMsg('u', esc(m.content), m.content);
     else if (m.role === 'assistant') {
-      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi, '').trim();
-      addMsg('a', gameCfg.renderTags ? renderNarrative(disp) : esc(disp), m.content);
+      const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').trim();
+      addMsg('a', renderNarrative(disp), m.content);
     }
   });
 
@@ -2789,10 +3239,10 @@ window.addEventListener('load', () => {
 <div id="key-modal" class="modal-bg" style="z-index:998" onclick="if(event.target===this)chkeyClose()">
   <div class="modal-box">
     <div class="modal-title">🔑 Change Key / Model</div>
-    <div class="modal-desc">Your conversation history will be fully preserved</div>
+    <div class="modal-desc">Conversation history will be kept</div>
     <label class="field-label">API Key</label>
     <input id="km-ki" type="text" class="text-inp" style="margin-bottom:.8rem" placeholder="Enter new API Key" onkeydown="if(event.key==='Enter')chkeyApply()">
-    <label class="field-label">Model ID (optional — leave blank to keep current)</label>
+    <label class="field-label">Model ID (optional, blank = keep current)</label>
     <input id="km-model" type="text" class="text-inp" style="margin-bottom:.2rem" placeholder="e.g. claude-sonnet-4-6 / gpt-4o / gemini-2.5-flash" onkeydown="if(event.key==='Enter')chkeyApply()">
     <div class="modal-actions">
       <button class="btn-confirm" onclick="chkeyApply()">Confirm</button>
@@ -2804,8 +3254,8 @@ window.addEventListener('load', () => {
 <!-- ══ EDIT MODAL ══ -->
 <div id="edit-modal" class="modal-bg" onclick="if(event.target===this)editClose()">
   <div class="modal-box">
-    <div class="modal-title">✏️ Edit Message</div>
-    <div class="modal-desc">Edits are synced to AI memory immediately</div>
+    <div class="modal-title">✏️ Rewrite Message</div>
+    <div class="modal-desc">AI memory updates after edit</div>
     <textarea id="edit-ta" class="modal-ta" style="min-height:160px" onkeydown="if(event.key==='Escape')editClose()"></textarea>
     <div class="modal-actions">
       <button class="btn-confirm" onclick="editApply()">Confirm</button>
@@ -2818,12 +3268,12 @@ window.addEventListener('load', () => {
 <div id="pin-modal" class="modal-bg" onclick="if(event.target===this)closePin()">
   <div class="modal-box">
     <div class="modal-title">📌 Priority Memory</div>
-    <div class="modal-desc">Automatically injected before every conversation, unaffected by history length</div>
+    <div class="modal-desc">Auto-injected before each message, unaffected by context length</div>
     <div class="pin-list" id="pin-list"></div>
     <div class="pin-tag-opts">
-      <span class="pin-tag-opt" onclick="pinTagSel('Character Setup',this)">Character Setup</span>
+      <span class="pin-tag-opt" onclick="pinTagSel('Character',this)">Character</span>
       <span class="pin-tag-opt" onclick="pinTagSel('Key Event',this)">Key Event</span>
-      <span class="pin-tag-opt" onclick="pinTagSel('Stat Correction',this)">Stat Correction</span>
+      <span class="pin-tag-opt" onclick="pinTagSel('Stat Fix',this)">Stat Fix</span>
       <span class="pin-tag-opt" onclick="pinTagSel('Special Rule',this)">Special Rule</span>
       <span class="pin-tag-opt sel" onclick="pinTagSel('Other',this)">Other</span>
     </div>
@@ -2838,8 +3288,8 @@ window.addEventListener('load', () => {
 <!-- ══ STATE EDITOR MODAL ══ -->
 <div id="state-modal" class="modal-bg" onclick="if(event.target===this)closeStateEditor()">
   <div class="modal-box">
-    <div class="modal-title">✏️ Edit Values Manually</div>
-    <div class="modal-desc">Edit gameState JSON directly — state panel updates immediately on confirm</div>
+    <div class="modal-title">✏️ Edit Stats Manually</div>
+    <div class="modal-desc">Edit gameState JSON directly — panel updates immediately on confirm</div>
     <textarea id="state-ta" class="modal-ta" style="min-height:280px;font-family:monospace;font-size:.78rem" spellcheck="false"></textarea>
     <div class="modal-err" id="state-err"></div>
     <div class="modal-actions">
@@ -2853,8 +3303,8 @@ window.addEventListener('load', () => {
 <div id="qsave-modal" class="modal-bg" onclick="if(event.target===this)closeQSave()">
   <div class="modal-box" id="qsave-modal">
     <div class="modal-title">⚡ Quick Save</div>
-    <div class="modal-desc">Copy the save code below. Next time you open the page, paste it into the "Quick Save / Load" section to continue.</div>
-    <label class="field-label">📤 Save Code (copy and keep safe)</label>
+    <div class="modal-desc">Copy the save code below. Paste it in the "Quick Save / Load" section on the homepage to resume.</div>
+    <label class="field-label">📤 Save Code (copy & keep)</label>
     <textarea id="qsave-out-ta" class="qsave-out-ta" readonly onclick="this.select()"></textarea>
     <div class="modal-actions" style="margin-top:.55rem;margin-bottom:0">
       <button class="btn-confirm" onclick="copyQSaveCode()">📋 Copy Save Code</button>
@@ -2862,7 +3312,7 @@ window.addEventListener('load', () => {
     </div>
     <div style="margin-top:1.1rem;border-top:1px solid rgba(212,160,23,.15);padding-top:.9rem">
       <label class="field-label">📥 Paste Save Code to Restore</label>
-      <textarea id="qload-in-ta" class="qload-in-ta" placeholder="Paste save code here…"></textarea>
+      <textarea id="qload-in-ta" class="qload-in-ta" placeholder="Paste save code…"></textarea>
       <div class="modal-err" id="qsave-err"></div>
       <div class="modal-actions">
         <button class="btn-confirm" onclick="applyQLoad()">⚡ Load</button>
@@ -2875,7 +3325,7 @@ window.addEventListener('load', () => {
 <div id="mod-modal" class="modal-bg" onclick="if(event.target===this)closeModuleManager()">
   <div class="modal-box">
     <div class="modal-title">📦 Module Manager</div>
-    <div class="modal-desc">Toggle modules · Set keyword auto-triggers — changes take effect on next AI response</div>
+    <div class="modal-desc">Toggle modules · set keywords for auto-trigger — takes effect next AI response</div>
     <div style="position:relative;border:1px dashed rgba(212,160,23,.3);border-radius:6px;
       padding:.55rem;text-align:center;cursor:pointer;margin-bottom:.7rem;transition:all .2s"
       onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,160,23,.3)'">
@@ -2894,7 +3344,7 @@ window.addEventListener('load', () => {
 <div id="clear-modal" class="modal-bg" onclick="if(event.target===this)closeClearChat()">
   <div class="modal-box" style="max-width:420px">
     <div class="modal-title">🗑 Clear History</div>
-    <div class="modal-desc">Cannot be undone — consider saving first. Pinned memory and game state are not affected.</div>
+    <div class="modal-desc">Cannot be undone — save first. Pinned memory and stats are not affected.</div>
 
     <div id="clear-stats" style="font-size:.78rem;color:rgba(245,230,200,.55);
       background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:6px;
@@ -2904,24 +3354,24 @@ window.addEventListener('load', () => {
       <label style="display:flex;align-items:flex-start;gap:.6rem;cursor:pointer">
         <input type="checkbox" id="clear-keep-pinned" style="margin-top:.18rem;accent-color:var(--gold)">
         <span style="font-size:.82rem;color:rgba(245,230,200,.75)">
-          Keep messages containing pinned content
+              Keep messages with pinned content
           <span style="display:block;font-size:.7rem;color:rgba(212,160,23,.4)">
-            Messages matching any pinned text are kept, all others removed
+              Messages matching pinned text are kept, others cleared
           </span>
         </span>
       </label>
       <label style="display:flex;align-items:flex-start;gap:.6rem;cursor:pointer">
         <input type="checkbox" id="clear-keep-recent" style="margin-top:.18rem;accent-color:var(--gold)">
         <span style="font-size:.82rem;color:rgba(245,230,200,.75)">
-          Keep last
+              Keep latest
           <input type="number" id="clear-keep-n" value="6" min="1" max="50"
             style="width:40px;background:rgba(0,0,0,.5);border:1px solid var(--border);
             color:var(--paper);padding:.1rem .3rem;border-radius:3px;font-size:.8rem;
             text-align:center;outline:none;margin:0 .3rem;font-family:monospace"
             onclick="event.stopPropagation()">
-          messages
+              messages
           <span style="display:block;font-size:.7rem;color:rgba(212,160,23,.4)">
-            Keep the most recent N messages, remove the rest
+              Keep the latest N, remove the rest
           </span>
         </span>
       </label>
@@ -2934,9 +3384,35 @@ window.addEventListener('load', () => {
     <div class="modal-actions">
       <button class="btn-confirm" onclick="applyClearChat()"
         style="background:linear-gradient(135deg,#6b1010,#3a0808);border-color:#8b2020">
-        🗑 Confirm Clear
+              🗑 Confirm Clear
       </button>
       <button class="btn-cancel" onclick="closeClearChat()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ IMG GEN MODAL ══ -->
+<div id="imggen-modal" class="modal-bg" onclick="if(event.target===this)closeImgGen()">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-title">🖼️ AI Image Generation</div>
+    <div class="modal-desc">AI will analyze the current conversation and design a prompt to generate an image</div>
+
+    <label class="field-label" style="margin-top:.8rem">Hint Keywords <span style="color:rgba(212,160,23,.35);font-size:.7rem">(optional)</span></label>
+    <input class="text-inp" id="imggen-hint"
+      placeholder="e.g. close-up face, night scene, battle stance…">
+    <div class="field-hint">Leave blank for AI to auto-analyze the conversation; filled hints are prioritized</div>
+
+    <div id="imggen-prompt-preview" style="display:none;margin-top:.7rem;
+      background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.2);border-radius:5px;
+      padding:.55rem .75rem;font-size:.72rem;font-family:monospace;
+      color:rgba(212,160,23,.65);line-height:1.6;word-break:break-all">
+    </div>
+
+    <div id="imggen-result" style="display:none;margin-top:.8rem;text-align:center"></div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn-confirm" id="imggen-submit-btn" onclick="submitImgGen()">✨ Generate Image</button>
+      <button class="btn-cancel" onclick="closeImgGen()">Cancel</button>
     </div>
   </div>
 </div>
@@ -2970,14 +3446,14 @@ window.addEventListener('load', () => {
           </div>
         </div>
         <div class="th-color-row">
-          <div class="th-color-label">Accent color (primary)</div>
+          <div class="th-color-label">Accent (primary)</div>
           <div class="th-color-pick">
             <input type="color" class="th-cp" id="tcp-accent" oninput="onCustomColor()">
             <input class="th-color-inp" id="tinp-accent" placeholder="#d4a017" oninput="syncColorPicker('accent')">
           </div>
         </div>
         <div class="th-color-row">
-          <div class="th-color-label">Accent color (bright)</div>
+          <div class="th-color-label">Accent (bright)</div>
           <div class="th-color-pick">
             <input type="color" class="th-cp" id="tcp-accent2" oninput="onCustomColor()">
             <input class="th-color-inp" id="tinp-accent2" placeholder="#f0c040" oninput="syncColorPicker('accent2')">
@@ -3019,10 +3495,10 @@ window.addEventListener('load', () => {
       <div class="th-preview" id="th-preview-box">
         <div style="display:flex;flex-direction:column;gap:.35rem">
           <div style="text-align:right">
-            <span class="th-preview-u" id="th-prev-u">I move forward and examine the door.</span>
+            <span class="th-preview-u" id="th-prev-u">I step forward and examine the door.</span>
           </div>
           <div>
-            <span class="th-preview-a" id="th-prev-a">Behind the door lies complete darkness — cool air seeps through the gap, carrying the scent of earth.</span>
+            <span class="th-preview-a" id="th-prev-a">Beyond the door lies darkness — cool air seeps through the gap, carrying the scent of earth.</span>
           </div>
         </div>
       </div>
@@ -3060,7 +3536,6 @@ function clearAutoSave() {
 }
 
 function showRestoreBar(data) {
-  // Don't show if already in-game
   if (document.getElementById('app').classList.contains('on')) return;
   const bar = document.createElement('div');
   bar.id = 'restore-bar';
@@ -3068,18 +3543,18 @@ function showRestoreBar(data) {
     background:rgba(13,5,0,.97);border-top:1px solid var(--gold);
     padding:.75rem 1.4rem;display:flex;align-items:center;gap:.85rem;
     z-index:1000;font-size:.83rem;color:var(--gold2);flex-wrap:wrap;`;
-  const ts = data.savedAt ? new Date(data.savedAt).toLocaleString() : '';
+  const ts = data.savedAt ? new Date(data.savedAt).toLocaleString('zh-TW') : '';
   bar.innerHTML = `
-    <span>⚡ Last session found — <b>${data.history.length}</b> messages${ts ? ' · ' + ts : ''}</span>
+    <span>⚡ Previous session found — <b>${data.history.length}</b> messages${ts ? ' · ' + ts : ''}</span>
     <button onclick="doRestore()" style="padding:.32rem .9rem;background:rgba(212,160,23,.18);
       border:1px solid var(--gold);color:var(--gold2);border-radius:5px;cursor:pointer;
-      font-family:'Cinzel',serif;font-weight:900;font-size:.8rem;letter-spacing:.05em">
-      ⚡ Restore
+      font-family:'Noto Serif TC',serif;font-weight:900;font-size:.8rem;letter-spacing:.05em">
+            ⚡ Restore Progress
     </button>
     <button onclick="document.getElementById('restore-bar').remove()" style="padding:.32rem .75rem;
       background:transparent;border:1px solid rgba(212,160,23,.28);
       color:rgba(212,160,23,.5);border-radius:5px;cursor:pointer;font-size:.8rem">
-      Dismiss
+            Dismiss
     </button>`;
   document.body.appendChild(bar);
   window._pendingRestore = data;
@@ -3090,13 +3565,15 @@ function doRestore() {
   if (bar) bar.remove();
   if (window._pendingRestore) {
     restoreFromData(window._pendingRestore);
-    toast('⚡ Session restored — ' + hist.length + ' messages');
+    toast('⚡ Progress restored, ' + hist.length + ' messages');
   }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   initThemeSwatches();
+  // Handle BYOP redirect (api_key in URL fragment)
   byopHandleRedirect();
+  // Restore previously connected key from localStorage
   byopRestoreFromStorage();
 
   // Try to restore from localStorage
@@ -3118,10 +3595,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // IMG GEN SYSTEM
 // ══════════════════════════════════════════════
 
 function openImgGen() {
+  // Reset state
   document.getElementById('imggen-hint').value = '';
   document.getElementById('imggen-prompt-preview').style.display = 'none';
   document.getElementById('imggen-prompt-preview').textContent = '';
@@ -3138,8 +3617,8 @@ function closeImgGen() {
 }
 
 async function submitImgGen() {
-  const hint    = document.getElementById('imggen-hint').value.trim();
-  const btn     = document.getElementById('imggen-submit-btn');
+  const hint = document.getElementById('imggen-hint').value.trim();
+  const btn  = document.getElementById('imggen-submit-btn');
   const preview = document.getElementById('imggen-prompt-preview');
   const result  = document.getElementById('imggen-result');
 
@@ -3148,6 +3627,7 @@ async function submitImgGen() {
   preview.style.display = 'none';
   result.style.display = 'none';
 
+  // Build recent context (last 6 messages)
   const recentHist = hist.slice(-6).map(m =>
     `${m.role === 'user' ? 'Player' : 'GM'}: ${m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').slice(0,300)}`
   ).join('\n');
@@ -3160,15 +3640,17 @@ async function submitImgGen() {
 ${promptInstruction}
 
 Rules:
-1. Output only the prompt itself — no explanation, no preamble, no punctuation wrapping.
-2. All English, mostly nouns and adjectives, comma-separated.
-3. Style references: high quality, detailed, cinematic lighting, anime style (adjust to scene).
-4. Avoid NSFW terms: replace alluring/sexy → charming; dim room → softly lit room.
-5. Prompt length: roughly 15–30 words.`;
+1. Output only the prompt — no explanation, no preamble.
+2. All English, nouns and adjectives, comma-separated.
+3. Style: high quality, detailed, cinematic lighting, anime style.
+4. Avoid NSFW: no alluring/sexy → charming; no dim room → softly lit room.
+5. Length: roughly 15–30 words.`;
 
   try {
+    // Call AI to generate prompt
     let generatedPrompt = '';
-    const messages = [{ role: 'user', content: `[Recent Dialogue]\n${recentHist}\n\nPlease design the image prompt:` }];
+    const SYS = sysPrompt;
+    const messages = [{ role: 'user', content: `[Recent Conversation]\n${recentHist}\n\nPlease design an image prompt:` }];
 
     let resp;
     if (cfg.provider === 'anthropic') {
@@ -3176,7 +3658,7 @@ Rules:
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': cfg.key,
           'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: cfg.model, max_tokens: 200, system: sysPrompt, messages })
+        body: JSON.stringify({ model: cfg.model, max_tokens: 200, system: SYS, messages })
       });
       const d = await resp.json();
       if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
@@ -3187,7 +3669,7 @@ Rules:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: sysPrompt }] },
+          system_instruction: { parts: [{ text: SYS }] },
           contents: messages.map(m => ({ role: 'user', parts: [{ text: m.content }] })),
           generationConfig: { maxOutputTokens: 200 }
         })
@@ -3201,32 +3683,36 @@ Rules:
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
         body: JSON.stringify({ model: cfg.model, max_tokens: 200,
-          messages: [{ role: 'system', content: sysPrompt }, ...messages] })
+          messages: [{ role: 'system', content: SYS }, ...messages] })
       });
       const d = await resp.json();
       if (!resp.ok) throw new Error(d.error?.message || 'HTTP ' + resp.status);
       generatedPrompt = d.choices[0].message.content.trim();
     }
 
+    // Clean up prompt (remove quotes, newlines)
     generatedPrompt = generatedPrompt.replace(/^["'`]|["'`]$/g, '').replace(/\n/g, ', ').trim();
 
+    // Show prompt preview
     preview.textContent = '📝 ' + generatedPrompt;
     preview.style.display = 'block';
-    preview.style.color = 'rgba(212,160,23,.65)';
-    btn.textContent = '⏳ Generating image…';
 
+    btn.textContent = '⏳ Generating…';
+
+    // Call Pollinations
     const encodedPrompt = encodeURIComponent(generatedPrompt);
     const model  = encodeURIComponent(gameCfg.imgModel || 'flux');
     const key    = encodeURIComponent(gameCfg.imgKey);
     const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?model=${model}&width=1024&height=1024&seed=${Math.floor(Math.random()*99999)}&enhance=false&key=${key}`;
 
+    // Insert image into chat as a message
     const imgHtml = `<div style="text-align:center">
       <div style="font-size:.7rem;color:rgba(212,160,23,.4);margin-bottom:.4rem">🖼️ ${generatedPrompt.replace(/</g,'&lt;')}</div>
       <img src="${imgUrl}" alt="Generating…"
         style="max-width:100%;border-radius:8px;border:1px solid var(--border);
         box-shadow:0 4px 16px rgba(0,0,0,.6);opacity:0;transition:opacity .5s"
         onload="this.style.opacity=1"
-        onerror="this.outerHTML='<div style=&quot;color:#f66;font-size:.78rem&quot;>❌ Image failed to load — please check your API Key</div>'">
+        onerror="this.outerHTML='<div style=&quot;color:#f66;font-size:.78rem&quot;>❌ Image failed to load — please check your Key</div>'">
     </div>`;
 
     addMsg('a', imgHtml);
@@ -3241,212 +3727,255 @@ Rules:
   }
 }
 
-// ── Image settings in-game ──
-// ── BYOP (Bring Your Own Pollen) ──
-const BYOP_APP_KEY = 'pk_PVAArMGnDai1cYVd';
-const BYOP_LS_KEY  = 'rpgengine_byop_key_en';
-
-function byopAuth() {
-  const params = new URLSearchParams({
-    redirect_url: 'https://yuuki8763.github.io/en/index.html',
-    app_key: BYOP_APP_KEY,
-    models: 'flux,turbo,nanobanana',
-    expiry: '30',
-  });
-  window.location.href = `https://enter.pollinations.ai/authorize?${params}`;
-}
-
-function byopDisconnect() {
-  gameCfg.imgKey = '';
-  gameCfg.imgEnabled = false;
-  localStorage.removeItem(BYOP_LS_KEY);
-  updateByopUI(false);
-  const tog = document.getElementById('ig-tog-img');
-  if (tog) tog.checked = false;
-  document.getElementById('img-gen-btn').style.display = 'none';
-  toast('🔗 Disconnected from Pollinations');
-}
-
-function updateByopUI(connected) {
-  const status = document.getElementById('byop-status');
-  const btn    = document.getElementById('byop-btn');
-  const imgSet = document.getElementById('img-settings');
-  if (status) status.style.display = connected ? 'flex' : 'none';
-  if (btn)    btn.style.display    = connected ? 'none' : 'flex';
-  if (imgSet) imgSet.style.display = connected ? 'block' : 'none';
-  const badge  = document.getElementById('ig-byop-badge');
-  const igBtn  = document.getElementById('ig-byop-btn');
-  const igTog  = document.getElementById('ig-tog-img');
-  if (badge) badge.textContent = connected ? '✅ Connected to Pollinations' : '🔗 Not connected';
-  if (igBtn) igBtn.textContent = connected ? '🔗 Re-authorize' : '🌼 Connect Pollinations';
-  if (igTog) igTog.checked = connected && !!gameCfg.imgEnabled;
-  const genBtn = document.getElementById('img-gen-btn');
-  if (genBtn) genBtn.style.display = (connected && gameCfg.imgEnabled) ? '' : 'none';
-}
-
-function byopHandleRedirect() {
-  const hash = window.location.hash;
-  if (!hash) return;
-  const params = new URLSearchParams(hash.slice(1));
-  const key = params.get('api_key');
-  if (!key) return;
-  gameCfg.imgKey = key;
-  gameCfg.imgEnabled = true;
-  try { localStorage.setItem(BYOP_LS_KEY, key); } catch(e) {}
-  history.replaceState(null, '', window.location.pathname + window.location.search);
-  updateByopUI(true);
-  const genBtn = document.getElementById('img-gen-btn');
-  if (genBtn && document.getElementById('app').classList.contains('on')) genBtn.style.display = '';
-  toast('✅ Pollinations connected! Image generation enabled');
-}
-
-function byopRestoreFromStorage() {
-  try {
-    const key = localStorage.getItem(BYOP_LS_KEY);
-    if (key) { gameCfg.imgKey = key; gameCfg.imgEnabled = true; updateByopUI(true); }
-  } catch(e) {}
-}
-
-function applyImgSettings() {
-  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
-  gameCfg.imgModel = model;
-  closeSidePanel('img-panel');
-  toast('✅ Image model updated: ' + model);
-}
-
-function toggleImgIG(checked) {
-  if (checked && !gameCfg.imgKey) {
-    document.getElementById('ig-tog-img').checked = false;
-    toast('⚠ Please connect Pollinations first');
-    return;
-  }
-  gameCfg.imgEnabled = checked && !!gameCfg.imgKey;
-  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
-  toast(gameCfg.imgEnabled ? '🖼️ Image gen enabled' : '🖼️ Image gen disabled');
-}
-
-// ── Side Panel helpers ──
-function openSidePanel(id) {
-  if (id === 'img-panel') {
-    document.getElementById('ig-img-model').value = gameCfg.imgModel || 'flux';
-  }
-  if (id === 'bgm-panel') {
-    document.getElementById('ig-bgm-url').value =
-      (bgmState.type === 'url') ? document.getElementById('bgm-audio').src : '';
-  }
-  document.getElementById(id).classList.add('open');
-}
-function closeSidePanel(id) {
-  document.getElementById(id).classList.remove('open');
-}
-
-// ── Re-render helpers ──
-function toggleRenderTags(checked) {
-  gameCfg.renderTags = checked;
-  reRenderAllMsgs();
-}
-function reRenderAllMsgs() {
-  document.querySelectorAll('.msg.a').forEach(el => {
-    const raw = el.dataset.raw;
-    if (raw) {
-      const disp = raw.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
-      el.querySelector('.bbl').innerHTML = renderNarrative(disp);
-    }
-  });
-}
-
-// ── Custom Color Tags (dynamic, unlimited) ──
-let _ctagCount = 0;
-const CTAG_PRESET_COLORS = ['#e8c97a','#7abbe8','#7ae8a0','#e87ab0','#c87ae8','#e8a07a','#a0e8e8','#e8e87a'];
-
-function addCtagRow(name='', color='') {
-  const idx = _ctagCount++;
-  const c = color || CTAG_PRESET_COLORS[idx % CTAG_PRESET_COLORS.length];
-  const container = document.getElementById('ctag-rows');
-  if (!container) return;
-  const div = document.createElement('div');
-  div.className = 'ctag-item';
-  div.id = `ctag-row-${idx}`;
-  div.innerHTML = `
-    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
-    <input class="ctag-name-inp" placeholder="Purpose, e.g.: NPC dialogue, narration…" value="${name.replace(/"/g,'&quot;')}">
-    <input type="color" class="ctag-color" value="${c}" title="Pick color">
-    <button onclick="removeCtagRow(${idx})" title="Remove"
-      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
-      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
-  container.appendChild(div);
-}
-
-function removeCtagRow(idx) {
-  const el = document.getElementById(`ctag-row-${idx}`);
-  if (el) el.remove();
-}
-
-function readCustomTags() {
-  const tags = [];
-  const container = document.getElementById('ctag-rows');
-  if (!container) return tags;
-  container.querySelectorAll('.ctag-item').forEach((row, i) => {
-    const name  = (row.querySelector('.ctag-name-inp')?.value || '').trim();
-    const color = row.querySelector('.ctag-color')?.value || '#ffffff';
-    if (name) tags.push({ name, color, slot: i + 1 });
-  });
-  return tags;
-}
-
-function restoreCustomTagsUI(tags) {
-  _ctagCount = 0;
-  const container = document.getElementById('ctag-rows');
-  if (!container) return;
-  container.innerHTML = '';
-  tags.forEach(t => addCtagRow(t.name || '', t.color || ''));
-}
-
-// ── In-game ctag panel ──
-let _igCtagCount = 0;
-
-function openCtagPanel() {
-  _igCtagCount = 0;
-  const container = document.getElementById('ig-ctag-rows');
-  container.innerHTML = '';
-  gameCfg.customTags.forEach(t => igAddCtagRow(t.name, t.color));
-  document.getElementById('ctag-panel').classList.add('open');
-}
-
-function igAddCtagRow(name='', color='') {
-  const idx = _igCtagCount++;
-  const c = color || CTAG_PRESET_COLORS[idx % CTAG_PRESET_COLORS.length];
-  const container = document.getElementById('ig-ctag-rows');
-  if (!container) return;
-  const div = document.createElement('div');
-  div.className = 'ctag-item';
-  div.id = `ig-ctag-row-${idx}`;
-  div.innerHTML = `
-    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
-    <input class="ctag-name-inp" placeholder="Purpose, e.g.: NPC dialogue…" value="${name.replace(/"/g,'&quot;')}">
-    <input type="color" class="ctag-color" value="${c}" title="Pick color">
-    <button onclick="document.getElementById('ig-ctag-row-${idx}').remove()" title="Remove"
-      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
-      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
-  container.appendChild(div);
-}
-
-function applyCtagPanel() {
-  const container = document.getElementById('ig-ctag-rows');
-  const tags = [];
-  container.querySelectorAll('.ctag-item').forEach((row, i) => {
-    const name  = (row.querySelector('.ctag-name-inp')?.value || '').trim();
-    const color = row.querySelector('.ctag-color')?.value || '#ffffff';
-    if (name) tags.push({ name, color, slot: i + 1 });
-  });
-  gameCfg.customTags = tags;
-  restoreCustomTagsUI(tags);
-  closeSidePanel('ctag-panel');
-  reRenderAllMsgs();
-  toast(`✅ Color tags updated (${tags.length} tag${tags.length!==1?'s':''})`);
-}
-
 // ══════════════════════════════════════════════
+// IMAGE SYSTEM
+// ══════════════════════════════════════════════
+let imgState = {
+  library: [],
+  current: -1,
+  autoKw: true,
+  floatVisible: false,
+};
+let _imgIdCnt = 0;
+
+// ── Float drag ──
+(function(){
+  let dragging=false, ox=0, oy=0;
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const bar=document.getElementById('img-float-bar');
+    if(!bar) return;
+    const move = (cx,cy) => {
+      if(!dragging) return;
+      const fl=document.getElementById('img-float');
+      let nx=cx-ox, ny=cy-oy;
+      nx=Math.max(0,Math.min(window.innerWidth-fl.offsetWidth,nx));
+      ny=Math.max(0,Math.min(window.innerHeight-fl.offsetHeight,ny));
+      fl.style.left=nx+'px'; fl.style.top=ny+'px';
+      fl.style.right='auto'; fl.style.bottom='auto';
+    };
+    bar.addEventListener('mousedown', e=>{
+      if(e.target.closest('button')) return;
+      dragging=true;
+      const r=document.getElementById('img-float').getBoundingClientRect();
+      ox=e.clientX-r.left; oy=e.clientY-r.top; e.preventDefault();
+    });
+    bar.addEventListener('touchstart', e=>{
+      if(e.target.closest('button')) return;
+      dragging=true;
+      const r=document.getElementById('img-float').getBoundingClientRect();
+      const t=e.touches[0]; ox=t.clientX-r.left; oy=t.clientY-r.top;
+    }, {passive:true});
+    document.addEventListener('mousemove', e=>move(e.clientX,e.clientY));
+    document.addEventListener('touchmove', e=>{
+      if(!dragging) return;
+      const t=e.touches[0]; move(t.clientX,t.clientY);
+    }, {passive:true});
+    document.addEventListener('mouseup', ()=>dragging=false);
+    document.addEventListener('touchend', ()=>dragging=false);
+  });
+})();
+
+// ── Float resize ──
+(function(){
+  let resizing=false, startX=0, startY=0, startW=0, startH=0;
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const rh=document.getElementById('img-float-resize');
+    if(!rh) return;
+    rh.addEventListener('mousedown', e=>{
+      resizing=true;
+      startX=e.clientX; startY=e.clientY;
+      const fl=document.getElementById('img-float');
+      startW=fl.offsetWidth; startH=fl.offsetHeight;
+      e.preventDefault(); e.stopPropagation();
+    });
+    document.addEventListener('mousemove', e=>{
+      if(!resizing) return;
+      const fl=document.getElementById('img-float');
+      const w=Math.max(140,Math.min(window.innerWidth-40, startW+(e.clientX-startX)));
+      const h=Math.max(100,Math.min(window.innerHeight-40, startH+(e.clientY-startY)));
+      fl.style.width=w+'px'; fl.style.height=h+'px';
+    });
+    document.addEventListener('mouseup', ()=>resizing=false);
+    // Touch support
+    rh.addEventListener('touchstart', e=>{
+      resizing=true;
+      const t=e.touches[0]; startX=t.clientX; startY=t.clientY;
+      const fl=document.getElementById('img-float');
+      startW=fl.offsetWidth; startH=fl.offsetHeight;
+    }, {passive:true});
+    document.addEventListener('touchmove', e=>{
+      if(!resizing) return;
+      const t=e.touches[0];
+      const fl=document.getElementById('img-float');
+      const w=Math.max(140,Math.min(window.innerWidth-40, startW+(t.clientX-startX)));
+      const h=Math.max(100,Math.min(window.innerHeight-40, startH+(t.clientY-startY)));
+      fl.style.width=w+'px'; fl.style.height=h+'px';
+    }, {passive:true});
+    document.addEventListener('touchend', ()=>resizing=false);
+  });
+})();
+
+function imgFloatToggle() {
+  const fl=document.getElementById('img-float');
+  imgState.floatVisible=!imgState.floatVisible;
+  fl.classList.toggle('visible', imgState.floatVisible);
+  if(imgState.floatVisible && imgState.current<0 && imgState.library.length) imgFloatShow(0);
+}
+function imgFloatClose() {
+  imgState.floatVisible=false;
+  document.getElementById('img-float').classList.remove('visible');
+}
+function imgFloatShrink() {
+  const fl=document.getElementById('img-float');
+  const shrunk=fl.dataset.shrunk==='1';
+  if(shrunk){ fl.style.height=''; fl.dataset.shrunk='0'; }
+  else { fl.style.height='36px'; fl.dataset.shrunk='1'; }
+}
+function imgFloatShow(idx) {
+  if(!imgState.library.length) return;
+  idx=((idx%imgState.library.length)+imgState.library.length)%imgState.library.length;
+  imgState.current=idx;
+  const item=imgState.library[idx];
+  const el=document.getElementById('img-float-img');
+  el.classList.add('loading');
+  el.onload=()=>el.classList.remove('loading');
+  el.src=item.src;
+  document.getElementById('img-float-title').textContent=item.name||'Image '+(idx+1);
+  document.getElementById('img-float-counter').textContent=(idx+1)+' / '+imgState.library.length;
+  if(!imgState.floatVisible){ imgState.floatVisible=true; document.getElementById('img-float').classList.add('visible'); }
+  imgMgrRenderList();
+}
+function imgFloatNext(){ imgFloatShow(imgState.current+1); }
+function imgFloatPrev(){ imgFloatShow(imgState.current-1); }
+
+// ── Library ──
+function imgMgrAdd(nameVal, urlVal, kwVal) {
+  const name = nameVal!==undefined?nameVal:document.getElementById('imgmgr-name').value.trim();
+  const url  = urlVal!==undefined ?urlVal :document.getElementById('imgmgr-url').value.trim();
+  const kwRaw= kwVal!==undefined  ?kwVal  :document.getElementById('imgmgr-keywords').value.trim();
+  if(!url){ toast('⚠ Please enter an image URL or upload a file'); return; }
+  const keywords=kwRaw?kwRaw.split(/[,，\s]+/).map(k=>k.trim()).filter(Boolean):[];
+  const item={id:'img'+(++_imgIdCnt), name:name||'Image'+_imgIdCnt, src:url, keywords};
+  imgState.library.push(item);
+  ['imgmgr-name','imgmgr-url','imgmgr-keywords'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  imgMgrRenderList();
+  if(imgState.library.length===1) imgFloatShow(0);
+  toast('✅ Added: '+item.name);
+  autoSave();
+}
+function imgMgrFromFile(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('imgmgr-url').value=ev.target.result;
+    if(!document.getElementById('imgmgr-name').value)
+      document.getElementById('imgmgr-name').value=file.name.replace(/\.[^.]+$/,'');
+    toast('📂 Image loaded — click Add to add to library');
+  };
+  r.readAsDataURL(file); e.target.value='';
+}
+function imgMgrRemove(id) {
+  imgState.library=imgState.library.filter(x=>x.id!==id);
+  if(imgState.current>=imgState.library.length) imgState.current=imgState.library.length-1;
+  imgMgrRenderList();
+  if(!imgState.library.length) imgFloatClose();
+  else imgFloatShow(imgState.current);
+  autoSave();
+}
+function imgMgrRenderList() {
+  const list=document.getElementById('imgmgr-list'); if(!list) return;
+  list.innerHTML='';
+  imgState.library.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='img-slot'+(i===imgState.current?' active':'');
+    div.innerHTML=`<img class="img-slot-thumb" src="${item.src}" alt="" loading="lazy">
+      <div class="img-slot-info" onclick="imgFloatShow(${i})" style="cursor:pointer">
+        <div class="img-slot-name">${item.name}</div>
+        <div class="img-slot-kw">${item.keywords.length?'🔑 '+item.keywords.join(', '):'(no keywords)'}</div>
+      </div>
+      <button class="img-slot-del" onclick="imgMgrRemove('${item.id}')" title="Remove">🗑</button>`;
+    list.appendChild(div);
+  });
+  const el=document.getElementById('imgmgr-count'); if(el) el.textContent=imgState.library.length+' images';
+  // lib chips in insert modal
+  const chips=document.getElementById('chat-img-lib-chips');
+  const pick=document.getElementById('chat-img-lib-pick');
+  if(chips&&pick){
+    pick.style.display=imgState.library.length?'block':'none';
+    chips.innerHTML='';
+    imgState.library.forEach((item,i)=>{
+      const sp=document.createElement('span');
+      sp.className='fx-chip'; sp.textContent=item.name;
+      sp.onclick=()=>{ document.getElementById('chat-img-url-inp').value=item.src; };
+      chips.appendChild(sp);
+    });
+  }
+}
+
+// ── Keyword auto-switch ──
+function imgCheckKeywords(text) {
+  if(!imgState.autoKw||!imgState.library.length) return;
+  const lower=text.toLowerCase();
+  let bestIdx=-1, bestCount=0;
+  imgState.library.forEach((item,i)=>{
+    if(!item.keywords.length) return;
+    const count=item.keywords.filter(k=>lower.includes(k.toLowerCase())).length;
+    if(count>bestCount){ bestCount=count; bestIdx=i; }
+  });
+  if(bestIdx>=0&&bestIdx!==imgState.current) imgFloatShow(bestIdx);
+}
+
+// ── Chat inline image ──
+function openChatImgInsert() {
+  imgMgrRenderList();
+  document.getElementById('chat-img-modal').style.display='flex';
+}
+function closeChatImgModal() {
+  document.getElementById('chat-img-modal').style.display='none';
+  document.getElementById('chat-img-url-inp').value='';
+}
+function chatImgInsertFromModal() {
+  const url=document.getElementById('chat-img-url-inp').value.trim();
+  if(!url){ toast('⚠ Please enter an image URL or upload a file'); return; }
+  insertChatImage(url); closeChatImgModal();
+}
+function chatImgFromFile(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader(); r.onload=ev=>insertChatImage(ev.target.result);
+  r.readAsDataURL(file); e.target.value='';
+}
+function chatImgFromFile2(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader(); r.onload=ev=>{ document.getElementById('chat-img-url-inp').value=ev.target.result; };
+  r.readAsDataURL(file); e.target.value='';
+}
+function insertChatImage(src) {
+  const id='cimg'+(++_imgIdCnt);
+  const div=document.createElement('div');
+  div.className='msg a msg-wrap';
+  div.dataset.raw='[CHAT_IMG]';
+  div.innerHTML=`<div class="bbl" style="background:transparent!important;border:none!important;padding:.3rem 0!important">
+    <div class="chat-img-wrap" id="${id}">
+      <img src="${src}" alt="Inserted image" loading="lazy">
+      <button class="chat-img-remove" onclick="document.getElementById('${id}').closest('.msg')?.remove()" title="Remove">✕</button>
+    </div></div>`;
+  const msgs=document.getElementById('msgs');
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
+  toast('🖼 Image inserted to chat');
+}
+
+// ── Save/Restore imgState ──
+function imgRestoreFromSave(data) {
+  if(!data.imgState) return;
+  imgState.library=data.imgState.library||[];
+  imgState.autoKw=data.imgState.autoKw!==false;
+  imgState.current=data.imgState.current??-1;
+  _imgIdCnt=data.imgState.idCnt||imgState.library.length;
+  const tog=document.getElementById('imgmgr-auto-kw');
+  if(tog) tog.checked=imgState.autoKw;
+  imgMgrRenderList();
+}
+
 // BGM SYSTEM
 // ══════════════════════════════════════════════
 let bgmState = { type: 'none', isPlaying: false };
@@ -3465,6 +3994,7 @@ function initBGM() {
       badge.textContent = '🎵 ' + fileInp.files[0].name;
       updateBGMBtn();
     }).catch(e => console.warn('BGM autoplay blocked:', e));
+
   } else if (urlInp) {
     const audio = document.getElementById('bgm-audio');
     audio.src = urlInp;
@@ -3474,10 +4004,12 @@ function initBGM() {
       badge.textContent = '🎵 Audio stream';
       updateBGMBtn();
     }).catch(e => console.warn('BGM autoplay blocked:', e));
+
   } else {
     updateBGMBtn();
   }
 
+  // Sync img sidebar toggle
   const igTogImg = document.getElementById('ig-tog-img');
   if (igTogImg) igTogImg.checked = !!gameCfg.imgEnabled;
 }
@@ -3512,6 +4044,359 @@ function updateBGMBtn() {
   }
 }
 
+// ── Side Panel helpers ──
+function openSidePanel(id) {
+  if (id === 'img-panel') {
+    document.getElementById('ig-img-model').value = gameCfg.imgModel || 'flux';
+  }
+  if (id === 'bgm-panel') {
+    document.getElementById('ig-bgm-url').value =
+      (bgmState.type === 'url') ? document.getElementById('bgm-audio').src : '';
+    const v = bgmState.vol ?? 45;
+    const sl = document.getElementById('bgm-vol');
+    const vl = document.getElementById('bgm-vol-val');
+    if (sl) sl.value = v;
+    if (vl) vl.textContent = v + '%';
+  }
+  if (id === 'fx-panel') fxSyncUI();
+  document.getElementById(id).classList.add('open');
+}
+function closeSidePanel(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ══════════════════════════════════════════════
+// VISUAL FX SYSTEM
+// ══════════════════════════════════════════════
+const FX_DEFAULTS = { anim:'', bg:'', text:'', bbl:'', scan:'', glitch:'', theme:'' };
+if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+
+document.addEventListener('click', e => {
+  const chip = e.target.closest('.fx-chip');
+  if (!chip) return;
+  const fx  = chip.dataset.fx;
+  const val = chip.dataset.val;
+  if (fx === undefined) return;
+  fxApply(fx, val);
+});
+
+function fxApply(fx, val) {
+  if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+  gameCfg.fx[fx] = val;
+  const msgs = document.getElementById('msgs');
+  const body = document.body;
+
+  if (fx === 'anim') {
+    msgs.classList.remove('fx-anim-fade','fx-anim-slide','fx-anim-type','fx-bounce','fx-heartbeat');
+    if (val === 'fade')      msgs.classList.add('fx-anim-fade');
+    else if (val === 'slide')msgs.classList.add('fx-anim-slide');
+    else if (val === 'type') msgs.classList.add('fx-anim-type');
+    else if (val === 'bounce')    msgs.classList.add('fx-bounce');
+    else if (val === 'heartbeat') msgs.classList.add('fx-heartbeat');
+  }
+  if (fx === 'bg') {
+    fxStopBg();
+    const canvas = document.getElementById('fx-canvas');
+    if (val) { canvas.classList.add('active'); fxStartBg(val); }
+    else canvas.classList.remove('active');
+  }
+  if (fx === 'text') {
+    msgs.classList.remove('fx-text-glow','fx-text-shadow','fx-text-grad');
+    if (val) msgs.classList.add('fx-text-'+val);
+  }
+  if (fx === 'bbl') {
+    msgs.classList.remove('fx-bbl-parchment','fx-bbl-neon','fx-bbl-slate',
+      'fx-bbl-hacker','fx-bbl-chat','fx-bbl-live','fx-bbl-glass');
+    if (val) msgs.classList.add('fx-bbl-'+val);
+  }
+  if (fx === 'scan') {
+    body.classList.remove('fx-scanline','fx-scanline-bar');
+    if (val === 'on') body.classList.add('fx-scanline','fx-scanline-bar');
+  }
+  if (fx === 'glitch') {
+    msgs.classList.remove('fx-glitch');
+    body.classList.remove('fx-glitch-global');
+    if (val === 'bbl')    msgs.classList.add('fx-glitch');
+    if (val === 'global') body.classList.add('fx-glitch-global');
+  }
+  if (fx === 'theme') {
+    body.classList.remove('fx-theme-dynamic');
+    if (val === 'drift') body.classList.add('fx-theme-dynamic');
+  }
+
+  fxSyncUI();
+  autoSave();
+}
+
+function fxSyncUI() {
+  if (!gameCfg.fx) return;
+  Object.keys(FX_DEFAULTS).forEach(fx => {
+    const cur = gameCfg.fx[fx] ?? '';
+    document.querySelectorAll(`.fx-chip[data-fx="${fx}"]`).forEach(c => {
+      c.classList.toggle('on', c.dataset.val === cur);
+    });
+  });
+}
+
+function fxRestoreAll() {
+  if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+  Object.entries(gameCfg.fx).forEach(([fx, val]) => fxApply(fx, val || ''));
+}
+
+function fxResetAll() {
+  Object.keys(FX_DEFAULTS).forEach(fx => fxApply(fx, ''));
+  toast('✨ All effects turned off');
+}
+
+// ── Typewriter for addMsg ──
+function fxTypeMsg(el) {
+  if (gameCfg.fx?.anim !== 'type') return;
+  const bbl = el.querySelector('.bbl');
+  if (!bbl || el.classList.contains('u')) return;
+
+  // Collect all text nodes in DOM order
+  const walker = document.createTreeWalker(bbl, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) textNodes.push(node);
+  if (!textNodes.length) return;
+
+  // Store original text, blank them all out first
+  const originals = textNodes.map(n => { const t = n.textContent; n.textContent = ''; return t; });
+
+  let ni = 0, ci = 0;
+  const tick = () => {
+    if (ni >= textNodes.length) return;
+    const full = originals[ni];
+    textNodes[ni].textContent = full.slice(0, ++ci);
+    if (ci >= full.length) { ni++; ci = 0; }
+    setTimeout(tick, 14);
+  };
+  tick();
+}
+
+// ── Background FX engine ──
+let _fxBgRaf = null;
+let _fxBgCtx = null;
+let _fxBgParticles = [];
+
+function fxStopBg() {
+  if (_fxBgRaf) { cancelAnimationFrame(_fxBgRaf); _fxBgRaf = null; }
+  _fxBgParticles = [];
+  const c = document.getElementById('fx-canvas');
+  if (_fxBgCtx) _fxBgCtx.clearRect(0,0,c.width,c.height);
+}
+
+function fxStartBg(type) {
+  const canvas = document.getElementById('fx-canvas');
+  _fxBgCtx = canvas.getContext('2d');
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (type === 'particles') fxLoopParticles(canvas, _fxBgCtx, false, false);
+  if (type === 'stars')     fxLoopStars(canvas, _fxBgCtx);
+  if (type === 'snow')      fxLoopParticles(canvas, _fxBgCtx, true, false);
+  if (type === 'fire')      fxLoopFire(canvas, _fxBgCtx);
+}
+
+function fxMakeParticles(canvas, isSnow) {
+  const n = isSnow ? 120 : 60;
+  const arr = [];
+  for (let i=0;i<n;i++) arr.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*(isSnow?3:2)+1,
+    vx: (Math.random()-.5)*(isSnow?.6:1.2),
+    vy: Math.random()*(isSnow?.8:-.4)-(isSnow?0:.4),
+    a: Math.random()*.7+.1,
+    hue: isSnow?0: Math.random()*60+20,
+  });
+  return arr;
+}
+
+function fxLoopParticles(canvas, ctx, isSnow) {
+  if (!_fxBgParticles.length) _fxBgParticles = fxMakeParticles(canvas, isSnow);
+  const draw = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _fxBgParticles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      if (isSnow) ctx.fillStyle=`rgba(200,220,255,${p.a})`;
+      else ctx.fillStyle=`hsla(${p.hue},80%,70%,${p.a})`;
+      ctx.fill();
+      p.x+=p.vx; p.y+=p.vy;
+      if (p.y < -5) p.y=canvas.height+5;
+      if (p.y > canvas.height+5) p.y=-5;
+      if (p.x < -5) p.x=canvas.width+5;
+      if (p.x > canvas.width+5) p.x=-5;
+    });
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+function fxLoopStars(canvas, ctx) {
+  if (!_fxBgParticles.length) {
+    for(let i=0;i<180;i++) _fxBgParticles.push({
+      x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+      r:Math.random()*1.5+.3, a:Math.random(), da:(Math.random()-.5)*.015,
+    });
+  }
+  const draw = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _fxBgParticles.forEach(p => {
+      p.a = Math.max(.05, Math.min(.95, p.a+p.da));
+      if (p.a<=.05||p.a>=.95) p.da*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,240,200,${p.a})`;
+      ctx.fill();
+    });
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+function fxLoopFire(canvas, ctx) {
+  const cols = Math.floor(canvas.width/4)+2;
+  const rows = Math.floor(canvas.height/4)+2;
+  let buf = new Uint8Array(cols*rows).fill(0);
+  let buf2= new Uint8Array(cols*rows).fill(0);
+
+  const FIRE_COLORS=[];
+  for(let i=0;i<256;i++){
+    const r=Math.min(255,i*3);
+    const g=Math.max(0,Math.min(255,(i-80)*3));
+    const b=0; const a=Math.min(255,i*1.5);
+    FIRE_COLORS.push(`rgba(${r},${g},${b},${(a/255).toFixed(2)})`);
+  }
+
+  const draw = () => {
+    // seed bottom
+    for(let x=0;x<cols;x++) buf[(rows-1)*cols+x]=Math.random()>0.4?200+Math.random()*55|0:0;
+    // spread upward
+    for(let y=0;y<rows-1;y++) for(let x=0;x<cols;x++){
+      const sum=buf[(y+1)*cols+((x-1+cols)%cols)]+buf[(y+1)*cols+x]+
+                buf[(y+1)*cols+((x+1)%cols)]+buf[Math.min(rows-1,y+2)*cols+x];
+      buf2[y*cols+x]=Math.max(0,(sum>>2)-1);
+    }
+    [buf,buf2]=[buf2,buf];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const cw=canvas.width/cols, ch=canvas.height/rows;
+    for(let y=0;y<rows;y++) for(let x=0;x<cols;x++){
+      const v=buf[y*cols+x];
+      if(v<5) continue;
+      ctx.fillStyle=FIRE_COLORS[Math.min(255,v)];
+      ctx.fillRect(x*cw,y*ch,cw+1,ch+1);
+    }
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+// ── Image settings in-game apply ──
+function applyImgSettings() {
+  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
+  gameCfg.imgModel = model;
+  closeSidePanel('img-panel');
+  toast('✅ Image model updated: ' + model);
+}
+
+// ── BYOP (Bring Your Own Pollen) ──
+const BYOP_APP_KEY = 'pk_4qvSJZe3YkJ7vzGR';
+const BYOP_LS_KEY  = 'rpgengine_byop_key';
+
+function byopAuth() {
+  // Save current scroll/state before leaving
+  const params = new URLSearchParams({
+    redirect_url: 'https://yuuki8763.github.io/index.html',
+    app_key: BYOP_APP_KEY,
+    models: 'flux,turbo,nanobanana',
+    expiry: '30',
+  });
+  window.location.href = `https://enter.pollinations.ai/authorize?${params}`;
+}
+
+function byopDisconnect() {
+  gameCfg.imgKey = '';
+  gameCfg.imgEnabled = false;
+  localStorage.removeItem(BYOP_LS_KEY);
+  updateByopUI(false);
+  const tog = document.getElementById('ig-tog-img');
+  if (tog) tog.checked = false;
+  document.getElementById('img-gen-btn').style.display = 'none';
+  toast('🔗 Disconnected from Pollinations');
+}
+
+function updateByopUI(connected) {
+  // Splash
+  const status  = document.getElementById('byop-status');
+  const btn     = document.getElementById('byop-btn');
+  const imgSet  = document.getElementById('img-settings');
+  if (status) status.style.display = connected ? 'flex' : 'none';
+  if (btn)    btn.style.display    = connected ? 'none' : 'flex';
+  if (imgSet) imgSet.style.display = connected ? 'block' : 'none';
+  // Sidebar
+  const badge   = document.getElementById('ig-byop-badge');
+  const igBtn   = document.getElementById('ig-byop-btn');
+  const igTog   = document.getElementById('ig-tog-img');
+  if (badge) badge.textContent = connected ? '✅ Connected to Pollinations' : '🔗 Not connected to Pollinations';
+  if (igBtn) { igBtn.textContent = connected ? '🔗 Re-authorize' : '🌼 Connect Pollinations'; }
+  if (igTog) igTog.checked = connected && !!gameCfg.imgEnabled;
+  // img-gen btn
+  const genBtn = document.getElementById('img-gen-btn');
+  if (genBtn) genBtn.style.display = (connected && gameCfg.imgEnabled) ? '' : 'none';
+}
+
+function byopHandleRedirect() {
+  // Check URL fragment for api_key after OAuth redirect
+  const hash = window.location.hash;
+  if (!hash) return;
+  const params = new URLSearchParams(hash.slice(1));
+  const key = params.get('api_key');
+  if (!key) return;
+  // Store key
+  gameCfg.imgKey = key;
+  gameCfg.imgEnabled = true;
+  try { localStorage.setItem(BYOP_LS_KEY, key); } catch(e) {}
+  // Clean URL
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  updateByopUI(true);
+  // Show img-gen-btn if already in game
+  const genBtn = document.getElementById('img-gen-btn');
+  if (genBtn && document.getElementById('app').classList.contains('on')) {
+    genBtn.style.display = '';
+  }
+  toast('✅ Pollinations connected! Image generation enabled');
+}
+
+function byopRestoreFromStorage() {
+  try {
+    const key = localStorage.getItem(BYOP_LS_KEY);
+    if (key) {
+      gameCfg.imgKey = key;
+      gameCfg.imgEnabled = true;
+      updateByopUI(true);
+    }
+  } catch(e) {}
+}
+
+function toggleImgIG(checked) {
+  if (checked && !gameCfg.imgKey) {
+    document.getElementById('ig-tog-img').checked = false;
+    toast('⚠ Please click Connect Pollinations to authorize first');
+    return;
+  }
+  gameCfg.imgEnabled = checked && !!gameCfg.imgKey;
+  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  toast(gameCfg.imgEnabled ? '🖼️ Image gen enabled' : '🖼️ Image gen disabled');
+}
+
+// ── BGM in-game apply ──
 function applyBGMChange() {
   const fileInp = document.getElementById('ig-bgm-file');
   const urlVal  = document.getElementById('ig-bgm-url').value.trim();
@@ -3530,6 +4415,7 @@ function applyBGMChange() {
       updateBGMBtn();
       toast('🎵 BGM switched: ' + file.name);
     }).catch(e => toast('❌ Playback failed: ' + e.message));
+
   } else if (urlVal) {
     audio.src = urlVal;
     audio.volume = 0.45;
@@ -3539,6 +4425,7 @@ function applyBGMChange() {
       updateBGMBtn();
       toast('🎵 BGM switched: audio stream');
     }).catch(e => toast('❌ Playback failed — please check the URL'));
+
   } else {
     toast('⚠ Please enter a music source');
     return;
@@ -3555,33 +4442,138 @@ function stopBGM() {
   closeSidePanel('bgm-panel');
   toast('⏹ Music stopped');
 }
+
+function bgmSetVol(v) {
+  const audio = document.getElementById('bgm-audio');
+  audio.volume = v / 100;
+  const el = document.getElementById('bgm-vol-val');
+  if (el) el.textContent = v + '%';
+  if (bgmState) bgmState.vol = v;
+}
+
+// ══════════════════════════════════════════════
+// CUSTOM COLOR TAGS
+// ══════════════════════════════════════════════
+
+// ── In-game ctag panel ──
+let _igCtagCount = 0;
+const CTAG_PANEL_COLORS = ['#e8c97a','#7abbe8','#7ae8a0','#e87ab0','#c87ae8','#e8a07a','#a0e8e8','#e8e87a'];
+
+function openCtagPanel() {
+  // Sync current gameCfg.customTags into the panel
+  _igCtagCount = 0;
+  const container = document.getElementById('ig-ctag-rows');
+  container.innerHTML = '';
+  gameCfg.customTags.forEach(t => igAddCtagRow(t.name, t.color));
+  document.getElementById('ctag-panel').classList.add('open');
+}
+
+function igAddCtagRow(name='', color='') {
+  const idx = _igCtagCount++;
+  const c = color || CTAG_PANEL_COLORS[idx % CTAG_PANEL_COLORS.length];
+  const container = document.getElementById('ig-ctag-rows');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'ctag-item';
+  div.id = `ig-ctag-row-${idx}`;
+  div.innerHTML = `
+    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
+    <input class="ctag-name-inp" placeholder="Purpose, e.g. NPC Dialogue, Narration…" value="${name.replace(/"/g,'&quot;')}">
+    <input type="color" class="ctag-color" value="${c}" title="Choose color">
+    <button onclick="document.getElementById('ig-ctag-row-${idx}').remove()" title="Delete"
+      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
+      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
+  container.appendChild(div);
+}
+
+function applyCtagPanel() {
+  const container = document.getElementById('ig-ctag-rows');
+  const tags = [];
+  container.querySelectorAll('.ctag-item').forEach((row, i) => {
+    const name  = (row.querySelector('.ctag-name-inp')?.value || '').trim();
+    const color = row.querySelector('.ctag-color')?.value || '#ffffff';
+    if (name) tags.push({ name, color, slot: i + 1 });
+  });
+  gameCfg.customTags = tags;
+  // Sync splash ctag-rows too so readCustomTags() stays consistent
+  restoreCustomTagsUI(tags);
+  closeSidePanel('ctag-panel');
+  reRenderAllMsgs();
+  toast(`✅ Color tags updated (${tags.length} set(s))`);
+}
+
+// Re-render all existing assistant messages when a render toggle changes
+function toggleRenderTags(checked) {
+  gameCfg.renderTags = checked;
+  reRenderAllMsgs();
+}
+function reRenderAllMsgs() {
+  document.querySelectorAll('.msg.a').forEach(el => {
+    const raw = el.dataset.raw;
+    if (raw) {
+      const disp = raw.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
+      el.querySelector('.bbl').innerHTML = renderNarrative(disp);
+    }
+  });
+}
+
+// Also re-render when custom tag toggle changes
+document.addEventListener('change', e => {
+  if (e.target.id === 'ig-tog-render-custom') {
+    gameCfg.renderCustomTags = e.target.checked;
+    reRenderAllMsgs();
+  }
+});
+
+// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+let _ctagCount = 0;
+const CTAG_PRESET_COLORS = ['#e8c97a','#7abbe8','#7ae8a0','#e87ab0','#c87ae8','#e8a07a','#a0e8e8','#e8e87a'];
+
+function addCtagRow(name='', color='') {
+  const idx = _ctagCount++;
+  const c = color || CTAG_PRESET_COLORS[idx % CTAG_PRESET_COLORS.length];
+  const container = document.getElementById('ctag-rows');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'ctag-item';
+  div.id = `ctag-row-${idx}`;
+  div.innerHTML = `
+    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
+    <input class="ctag-name-inp" id="ctag-name-${idx}" placeholder="Purpose, e.g. NPC Dialogue, Narration, Magic Spell" value="${name.replace(/"/g,'&quot;')}">
+    <input type="color" class="ctag-color" id="ctag-color-${idx}" value="${c}" title="Choose color">
+    <button onclick="removeCtagRow(${idx})" title="Delete"
+      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
+      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
+  container.appendChild(div);
+}
+
+function removeCtagRow(idx) {
+  const el = document.getElementById(`ctag-row-${idx}`);
+  if (el) el.remove();
+}
+
+function readCustomTags() {
+  const tags = [];
+  const container = document.getElementById('ctag-rows');
+  if (!container) return tags;
+  container.querySelectorAll('.ctag-item').forEach((row, i) => {
+    const nameEl  = row.querySelector('.ctag-name-inp');
+    const colorEl = row.querySelector('.ctag-color');
+    const name = nameEl ? nameEl.value.trim() : '';
+    if (name) tags.push({ name, color: colorEl ? colorEl.value : '#ffffff', slot: i+1 });
+  });
+  return tags;
+}
+
+function restoreCustomTagsUI(tags) {
+  _ctagCount = 0;
+  const container = document.getElementById('ctag-rows');
+  if (!container) return;
+  container.innerHTML = '';
+  tags.forEach(t => addCtagRow(t.name || '', t.color || ''));
+}
 </script>
-<!-- ══ IMG GEN MODAL ══ -->
-<div id="imggen-modal" class="modal-bg" onclick="if(event.target===this)closeImgGen()">
-  <div class="modal-box" style="max-width:440px">
-    <div class="modal-title">🖼️ AI Image Generation</div>
-    <div class="modal-desc">AI will analyze the current conversation and design a prompt to generate an image</div>
-
-    <label class="field-label" style="margin-top:.8rem">Supplementary hints <span style="color:rgba(212,160,23,.35);font-size:.7rem">(Optional)</span></label>
-    <input class="text-inp" id="imggen-hint"
-      placeholder="e.g. close-up face, night scene, battle pose…">
-    <div class="field-hint">Leave blank for AI to auto-analyze the scene; hints will be prioritized if provided</div>
-
-    <div id="imggen-prompt-preview" style="display:none;margin-top:.7rem;
-      background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.2);border-radius:5px;
-      padding:.55rem .75rem;font-size:.72rem;font-family:monospace;
-      color:rgba(212,160,23,.65);line-height:1.6;word-break:break-all">
-    </div>
-
-    <div id="imggen-result" style="display:none;margin-top:.8rem;text-align:center"></div>
-
-    <div class="modal-actions" style="margin-top:1rem">
-      <button class="btn-confirm" id="imggen-submit-btn" onclick="submitImgGen()">✨ Generate Image</button>
-      <button class="btn-cancel" onclick="closeImgGen()">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <!-- ══ BGM SIDE PANEL ══ -->
 <div id="bgm-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('bgm-panel')">
   <div class="side-panel-box">
@@ -3601,16 +4593,26 @@ function stopBGM() {
       <button class="btn-cancel" onclick="stopBGM()">⏹ Stop Music</button>
       <button class="btn-cancel" onclick="closeSidePanel('bgm-panel')">Cancel</button>
     </div>
+    <div style="border-top:1px solid rgba(212,160,23,.12);margin-top:.8rem;padding-top:.65rem">
+      <div class="vol-row">
+        <label>🔊 Volume</label>
+        <input type="range" class="vol-slider" id="bgm-vol" min="0" max="100" value="45"
+          oninput="bgmSetVol(this.value)">
+        <span class="vol-val" id="bgm-vol-val">45%</span>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- ══ IMG SIDE PANEL ══ -->
 <div id="img-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('img-panel')">
   <div class="side-panel-box">
-    <div class="side-panel-title">🖼️ Image Model</div>
-    <div class="side-panel-desc">Change the Pollinations image model</div>
+    <div class="side-panel-title">🖼️ Image Generation Settings</div>
+    <div class="side-panel-desc">Configure image model</div>
+
     <label class="field-label" style="margin-top:.6rem">Image Model</label>
     <input class="text-inp" id="ig-img-model" placeholder="flux, nanobanana …">
+
     <div class="modal-actions" style="margin-top:1rem">
       <button class="btn-confirm" onclick="applyImgSettings()">✅ Apply</button>
       <button class="btn-cancel" onclick="closeSidePanel('img-panel')">Cancel</button>
@@ -3618,12 +4620,13 @@ function stopBGM() {
   </div>
 </div>
 
+<!-- ══ CTAG SIDE PANEL ══ -->
 <div id="ctag-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('ctag-panel')">
-  <div class="side-panel-box">
+  <div class="side-panel-box" style="max-width:480px">
     <div class="side-panel-title">🎨 Edit Color Tags</div>
-    <div class="side-panel-desc">Changes apply immediately and re-render all messages</div>
-    <div id="ig-ctag-rows" style="display:flex;flex-direction:column;gap:.4rem;margin:.6rem 0"></div>
-    <button onclick="igAddCtagRow()" style="background:rgba(212,160,23,.1);border:1px dashed rgba(212,160,23,.3);color:rgba(212,160,23,.6);padding:.3rem .8rem;border-radius:4px;cursor:pointer;font-size:.78rem;width:100%;margin-bottom:.5rem"
+    <div class="side-panel-desc">Changes apply immediately — existing messages re-render</div>
+    <div id="ig-ctag-rows" style="display:flex;flex-direction:column;gap:.4rem;margin:.7rem 0 .5rem"></div>
+    <button onclick="igAddCtagRow()" style="background:rgba(212,160,23,.1);border:1px dashed rgba(212,160,23,.3);color:rgba(212,160,23,.6);padding:.35rem .8rem;border-radius:4px;cursor:pointer;font-size:.78rem;width:100%;transition:all .2s;margin-bottom:.8rem"
       onmouseover="this.style.background='rgba(212,160,23,.18)'" onmouseout="this.style.background='rgba(212,160,23,.1)'">＋ Add Tag</button>
     <div class="modal-actions">
       <button class="btn-confirm" onclick="applyCtagPanel()">✅ Apply</button>
@@ -3633,6 +4636,177 @@ function stopBGM() {
 </div>
 
 <audio id="bgm-audio" loop></audio>
+<canvas id="fx-canvas"></canvas>
+
+<!-- ══ FLOATING IMAGE WINDOW ══ -->
+<div id="img-float">
+  <div id="img-float-bar">
+    <span id="img-float-title">Portrait / Scene</span>
+    <button class="img-float-btn" onclick="imgFloatShrink()" title="Shrink">−</button>
+    <button class="img-float-btn" onclick="imgFloatClose()" title="Close">✕</button>
+  </div>
+  <img id="img-float-img" src="" alt="" onclick="imgFloatNext()" title="Click to switch to next image">
+  <div id="img-float-nav">
+    <button class="img-nav-btn" onclick="imgFloatPrev()" title="Previous">‹</button>
+    <span id="img-float-counter">0 / 0</span>
+    <button class="img-nav-btn" onclick="imgFloatNext()" title="Next">›</button>
+  </div>
+  <div id="img-float-resize"></div>
+</div>
+
+<!-- ══ IMAGE MANAGER PANEL ══ -->
+<div id="imgmgr-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('imgmgr-panel')">
+  <div class="side-panel-box" style="max-height:90vh;overflow-y:auto;width:min(92vw,480px)">
+    <div class="side-panel-title">📁 Image Library</div>
+    <div class="side-panel-desc" style="margin-bottom:.8rem">Float window portraits/scenes · Click to switch · Auto-switch on keyword match</div>
+
+    <!-- Add image -->
+    <div style="border:1px solid rgba(212,160,23,.2);border-radius:8px;padding:.75rem;margin-bottom:.8rem;background:rgba(0,0,0,.25)">
+      <div style="font-size:.75rem;color:rgba(212,160,23,.6);margin-bottom:.5rem;letter-spacing:.06em">➕ Add Image</div>
+      <input class="text-inp" id="imgmgr-name" placeholder="Image name (optional)" style="margin-bottom:.4rem">
+      <input class="text-inp" id="imgmgr-url" placeholder="Image URL (direct link)" style="margin-bottom:.4rem">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
+        <span style="font-size:.75rem;color:rgba(245,230,200,.4)">or</span>
+        <button onclick="document.getElementById('imgmgr-file').click()"
+          style="flex:1;background:rgba(212,160,23,.08);border:1px dashed rgba(212,160,23,.3);
+          color:rgba(212,160,23,.6);padding:.4rem;border-radius:5px;cursor:pointer;font-size:.78rem">
+      📂 Upload Local Image
+        </button>
+        <input type="file" id="imgmgr-file" accept="image/*" style="display:none" onchange="imgMgrFromFile(event)">
+      </div>
+      <input class="text-inp" id="imgmgr-keywords" placeholder="Keywords (comma-separated, auto-switch when AI reply matches)" style="margin-bottom:.5rem">
+      <button onclick="imgMgrAdd()" class="btn-confirm" style="width:100%">✅ Add to Library</button>
+    </div>
+
+    <!-- Slot list -->
+    <div style="font-size:.75rem;color:rgba(212,160,23,.5);margin-bottom:.35rem;letter-spacing:.06em">Library <span id="imgmgr-count" style="color:rgba(212,160,23,.3)">0</span></div>
+    <div class="img-slot-list" id="imgmgr-list"></div>
+
+    <!-- Keyword auto-switch toggle -->
+    <div style="margin-top:.75rem;border-top:1px solid rgba(212,160,23,.12);padding-top:.65rem">
+      <div class="s-toggle-row" style="padding:0">
+        <span style="font-size:.8rem;color:rgba(245,230,200,.65)">🔍 Keyword Auto-Switch</span>
+        <label class="tog">
+          <input type="checkbox" id="imgmgr-auto-kw" checked onchange="imgState.autoKw=this.checked">
+          <span class="tog-slider"></span>
+        </label>
+      </div>
+      <div style="font-size:.68rem;color:rgba(212,160,23,.3);margin-top:.3rem">Auto-switches the float window image when AI reply contains a keyword</div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:.8rem">
+      <button class="btn-cancel" onclick="closeSidePanel('imgmgr-panel')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHAT IMAGE INSERT MODAL ══ -->
+<div id="chat-img-modal" class="modal-bg" onclick="if(event.target===this)closeChatImgModal()" style="display:none">
+  <div class="modal-box" style="width:min(92vw,400px)">
+    <div class="modal-title">📎 Insert Image to Chat</div>
+    <input class="text-inp" id="chat-img-url-inp" placeholder="Image URL (direct link)" style="margin-bottom:.5rem">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+      <span style="font-size:.75rem;color:rgba(245,230,200,.4)">or</span>
+      <button onclick="document.getElementById('chat-img-file-inp2').click()"
+        style="flex:1;background:rgba(100,160,212,.08);border:1px dashed rgba(100,160,212,.3);
+        color:rgba(150,200,255,.6);padding:.4rem;border-radius:5px;cursor:pointer;font-size:.78rem">
+      📂 Upload Local Image
+      </button>
+      <input type="file" id="chat-img-file-inp2" accept="image/*" style="display:none" onchange="chatImgFromFile2(event)">
+    </div>
+    <!-- Library quick pick -->
+    <div id="chat-img-lib-pick" style="display:none">
+      <div style="font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.35rem">or select from image library</div>
+      <div id="chat-img-lib-chips" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.5rem"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="chatImgInsertFromModal()">✅ Insert</button>
+      <button class="btn-cancel" onclick="closeChatImgModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FX PANEL ══ -->
+<div id="fx-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('fx-panel')">
+  <div class="side-panel-box" style="max-height:88vh;overflow-y:auto;width:min(92vw,480px)">
+    <div class="side-panel-title">✨ Visual Effects</div>
+    <div class="side-panel-desc" style="margin-bottom:.9rem">Click to apply instantly · stackable · saved on export</div>
+
+    <!-- Entry animation -->
+    <div class="fx-section">
+      <div class="fx-section-title">💫 Message Entry Animation</div>
+      <div class="fx-chips">
+      <span class="fx-chip" data-fx="anim" data-val="">Off</span>
+        <span class="fx-chip" data-fx="anim" data-val="fade">Fade</span>
+        <span class="fx-chip" data-fx="anim" data-val="slide">Slide</span>
+        <span class="fx-chip" data-fx="anim" data-val="type">Typewriter</span>
+        <span class="fx-chip" data-fx="anim" data-val="bounce">Bounce 🆕</span>
+        <span class="fx-chip" data-fx="anim" data-val="heartbeat">Heartbeat 🆕</span>
+      </div>
+    </div>
+
+    <!-- Background effects -->
+    <div class="fx-section">
+      <div class="fx-section-title">🌌 Background Effects</div>
+      <div class="fx-chips">
+      <span class="fx-chip" data-fx="bg" data-val="">Off</span>
+        <span class="fx-chip" data-fx="bg" data-val="particles">Particles</span>
+        <span class="fx-chip" data-fx="bg" data-val="stars">Stars</span>
+        <span class="fx-chip" data-fx="bg" data-val="snow">Snow</span>
+        <span class="fx-chip" data-fx="bg" data-val="fire">Fire</span>
+      </div>
+    </div>
+
+    <!-- Text effects -->
+    <div class="fx-section">
+      <div class="fx-section-title">✍️ Text Effects</div>
+      <div class="fx-chips">
+      <span class="fx-chip" data-fx="text" data-val="">Off</span>
+        <span class="fx-chip" data-fx="text" data-val="glow">Glow</span>
+        <span class="fx-chip" data-fx="text" data-val="shadow">Shadow</span>
+        <span class="fx-chip" data-fx="text" data-val="grad">Gradient</span>
+      </div>
+    </div>
+
+    <!-- Chat bubbles -->
+    <div class="fx-section">
+      <div class="fx-section-title">💬 Chat Bubble Style</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="bbl" data-val="">Default</span>
+        <span class="fx-chip" data-fx="bbl" data-val="parchment">Parchment</span>
+        <span class="fx-chip" data-fx="bbl" data-val="neon">Neon</span>
+        <span class="fx-chip" data-fx="bbl" data-val="slate">Slate</span>
+        <span class="fx-chip" data-fx="bbl" data-val="hacker">Hacker 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="chat">Chat Room 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="live">Live 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="glass">Frosted Glass 🆕</span>
+      </div>
+    </div>
+
+    <!-- Global effects -->
+    <div class="fx-section">
+      <div class="fx-section-title">⚡ Global Effects</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="scan" data-val="" >Scanlines Off</span>
+        <span class="fx-chip" data-fx="scan" data-val="on">Scanlines On</span>
+      </div>
+      <div class="fx-chips" style="margin-top:.35rem">
+        <span class="fx-chip" data-fx="glitch" data-val="">Glitch Off</span>
+        <span class="fx-chip" data-fx="glitch" data-val="bbl">Glitch·Bubble</span>
+        <span class="fx-chip" data-fx="glitch" data-val="global">Glitch·Global</span>
+      </div>
+      <div class="fx-chips" style="margin-top:.35rem">
+        <span class="fx-chip" data-fx="theme" data-val="">Color Drift Off</span>
+        <span class="fx-chip" data-fx="theme" data-val="drift">Color Drift On</span>
+      </div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:.5rem">
+      <button class="btn-confirm" onclick="fxResetAll()">↺ Reset All</button>
+      <button class="btn-cancel" onclick="closeSidePanel('fx-panel')">Close</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
