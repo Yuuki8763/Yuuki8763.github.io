@@ -664,6 +664,384 @@
     color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem;
   }
   .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
+
+  /* ══════════════════════════════════════
+     VISUAL FX SYSTEM
+  ══════════════════════════════════════ */
+
+  /* ── FX Panel UI ── */
+  .fx-section{margin-bottom:1rem}
+  .fx-section-title{font-size:.7rem;color:rgba(212,160,23,.5);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:.45rem;padding-bottom:.25rem;
+    border-bottom:1px solid rgba(212,160,23,.12)}
+  .fx-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+  .fx-chip{padding:.28rem .7rem;border-radius:20px;font-size:.75rem;cursor:pointer;
+    border:1px solid rgba(212,160,23,.25);color:rgba(245,230,200,.5);
+    background:rgba(0,0,0,.3);transition:all .22s;user-select:none}
+  .fx-chip:hover{border-color:rgba(212,160,23,.5);color:rgba(245,230,200,.8)}
+  .fx-chip.on{background:rgba(212,160,23,.18);border-color:var(--gold2);
+    color:var(--gold2);box-shadow:0 0 8px rgba(212,160,23,.2)}
+
+  /* ── Volume slider ── */
+  .vol-row{display:flex;align-items:center;gap:.6rem;margin:.55rem 0 .2rem}
+  .vol-row label{font-size:.72rem;color:rgba(212,160,23,.55);flex-shrink:0;min-width:3rem}
+  .vol-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;
+    background:rgba(212,160,23,.2);border-radius:2px;outline:none;cursor:pointer}
+  .vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
+    border-radius:50%;background:var(--gold2);cursor:pointer;
+    box-shadow:0 0 6px rgba(212,160,23,.4)}
+  .vol-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:var(--gold2);cursor:pointer;border:none}
+  .vol-val{font-size:.72rem;color:rgba(212,160,23,.5);min-width:2.5rem;text-align:right}
+
+  /* ── 1. Message entrance animations ── */
+  /* default already has .fi — we override per class on #msgs */
+  #msgs.fx-anim-fade    .msg{animation:fx-fade .5s ease both}
+  #msgs.fx-anim-slide   .msg{animation:fx-slide .4s cubic-bezier(.22,1,.36,1) both}
+  #msgs.fx-anim-type    .msg.a .bbl{animation:none}
+  #msgs.fx-anim-type    .msg.a .bbl *{animation:none}
+
+  @keyframes fx-fade {from{opacity:0} to{opacity:1}}
+  @keyframes fx-slide{from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none}}
+
+  /* ── 2. Background FX (canvas layer) ── */
+  #fx-canvas{
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    opacity:0;transition:opacity .6s;
+  }
+  #fx-canvas.active{opacity:1}
+
+  /* ── 3. Text FX on AI bubbles ── */
+  /* glow */
+  #msgs.fx-text-glow .msg.a .bbl{
+    text-shadow:0 0 8px rgba(212,160,23,.35),0 0 20px rgba(212,160,23,.12);
+  }
+  /* deep shadow */
+  #msgs.fx-text-shadow .msg.a .bbl{
+    text-shadow:1px 2px 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,1);
+  }
+  /* gradient text */
+  #msgs.fx-text-grad .msg.a .bbl{
+    background:-webkit-linear-gradient(left,#f0c040,#fff8e0,#f0c040);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;background-size:200% auto;
+    animation:fx-grad-shift 4s linear infinite;
+  }
+  @keyframes fx-grad-shift{to{background-position:200% center}}
+
+  /* ── 4. Bubble skin ── */
+  /* parchment */
+  #msgs.fx-bbl-parchment .msg.a .bbl{
+    background:linear-gradient(160deg,rgba(62,42,18,.92),rgba(38,24,8,.88)) !important;
+    border:1px solid rgba(180,140,60,.45) !important;
+    border-radius:2px 2px 2px 2px !important;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.6);
+    font-family:'Georgia','Times New Roman',serif;
+    letter-spacing:.03em;
+  }
+  #msgs.fx-bbl-parchment .msg.a .bbl::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;opacity:.35;
+  }
+  #msgs.fx-bbl-parchment .msg.a .bbl{position:relative}
+
+  /* neon */
+  #msgs.fx-bbl-neon .msg.a .bbl{
+    background:rgba(0,5,20,.92) !important;
+    border:1px solid rgba(0,200,255,.5) !important;
+    border-radius:4px !important;
+    box-shadow:0 0 8px rgba(0,200,255,.3),inset 0 0 20px rgba(0,200,255,.04);
+    color:rgba(180,240,255,.9) !important;
+    text-shadow:0 0 6px rgba(0,200,255,.4);
+  }
+  #msgs.fx-bbl-neon .r-n{color:#0ff !important;text-shadow:0 0 10px #0ff}
+  #msgs.fx-bbl-neon .r-p{color:#0f8 !important;text-shadow:0 0 10px #0f8}
+  #msgs.fx-bbl-neon .r-h{color:#ff0 !important;text-shadow:0 0 10px #ff0}
+
+  /* slate */
+  #msgs.fx-bbl-slate .msg.a .bbl{
+    background:linear-gradient(160deg,rgba(28,32,36,.96),rgba(18,20,24,.94)) !important;
+    border:1px solid rgba(120,140,160,.35) !important;
+    border-radius:3px !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 12px rgba(0,0,0,.6);
+    font-family:'Courier New',monospace;
+    color:rgba(200,215,225,.88) !important;
+    letter-spacing:.025em;
+  }
+
+  /* ── hacker ── */
+  #msgs.fx-bbl-hacker .msg.a .bbl{
+    background:rgba(0,8,0,.95) !important;
+    border:1px solid rgba(0,255,70,.35) !important;
+    border-radius:2px !important;
+    box-shadow:0 0 12px rgba(0,255,70,.12),inset 0 0 30px rgba(0,20,0,.6);
+    color:rgba(0,255,70,.92) !important;
+    font-family:'Courier New','Lucida Console',monospace !important;
+    font-size:.82rem !important;
+    letter-spacing:.04em;
+    text-shadow:0 0 4px rgba(0,255,70,.5);
+  }
+  #msgs.fx-bbl-hacker .r-n{color:#0f0 !important;text-shadow:0 0 8px #0f0}
+  #msgs.fx-bbl-hacker .r-p{color:#0ff !important;text-shadow:0 0 8px #0ff}
+  #msgs.fx-bbl-hacker .r-h{color:#ff0 !important;text-shadow:0 0 8px #ff0}
+  #msgs.fx-bbl-hacker .msg.a .bbl::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,70,.015) 2px,rgba(0,255,70,.015) 4px);
+  }
+  #msgs.fx-bbl-hacker .msg.a .bbl{position:relative;overflow:hidden}
+
+  /* ── chat ── */
+  #msgs.fx-bbl-chat .msg.a .bbl{
+    background:rgba(255,255,255,.07) !important;
+    border:1px solid rgba(255,255,255,.12) !important;
+    border-radius:18px 18px 18px 4px !important;
+    color:rgba(255,255,255,.88) !important;
+    padding:.55rem .9rem !important;
+    font-size:.84rem !important;
+  }
+  #msgs.fx-bbl-chat .msg.u .bbl{
+    border-radius:18px 18px 4px 18px !important;
+    background:linear-gradient(135deg,rgba(100,120,220,.5),rgba(60,80,180,.5)) !important;
+  }
+
+  /* ── live ── */
+  #msgs.fx-bbl-live .msg.a{
+    max-width:100%;align-self:stretch;
+  }
+  #msgs.fx-bbl-live .msg.a .bbl{
+    background:transparent !important;
+    border:none !important;
+    border-left:3px solid rgba(255,80,80,.6) !important;
+    border-radius:0 !important;
+    padding:.35rem .75rem !important;
+    font-size:.82rem !important;
+    color:rgba(255,255,255,.82) !important;
+    animation:live-in .25s ease both !important;
+  }
+  @keyframes live-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+  #msgs.fx-bbl-live .msg.a .bbl::before{
+    content:'💬 GM · ';color:rgba(255,80,80,.8);font-weight:bold;font-size:.75rem;
+  }
+  #msgs.fx-bbl-live{ gap:.25rem !important; }
+
+  /* ── glass ── */
+  #msgs.fx-bbl-glass .msg.a .bbl{
+    background:rgba(255,255,255,.06) !important;
+    backdrop-filter:blur(12px) saturate(1.4) !important;
+    -webkit-backdrop-filter:blur(12px) saturate(1.4) !important;
+    border:1px solid rgba(255,255,255,.15) !important;
+    border-radius:12px !important;
+    box-shadow:0 4px 20px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1) !important;
+    color:rgba(255,255,255,.9) !important;
+  }
+  #msgs.fx-bbl-glass .msg.u .bbl{
+    backdrop-filter:blur(12px) !important;
+    -webkit-backdrop-filter:blur(12px) !important;
+    background:rgba(180,120,50,.15) !important;
+    border:1px solid rgba(212,160,23,.25) !important;
+    border-radius:12px 12px 2px 12px !important;
+  }
+
+  /* ══ EFFECT CLASSES ══ */
+
+  /* 9. scanline */
+  .fx-scanline::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);
+    animation:fx-scan-move 8s linear infinite;
+  }
+  @keyframes fx-scan-move{
+    0%{background-position:0 0}
+    100%{background-position:0 100vh}
+  }
+  .fx-scanline-bar::before{
+    content:'';position:fixed;left:0;right:0;height:3px;
+    background:rgba(0,255,100,.18);z-index:9999;pointer-events:none;
+    animation:fx-scanbar 4s linear infinite;
+    box-shadow:0 0 8px rgba(0,255,100,.3);
+  }
+  @keyframes fx-scanbar{from{top:-4px}to{top:100vh}}
+
+  /* 10. heartbeat — on AI bubble appear */
+  #msgs.fx-heartbeat .msg.a{
+    animation:fx-heartbeat .6s cubic-bezier(.36,.07,.19,.97) both !important;
+  }
+  @keyframes fx-heartbeat{
+    0%{transform:scale(1)}
+    14%{transform:scale(1.04)}
+    28%{transform:scale(.98)}
+    42%{transform:scale(1.02)}
+    70%{transform:scale(1)}
+  }
+
+  /* 11. bounce */
+  #msgs.fx-bounce .msg{
+    animation:fx-bounce-in .5s cubic-bezier(.34,1.56,.64,1) both !important;
+  }
+  @keyframes fx-bounce-in{
+    from{opacity:0;transform:translateY(20px) scale(.92)}
+    to{opacity:1;transform:none}
+  }
+
+  /* 12. glitch */
+  #msgs.fx-glitch .msg.a .bbl{
+    animation:fx-glitch-idle 6s infinite;
+  }
+  @keyframes fx-glitch-idle{
+    0%,95%{clip-path:none;transform:none;filter:none}
+    96%{clip-path:inset(20% 0 60% 0);transform:translate(-3px,0);filter:hue-rotate(90deg)}
+    97%{clip-path:inset(60% 0 20% 0);transform:translate(3px,0);filter:hue-rotate(-90deg)}
+    98%{clip-path:none;transform:translate(-1px,0)}
+    99%{clip-path:inset(40% 0 40% 0);transform:translate(2px,0);filter:saturate(3)}
+    100%{clip-path:none;transform:none;filter:none}
+  }
+  .fx-glitch-global{animation:fx-glitch-global 8s infinite}
+  @keyframes fx-glitch-global{
+    0%,93%{filter:none}
+    94%{filter:hue-rotate(60deg) saturate(2)}
+    95%{filter:invert(.08)}
+    96%{filter:hue-rotate(-30deg)}
+    97%{filter:none}
+  }
+
+  /* 8. dynamic theme drift */
+  .fx-theme-dynamic{
+    animation:fx-theme-drift 20s ease-in-out infinite alternate;
+  }
+  @keyframes fx-theme-drift{
+    0%{filter:hue-rotate(0deg) brightness(1)}
+    50%{filter:hue-rotate(15deg) brightness(1.04)}
+    100%{filter:hue-rotate(-10deg) brightness(.97)}
+  }
+
+  /* 7. responsive — already handled but add smooth sidebar collapse */
+  @media(max-width:768px){
+    #app{flex-direction:column}
+    #sidebar{
+      width:100% !important;height:auto !important;
+      max-height:52px;overflow:hidden;transition:max-height .3s ease;
+      border-right:none !important;border-bottom:1px solid var(--border);
+    }
+    #sidebar.mob-open{max-height:80vh;overflow-y:auto}
+    #mob-sidebar-toggle{display:flex !important}
+  }
+  #mob-sidebar-toggle{
+    display:none;position:fixed;bottom:4.5rem;right:.8rem;z-index:400;
+    width:42px;height:42px;border-radius:50%;
+    background:rgba(212,160,23,.2);border:1px solid var(--gold);
+    color:var(--gold2);font-size:1.1rem;cursor:pointer;
+    align-items:center;justify-content:center;
+    box-shadow:0 2px 12px rgba(0,0,0,.5);
+  }
+
+  /* ══════════════════════════════════════
+     IMAGE SYSTEM
+  ══════════════════════════════════════ */
+
+  /* ── Floating image window ── */
+  #img-float{
+    position:fixed;z-index:300;
+    width:300px;height:360px;
+    min-width:140px;min-height:100px;
+    background:rgba(8,3,0,.88);
+    border:1px solid rgba(212,160,23,.35);
+    border-radius:10px;
+    box-shadow:0 8px 32px rgba(0,0,0,.7);
+    overflow:hidden;
+    display:none;
+    flex-direction:column;
+    user-select:none;
+    transition:box-shadow .2s;
+    bottom:5rem;right:1rem;
+  }
+  #img-float.visible{display:flex}
+  #img-float:hover{box-shadow:0 10px 40px rgba(0,0,0,.85)}
+
+  #img-float-bar{
+    display:flex;align-items:center;gap:.3rem;
+    padding:.3rem .55rem;background:rgba(212,160,23,.1);
+    border-bottom:1px solid rgba(212,160,23,.2);
+    cursor:move;flex-shrink:0;
+  }
+  #img-float-title{
+    flex:1;font-size:.7rem;color:rgba(212,160,23,.7);
+    font-family:monospace;letter-spacing:.04em;overflow:hidden;
+    white-space:nowrap;text-overflow:ellipsis;
+  }
+  .img-float-btn{
+    background:none;border:none;color:rgba(212,160,23,.5);
+    cursor:pointer;font-size:.82rem;padding:0 .2rem;line-height:1;
+    transition:color .15s;
+  }
+  .img-float-btn:hover{color:var(--gold2)}
+
+  #img-float-img{
+    width:100%;display:block;cursor:pointer;
+    flex:1;min-height:0;
+    object-fit:contain;
+    background:rgba(0,0,0,.4);
+    transition:opacity .3s;
+  }
+  #img-float-img.loading{opacity:.3}
+
+  #img-float-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.25rem .55rem;font-size:.68rem;color:rgba(212,160,23,.5);
+    background:rgba(0,0,0,.3);flex-shrink:0;
+  }
+  .img-nav-btn{
+    background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;
+    font-size:.88rem;padding:0 .2rem;transition:color .15s;
+  }
+  .img-nav-btn:hover{color:var(--gold2)}
+
+  /* resize handle */
+  #img-float-resize{
+    position:absolute;bottom:0;right:0;width:22px;height:22px;cursor:se-resize;
+    background:linear-gradient(135deg,transparent 40%,rgba(212,160,23,.45) 40%);
+    z-index:1;
+  }
+  #img-float-resize:hover{
+    background:linear-gradient(135deg,transparent 40%,rgba(212,160,23,.8) 40%);
+  }
+
+  /* ── Image manager panel ── */
+  .img-slot-list{display:flex;flex-direction:column;gap:.5rem;max-height:300px;overflow-y:auto;margin:.5rem 0}
+  .img-slot{
+    display:flex;align-items:center;gap:.5rem;
+    background:rgba(0,0,0,.35);border:1px solid rgba(212,160,23,.15);
+    border-radius:6px;padding:.4rem .6rem;cursor:pointer;transition:border-color .2s;
+  }
+  .img-slot:hover{border-color:rgba(212,160,23,.4)}
+  .img-slot.active{border-color:var(--gold2);background:rgba(212,160,23,.08)}
+  .img-slot-thumb{
+    width:44px;height:44px;object-fit:cover;border-radius:4px;
+    background:rgba(0,0,0,.5);flex-shrink:0;
+  }
+  .img-slot-info{flex:1;min-width:0}
+  .img-slot-name{font-size:.78rem;color:rgba(245,230,200,.8);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .img-slot-kw{font-size:.68rem;color:rgba(212,160,23,.45);margin-top:.1rem;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .img-slot-del{background:none;border:none;color:rgba(255,100,100,.35);
+    cursor:pointer;font-size:.88rem;flex-shrink:0;padding:0;transition:color .15s}
+  .img-slot-del:hover{color:rgba(255,100,100,.8)}
+
+  /* ── Inline chat image ── */
+  .chat-img-wrap{
+    margin:.4rem 0;border-radius:8px;overflow:hidden;
+    border:1px solid rgba(212,160,23,.2);display:inline-block;
+    max-width:280px;position:relative;
+  }
+  .chat-img-wrap img{width:100%;display:block;cursor:pointer}
+  .chat-img-remove{
+    position:absolute;top:.3rem;right:.3rem;
+    background:rgba(0,0,0,.7);border:none;color:rgba(255,100,100,.7);
+    border-radius:50%;width:20px;height:20px;font-size:.7rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .15s;
+  }
+  .chat-img-remove:hover{background:rgba(180,30,30,.8);color:#fff}
 </style>
 </head>
 <body>
@@ -912,8 +1290,13 @@
     </div>
     <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">⚙️ 更換生圖模型</button>
     <hr>
+    <div class="s-label">立繪 / 場景圖</div>
+    <button class="s-btn" onclick="imgFloatToggle()">🖼 顯示/隱藏浮動視窗</button>
+    <button class="s-btn" onclick="openSidePanel('imgmgr-panel')">📁 管理圖片庫</button>
+    <hr>
     <div class="s-label">外觀</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 色彩主題</button>
+    <button class="s-btn" onclick="openSidePanel('fx-panel')">✨ 視覺特效</button>
     <div class="s-toggle-row">
       <span>🏷️ 內建敘事標籤</span>
       <label class="tog">
@@ -964,6 +1347,7 @@
   </div>
 
   <div id="chat-wrap">
+    <button id="mob-sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('mob-open')" title="選單">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
@@ -1026,6 +1410,14 @@
         font-size:1rem;transition:all .25s;flex-shrink:0;display:none"
         onmouseover="this.style.background='rgba(212,160,23,.22)'"
         onmouseout="this.style.background='rgba(212,160,23,.12)'">🖼️</button>
+      <button onclick="openChatImgInsert()" title="插入圖片到對話"
+        style="background:rgba(100,160,212,.1);border:1px solid rgba(100,160,212,.3);
+        color:rgba(150,200,255,.7);padding:.6rem .72rem;border-radius:6px;cursor:pointer;
+        font-size:1rem;transition:all .25s;flex-shrink:0"
+        onmouseover="this.style.background='rgba(100,160,212,.2)'"
+        onmouseout="this.style.background='rgba(100,160,212,.1)'"
+        >📎</button>
+      <input type="file" id="chat-img-file-inp" accept="image/*" style="display:none" onchange="chatImgFromFile(event)">
       <button id="sb" onclick="send()">送出</button>
     </div>
   </div>
@@ -1093,6 +1485,7 @@ let gameCfg = {
   maxTokens: 4096,
   ctxLimit: 0,
   customTags: [], // [{name, color}, ...]
+  fx: { anim:'', bg:'', text:'', bbl:'' },
 };
 
 const DEFAULT_STATE = () => ({
@@ -1698,6 +2091,7 @@ function go(){
     document.getElementById('app').classList.add('on');
     GS=DEFAULT_STATE();
     initBGM();
+    fxRestoreAll();
     initGame();
   },700);
 }
@@ -1734,15 +2128,39 @@ function showHelp(){
   const deltaInfo = gameCfg.deltaEnabled
     ? '• DELTA 狀態追蹤已開啟，數值由前端精確計算\n• 側欄「手動改數值」可直接修改 gameState JSON'
     : '• 純敘事模式，無前端數值追蹤';
-  addMsg('a',`<div style="padding:8px 10px;background:rgba(0,0,0,.3);border-radius:6px;font-size:.83rem;line-height:1.8">
-<b style="color:#fd0">AI · RPG Engine 說明</b><br><br>
-<b style="color:#f66">操作</b><br>
+  addMsg('a',`<div style="padding:10px 12px;background:rgba(0,0,0,.35);border-radius:8px;font-size:.82rem;line-height:2;border:1px solid rgba(212,160,23,.15)">
+<b style="color:#fd0;font-size:.9rem">AI · RPG Engine 說明</b><br>
+<hr style="border:none;border-top:1px solid rgba(212,160,23,.15);margin:.4rem 0">
+
+<b style="color:#f66">⌨️ 操作</b><br>
 Enter 送出 · Shift+Enter 換行<br>
-訊息懸停可複製 / 釘選 / 改寫 / 刪除<br><br>
-<b style="color:#f66">存檔</b><br>
-⚡ 快速存檔 → 產生存檔碼（複製後可貼回首頁還原）<br>
-💾 下載存檔 → 下載 .rpg 檔案<br><br>
-<b style="color:#f66">模式</b><br>
+訊息懸停 → 複製 / 釘選 / 改寫 / 刪除<br>
+🎲 輸入 <code style="background:rgba(255,255,255,.08);padding:0 .3rem;border-radius:3px">2d6</code> 語法可直接擲骰，結果附在訊息送出<br>
+
+<b style="color:#f66">💾 存檔</b><br>
+⚡ 快速存檔 → 產生存檔碼（複製貼回首頁還原）<br>
+💾 下載存檔 → 下載 .rpg 檔案<br>
+
+<b style="color:#f66">🎵 音樂</b><br>
+側欄 → 更換音樂來源，支援 URL / 本機上傳<br>
+🔊 面板底部滑桿可即時調整音量<br>
+
+<b style="color:#f66">🖼 圖片 / 立繪</b><br>
+📎（輸入框旁）→ 插入圖片到對話流（URL 或上傳）<br>
+側欄「立繪 / 場景圖」→ 管理浮動視窗圖片庫<br>
+• 浮動視窗可拖移、縮放（右下角拖拉）、折疊<br>
+• 每張圖可設關鍵字，AI 回覆匹配時自動切換<br>
+🖼️（輸入框旁，連結 Pollinations 後）→ AI 根據劇情生圖<br>
+
+<b style="color:#f66">✨ 視覺特效</b><br>
+側欄「外觀」→「視覺特效」面板<br>
+• 入場動畫：淡入 / 滑入 / 打字機 / 彈跳 / 心跳<br>
+• 背景：粒子 / 星空 / 飄雪 / 火焰（Canvas 動畫）<br>
+• 文字：發光 / 陰影 / 漸層色<br>
+• 泡泡：羊皮紙 / 霓虹 / 石板 / 駭客 / 聊天室 / 直播間 / 毛玻璃<br>
+• 全域：掃描線 / 故障效果 / 動態色彩漂移<br>
+
+<b style="color:#f66">⚙️ 模式</b><br>
 ${deltaInfo.replace(/\n/g,'<br>')}
 </div>`);
 }
@@ -2106,7 +2524,9 @@ function addMsg(role,html,rawContent){
     ${role==='a'?`<span class="msg-act" title="重說" onclick="retryMsg(${idx})">🔄</span>`:''}
     <span class="msg-act msg-act-del" onclick="delMsg(${idx})" title="刪除">🗑</span>
   </div>`;
-  w.appendChild(d);w.scrollTop=w.scrollHeight;updateHistBadge();return d;
+  w.appendChild(d);w.scrollTop=w.scrollHeight;updateHistBadge();
+  if (role==='a') { fxTypeMsg(d); imgCheckKeywords(d.querySelector('.bbl')?.innerText||''); }
+  return d;
 }
 function addThink(){
   const id='t'+(++tc);const w=document.getElementById('msgs');const d=document.createElement('div');
@@ -2250,6 +2670,7 @@ function buildSaveData() {
     history: hist, pins, gameState: GS, gameCfg,
     modules,
     badge: document.getElementById('sbadge').innerHTML,
+    imgState: { library: imgState.library, autoKw: imgState.autoKw, current: imgState.current, idCnt: _imgIdCnt },
   };
 }
 
@@ -2367,6 +2788,8 @@ function restoreFromData(data) {
   updateRuleTag();
   if (gameCfg.deltaEnabled) document.getElementById('btn-state-edit').style.display = '';
   if (gameCfg.imgEnabled)   document.getElementById('img-gen-btn').style.display = '';
+  fxRestoreAll();
+  imgRestoreFromSave(data);
 
   const msgWrap = document.getElementById('msgs'); msgWrap.innerHTML = ''; _msgIdx = 0;
   hist.forEach(m => {
@@ -3304,6 +3727,255 @@ ${promptInstruction}
   }
 }
 
+// ══════════════════════════════════════════════
+// IMAGE SYSTEM
+// ══════════════════════════════════════════════
+let imgState = {
+  library: [],
+  current: -1,
+  autoKw: true,
+  floatVisible: false,
+};
+let _imgIdCnt = 0;
+
+// ── Float drag ──
+(function(){
+  let dragging=false, ox=0, oy=0;
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const bar=document.getElementById('img-float-bar');
+    if(!bar) return;
+    const move = (cx,cy) => {
+      if(!dragging) return;
+      const fl=document.getElementById('img-float');
+      let nx=cx-ox, ny=cy-oy;
+      nx=Math.max(0,Math.min(window.innerWidth-fl.offsetWidth,nx));
+      ny=Math.max(0,Math.min(window.innerHeight-fl.offsetHeight,ny));
+      fl.style.left=nx+'px'; fl.style.top=ny+'px';
+      fl.style.right='auto'; fl.style.bottom='auto';
+    };
+    bar.addEventListener('mousedown', e=>{
+      if(e.target.closest('button')) return;
+      dragging=true;
+      const r=document.getElementById('img-float').getBoundingClientRect();
+      ox=e.clientX-r.left; oy=e.clientY-r.top; e.preventDefault();
+    });
+    bar.addEventListener('touchstart', e=>{
+      if(e.target.closest('button')) return;
+      dragging=true;
+      const r=document.getElementById('img-float').getBoundingClientRect();
+      const t=e.touches[0]; ox=t.clientX-r.left; oy=t.clientY-r.top;
+    }, {passive:true});
+    document.addEventListener('mousemove', e=>move(e.clientX,e.clientY));
+    document.addEventListener('touchmove', e=>{
+      if(!dragging) return;
+      const t=e.touches[0]; move(t.clientX,t.clientY);
+    }, {passive:true});
+    document.addEventListener('mouseup', ()=>dragging=false);
+    document.addEventListener('touchend', ()=>dragging=false);
+  });
+})();
+
+// ── Float resize ──
+(function(){
+  let resizing=false, startX=0, startY=0, startW=0, startH=0;
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const rh=document.getElementById('img-float-resize');
+    if(!rh) return;
+    rh.addEventListener('mousedown', e=>{
+      resizing=true;
+      startX=e.clientX; startY=e.clientY;
+      const fl=document.getElementById('img-float');
+      startW=fl.offsetWidth; startH=fl.offsetHeight;
+      e.preventDefault(); e.stopPropagation();
+    });
+    document.addEventListener('mousemove', e=>{
+      if(!resizing) return;
+      const fl=document.getElementById('img-float');
+      const w=Math.max(140,Math.min(window.innerWidth-40, startW+(e.clientX-startX)));
+      const h=Math.max(100,Math.min(window.innerHeight-40, startH+(e.clientY-startY)));
+      fl.style.width=w+'px'; fl.style.height=h+'px';
+    });
+    document.addEventListener('mouseup', ()=>resizing=false);
+    // Touch support
+    rh.addEventListener('touchstart', e=>{
+      resizing=true;
+      const t=e.touches[0]; startX=t.clientX; startY=t.clientY;
+      const fl=document.getElementById('img-float');
+      startW=fl.offsetWidth; startH=fl.offsetHeight;
+    }, {passive:true});
+    document.addEventListener('touchmove', e=>{
+      if(!resizing) return;
+      const t=e.touches[0];
+      const fl=document.getElementById('img-float');
+      const w=Math.max(140,Math.min(window.innerWidth-40, startW+(t.clientX-startX)));
+      const h=Math.max(100,Math.min(window.innerHeight-40, startH+(t.clientY-startY)));
+      fl.style.width=w+'px'; fl.style.height=h+'px';
+    }, {passive:true});
+    document.addEventListener('touchend', ()=>resizing=false);
+  });
+})();
+
+function imgFloatToggle() {
+  const fl=document.getElementById('img-float');
+  imgState.floatVisible=!imgState.floatVisible;
+  fl.classList.toggle('visible', imgState.floatVisible);
+  if(imgState.floatVisible && imgState.current<0 && imgState.library.length) imgFloatShow(0);
+}
+function imgFloatClose() {
+  imgState.floatVisible=false;
+  document.getElementById('img-float').classList.remove('visible');
+}
+function imgFloatShrink() {
+  const fl=document.getElementById('img-float');
+  const shrunk=fl.dataset.shrunk==='1';
+  if(shrunk){ fl.style.height=''; fl.dataset.shrunk='0'; }
+  else { fl.style.height='36px'; fl.dataset.shrunk='1'; }
+}
+function imgFloatShow(idx) {
+  if(!imgState.library.length) return;
+  idx=((idx%imgState.library.length)+imgState.library.length)%imgState.library.length;
+  imgState.current=idx;
+  const item=imgState.library[idx];
+  const el=document.getElementById('img-float-img');
+  el.classList.add('loading');
+  el.onload=()=>el.classList.remove('loading');
+  el.src=item.src;
+  document.getElementById('img-float-title').textContent=item.name||'圖片 '+(idx+1);
+  document.getElementById('img-float-counter').textContent=(idx+1)+' / '+imgState.library.length;
+  if(!imgState.floatVisible){ imgState.floatVisible=true; document.getElementById('img-float').classList.add('visible'); }
+  imgMgrRenderList();
+}
+function imgFloatNext(){ imgFloatShow(imgState.current+1); }
+function imgFloatPrev(){ imgFloatShow(imgState.current-1); }
+
+// ── Library ──
+function imgMgrAdd(nameVal, urlVal, kwVal) {
+  const name = nameVal!==undefined?nameVal:document.getElementById('imgmgr-name').value.trim();
+  const url  = urlVal!==undefined ?urlVal :document.getElementById('imgmgr-url').value.trim();
+  const kwRaw= kwVal!==undefined  ?kwVal  :document.getElementById('imgmgr-keywords').value.trim();
+  if(!url){ toast('⚠ 請輸入圖片網址或上傳圖片'); return; }
+  const keywords=kwRaw?kwRaw.split(/[,，\s]+/).map(k=>k.trim()).filter(Boolean):[];
+  const item={id:'img'+(++_imgIdCnt), name:name||'圖片'+_imgIdCnt, src:url, keywords};
+  imgState.library.push(item);
+  ['imgmgr-name','imgmgr-url','imgmgr-keywords'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  imgMgrRenderList();
+  if(imgState.library.length===1) imgFloatShow(0);
+  toast('✅ 已新增：'+item.name);
+  autoSave();
+}
+function imgMgrFromFile(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('imgmgr-url').value=ev.target.result;
+    if(!document.getElementById('imgmgr-name').value)
+      document.getElementById('imgmgr-name').value=file.name.replace(/\.[^.]+$/,'');
+    toast('📂 圖片已載入，按「新增」加入庫');
+  };
+  r.readAsDataURL(file); e.target.value='';
+}
+function imgMgrRemove(id) {
+  imgState.library=imgState.library.filter(x=>x.id!==id);
+  if(imgState.current>=imgState.library.length) imgState.current=imgState.library.length-1;
+  imgMgrRenderList();
+  if(!imgState.library.length) imgFloatClose();
+  else imgFloatShow(imgState.current);
+  autoSave();
+}
+function imgMgrRenderList() {
+  const list=document.getElementById('imgmgr-list'); if(!list) return;
+  list.innerHTML='';
+  imgState.library.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='img-slot'+(i===imgState.current?' active':'');
+    div.innerHTML=`<img class="img-slot-thumb" src="${item.src}" alt="" loading="lazy">
+      <div class="img-slot-info" onclick="imgFloatShow(${i})" style="cursor:pointer">
+        <div class="img-slot-name">${item.name}</div>
+        <div class="img-slot-kw">${item.keywords.length?'🔑 '+item.keywords.join(', '):'（無關鍵字）'}</div>
+      </div>
+      <button class="img-slot-del" onclick="imgMgrRemove('${item.id}')" title="移除">🗑</button>`;
+    list.appendChild(div);
+  });
+  const el=document.getElementById('imgmgr-count'); if(el) el.textContent=imgState.library.length+' 張';
+  // lib chips in insert modal
+  const chips=document.getElementById('chat-img-lib-chips');
+  const pick=document.getElementById('chat-img-lib-pick');
+  if(chips&&pick){
+    pick.style.display=imgState.library.length?'block':'none';
+    chips.innerHTML='';
+    imgState.library.forEach((item,i)=>{
+      const sp=document.createElement('span');
+      sp.className='fx-chip'; sp.textContent=item.name;
+      sp.onclick=()=>{ document.getElementById('chat-img-url-inp').value=item.src; };
+      chips.appendChild(sp);
+    });
+  }
+}
+
+// ── Keyword auto-switch ──
+function imgCheckKeywords(text) {
+  if(!imgState.autoKw||!imgState.library.length) return;
+  const lower=text.toLowerCase();
+  let bestIdx=-1, bestCount=0;
+  imgState.library.forEach((item,i)=>{
+    if(!item.keywords.length) return;
+    const count=item.keywords.filter(k=>lower.includes(k.toLowerCase())).length;
+    if(count>bestCount){ bestCount=count; bestIdx=i; }
+  });
+  if(bestIdx>=0&&bestIdx!==imgState.current) imgFloatShow(bestIdx);
+}
+
+// ── Chat inline image ──
+function openChatImgInsert() {
+  imgMgrRenderList();
+  document.getElementById('chat-img-modal').style.display='flex';
+}
+function closeChatImgModal() {
+  document.getElementById('chat-img-modal').style.display='none';
+  document.getElementById('chat-img-url-inp').value='';
+}
+function chatImgInsertFromModal() {
+  const url=document.getElementById('chat-img-url-inp').value.trim();
+  if(!url){ toast('⚠ 請輸入圖片網址或上傳圖片'); return; }
+  insertChatImage(url); closeChatImgModal();
+}
+function chatImgFromFile(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader(); r.onload=ev=>insertChatImage(ev.target.result);
+  r.readAsDataURL(file); e.target.value='';
+}
+function chatImgFromFile2(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader(); r.onload=ev=>{ document.getElementById('chat-img-url-inp').value=ev.target.result; };
+  r.readAsDataURL(file); e.target.value='';
+}
+function insertChatImage(src) {
+  const id='cimg'+(++_imgIdCnt);
+  const div=document.createElement('div');
+  div.className='msg a msg-wrap';
+  div.dataset.raw='[CHAT_IMG]';
+  div.innerHTML=`<div class="bbl" style="background:transparent!important;border:none!important;padding:.3rem 0!important">
+    <div class="chat-img-wrap" id="${id}">
+      <img src="${src}" alt="插入圖片" loading="lazy">
+      <button class="chat-img-remove" onclick="document.getElementById('${id}').closest('.msg')?.remove()" title="移除">✕</button>
+    </div></div>`;
+  const msgs=document.getElementById('msgs');
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
+  toast('🖼 圖片已插入對話');
+}
+
+// ── Save/Restore imgState ──
+function imgRestoreFromSave(data) {
+  if(!data.imgState) return;
+  imgState.library=data.imgState.library||[];
+  imgState.autoKw=data.imgState.autoKw!==false;
+  imgState.current=data.imgState.current??-1;
+  _imgIdCnt=data.imgState.idCnt||imgState.library.length;
+  const tog=document.getElementById('imgmgr-auto-kw');
+  if(tog) tog.checked=imgState.autoKw;
+  imgMgrRenderList();
+}
+
 // BGM SYSTEM
 // ══════════════════════════════════════════════
 let bgmState = { type: 'none', isPlaying: false };
@@ -3380,11 +4052,250 @@ function openSidePanel(id) {
   if (id === 'bgm-panel') {
     document.getElementById('ig-bgm-url').value =
       (bgmState.type === 'url') ? document.getElementById('bgm-audio').src : '';
+    const v = bgmState.vol ?? 45;
+    const sl = document.getElementById('bgm-vol');
+    const vl = document.getElementById('bgm-vol-val');
+    if (sl) sl.value = v;
+    if (vl) vl.textContent = v + '%';
   }
+  if (id === 'fx-panel') fxSyncUI();
   document.getElementById(id).classList.add('open');
 }
 function closeSidePanel(id) {
   document.getElementById(id).classList.remove('open');
+}
+
+// ══════════════════════════════════════════════
+// VISUAL FX SYSTEM
+// ══════════════════════════════════════════════
+const FX_DEFAULTS = { anim:'', bg:'', text:'', bbl:'', scan:'', glitch:'', theme:'' };
+if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+
+document.addEventListener('click', e => {
+  const chip = e.target.closest('.fx-chip');
+  if (!chip) return;
+  const fx  = chip.dataset.fx;
+  const val = chip.dataset.val;
+  if (fx === undefined) return;
+  fxApply(fx, val);
+});
+
+function fxApply(fx, val) {
+  if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+  gameCfg.fx[fx] = val;
+  const msgs = document.getElementById('msgs');
+  const body = document.body;
+
+  if (fx === 'anim') {
+    msgs.classList.remove('fx-anim-fade','fx-anim-slide','fx-anim-type','fx-bounce','fx-heartbeat');
+    if (val === 'fade')      msgs.classList.add('fx-anim-fade');
+    else if (val === 'slide')msgs.classList.add('fx-anim-slide');
+    else if (val === 'type') msgs.classList.add('fx-anim-type');
+    else if (val === 'bounce')    msgs.classList.add('fx-bounce');
+    else if (val === 'heartbeat') msgs.classList.add('fx-heartbeat');
+  }
+  if (fx === 'bg') {
+    fxStopBg();
+    const canvas = document.getElementById('fx-canvas');
+    if (val) { canvas.classList.add('active'); fxStartBg(val); }
+    else canvas.classList.remove('active');
+  }
+  if (fx === 'text') {
+    msgs.classList.remove('fx-text-glow','fx-text-shadow','fx-text-grad');
+    if (val) msgs.classList.add('fx-text-'+val);
+  }
+  if (fx === 'bbl') {
+    msgs.classList.remove('fx-bbl-parchment','fx-bbl-neon','fx-bbl-slate',
+      'fx-bbl-hacker','fx-bbl-chat','fx-bbl-live','fx-bbl-glass');
+    if (val) msgs.classList.add('fx-bbl-'+val);
+  }
+  if (fx === 'scan') {
+    body.classList.remove('fx-scanline','fx-scanline-bar');
+    if (val === 'on') body.classList.add('fx-scanline','fx-scanline-bar');
+  }
+  if (fx === 'glitch') {
+    msgs.classList.remove('fx-glitch');
+    body.classList.remove('fx-glitch-global');
+    if (val === 'bbl')    msgs.classList.add('fx-glitch');
+    if (val === 'global') body.classList.add('fx-glitch-global');
+  }
+  if (fx === 'theme') {
+    body.classList.remove('fx-theme-dynamic');
+    if (val === 'drift') body.classList.add('fx-theme-dynamic');
+  }
+
+  fxSyncUI();
+  autoSave();
+}
+
+function fxSyncUI() {
+  if (!gameCfg.fx) return;
+  Object.keys(FX_DEFAULTS).forEach(fx => {
+    const cur = gameCfg.fx[fx] ?? '';
+    document.querySelectorAll(`.fx-chip[data-fx="${fx}"]`).forEach(c => {
+      c.classList.toggle('on', c.dataset.val === cur);
+    });
+  });
+}
+
+function fxRestoreAll() {
+  if (!gameCfg.fx) gameCfg.fx = {...FX_DEFAULTS};
+  Object.entries(gameCfg.fx).forEach(([fx, val]) => fxApply(fx, val || ''));
+}
+
+function fxResetAll() {
+  Object.keys(FX_DEFAULTS).forEach(fx => fxApply(fx, ''));
+  toast('✨ 所有特效已關閉');
+}
+
+// ── Typewriter for addMsg ──
+function fxTypeMsg(el) {
+  if (gameCfg.fx?.anim !== 'type') return;
+  const bbl = el.querySelector('.bbl');
+  if (!bbl || el.classList.contains('u')) return;
+
+  // Collect all text nodes in DOM order
+  const walker = document.createTreeWalker(bbl, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) textNodes.push(node);
+  if (!textNodes.length) return;
+
+  // Store original text, blank them all out first
+  const originals = textNodes.map(n => { const t = n.textContent; n.textContent = ''; return t; });
+
+  let ni = 0, ci = 0;
+  const tick = () => {
+    if (ni >= textNodes.length) return;
+    const full = originals[ni];
+    textNodes[ni].textContent = full.slice(0, ++ci);
+    if (ci >= full.length) { ni++; ci = 0; }
+    setTimeout(tick, 14);
+  };
+  tick();
+}
+
+// ── Background FX engine ──
+let _fxBgRaf = null;
+let _fxBgCtx = null;
+let _fxBgParticles = [];
+
+function fxStopBg() {
+  if (_fxBgRaf) { cancelAnimationFrame(_fxBgRaf); _fxBgRaf = null; }
+  _fxBgParticles = [];
+  const c = document.getElementById('fx-canvas');
+  if (_fxBgCtx) _fxBgCtx.clearRect(0,0,c.width,c.height);
+}
+
+function fxStartBg(type) {
+  const canvas = document.getElementById('fx-canvas');
+  _fxBgCtx = canvas.getContext('2d');
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (type === 'particles') fxLoopParticles(canvas, _fxBgCtx, false, false);
+  if (type === 'stars')     fxLoopStars(canvas, _fxBgCtx);
+  if (type === 'snow')      fxLoopParticles(canvas, _fxBgCtx, true, false);
+  if (type === 'fire')      fxLoopFire(canvas, _fxBgCtx);
+}
+
+function fxMakeParticles(canvas, isSnow) {
+  const n = isSnow ? 120 : 60;
+  const arr = [];
+  for (let i=0;i<n;i++) arr.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*(isSnow?3:2)+1,
+    vx: (Math.random()-.5)*(isSnow?.6:1.2),
+    vy: Math.random()*(isSnow?.8:-.4)-(isSnow?0:.4),
+    a: Math.random()*.7+.1,
+    hue: isSnow?0: Math.random()*60+20,
+  });
+  return arr;
+}
+
+function fxLoopParticles(canvas, ctx, isSnow) {
+  if (!_fxBgParticles.length) _fxBgParticles = fxMakeParticles(canvas, isSnow);
+  const draw = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _fxBgParticles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      if (isSnow) ctx.fillStyle=`rgba(200,220,255,${p.a})`;
+      else ctx.fillStyle=`hsla(${p.hue},80%,70%,${p.a})`;
+      ctx.fill();
+      p.x+=p.vx; p.y+=p.vy;
+      if (p.y < -5) p.y=canvas.height+5;
+      if (p.y > canvas.height+5) p.y=-5;
+      if (p.x < -5) p.x=canvas.width+5;
+      if (p.x > canvas.width+5) p.x=-5;
+    });
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+function fxLoopStars(canvas, ctx) {
+  if (!_fxBgParticles.length) {
+    for(let i=0;i<180;i++) _fxBgParticles.push({
+      x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+      r:Math.random()*1.5+.3, a:Math.random(), da:(Math.random()-.5)*.015,
+    });
+  }
+  const draw = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _fxBgParticles.forEach(p => {
+      p.a = Math.max(.05, Math.min(.95, p.a+p.da));
+      if (p.a<=.05||p.a>=.95) p.da*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,240,200,${p.a})`;
+      ctx.fill();
+    });
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+function fxLoopFire(canvas, ctx) {
+  const cols = Math.floor(canvas.width/4)+2;
+  const rows = Math.floor(canvas.height/4)+2;
+  let buf = new Uint8Array(cols*rows).fill(0);
+  let buf2= new Uint8Array(cols*rows).fill(0);
+
+  const FIRE_COLORS=[];
+  for(let i=0;i<256;i++){
+    const r=Math.min(255,i*3);
+    const g=Math.max(0,Math.min(255,(i-80)*3));
+    const b=0; const a=Math.min(255,i*1.5);
+    FIRE_COLORS.push(`rgba(${r},${g},${b},${(a/255).toFixed(2)})`);
+  }
+
+  const draw = () => {
+    // seed bottom
+    for(let x=0;x<cols;x++) buf[(rows-1)*cols+x]=Math.random()>0.4?200+Math.random()*55|0:0;
+    // spread upward
+    for(let y=0;y<rows-1;y++) for(let x=0;x<cols;x++){
+      const sum=buf[(y+1)*cols+((x-1+cols)%cols)]+buf[(y+1)*cols+x]+
+                buf[(y+1)*cols+((x+1)%cols)]+buf[Math.min(rows-1,y+2)*cols+x];
+      buf2[y*cols+x]=Math.max(0,(sum>>2)-1);
+    }
+    [buf,buf2]=[buf2,buf];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const cw=canvas.width/cols, ch=canvas.height/rows;
+    for(let y=0;y<rows;y++) for(let x=0;x<cols;x++){
+      const v=buf[y*cols+x];
+      if(v<5) continue;
+      ctx.fillStyle=FIRE_COLORS[Math.min(255,v)];
+      ctx.fillRect(x*cw,y*ch,cw+1,ch+1);
+    }
+    _fxBgRaf = requestAnimationFrame(draw);
+  };
+  draw();
 }
 
 // ── Image settings in-game apply ──
@@ -3532,6 +4443,14 @@ function stopBGM() {
   toast('⏹ 音樂已停止');
 }
 
+function bgmSetVol(v) {
+  const audio = document.getElementById('bgm-audio');
+  audio.volume = v / 100;
+  const el = document.getElementById('bgm-vol-val');
+  if (el) el.textContent = v + '%';
+  if (bgmState) bgmState.vol = v;
+}
+
 // ══════════════════════════════════════════════
 // CUSTOM COLOR TAGS
 // ══════════════════════════════════════════════
@@ -3674,6 +4593,14 @@ function restoreCustomTagsUI(tags) {
       <button class="btn-cancel" onclick="stopBGM()">⏹ 停止音樂</button>
       <button class="btn-cancel" onclick="closeSidePanel('bgm-panel')">取消</button>
     </div>
+    <div style="border-top:1px solid rgba(212,160,23,.12);margin-top:.8rem;padding-top:.65rem">
+      <div class="vol-row">
+        <label>🔊 音量</label>
+        <input type="range" class="vol-slider" id="bgm-vol" min="0" max="100" value="45"
+          oninput="bgmSetVol(this.value)">
+        <span class="vol-val" id="bgm-vol-val">45%</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3709,6 +4636,177 @@ function restoreCustomTagsUI(tags) {
 </div>
 
 <audio id="bgm-audio" loop></audio>
+<canvas id="fx-canvas"></canvas>
+
+<!-- ══ FLOATING IMAGE WINDOW ══ -->
+<div id="img-float">
+  <div id="img-float-bar">
+    <span id="img-float-title">立繪 / 場景圖</span>
+    <button class="img-float-btn" onclick="imgFloatShrink()" title="縮小">−</button>
+    <button class="img-float-btn" onclick="imgFloatClose()" title="關閉">✕</button>
+  </div>
+  <img id="img-float-img" src="" alt="" onclick="imgFloatNext()" title="點擊切換下一張">
+  <div id="img-float-nav">
+    <button class="img-nav-btn" onclick="imgFloatPrev()" title="上一張">‹</button>
+    <span id="img-float-counter">0 / 0</span>
+    <button class="img-nav-btn" onclick="imgFloatNext()" title="下一張">›</button>
+  </div>
+  <div id="img-float-resize"></div>
+</div>
+
+<!-- ══ IMAGE MANAGER PANEL ══ -->
+<div id="imgmgr-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('imgmgr-panel')">
+  <div class="side-panel-box" style="max-height:90vh;overflow-y:auto;width:min(92vw,480px)">
+    <div class="side-panel-title">📁 圖片庫管理</div>
+    <div class="side-panel-desc" style="margin-bottom:.8rem">浮動視窗的立繪／場景圖 · 點擊切換 · 關鍵字自動換圖</div>
+
+    <!-- Add image -->
+    <div style="border:1px solid rgba(212,160,23,.2);border-radius:8px;padding:.75rem;margin-bottom:.8rem;background:rgba(0,0,0,.25)">
+      <div style="font-size:.75rem;color:rgba(212,160,23,.6);margin-bottom:.5rem;letter-spacing:.06em">➕ 新增圖片</div>
+      <input class="text-inp" id="imgmgr-name" placeholder="圖片名稱（可省略）" style="margin-bottom:.4rem">
+      <input class="text-inp" id="imgmgr-url" placeholder="圖片網址（直鏈 URL）" style="margin-bottom:.4rem">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
+        <span style="font-size:.75rem;color:rgba(245,230,200,.4)">或</span>
+        <button onclick="document.getElementById('imgmgr-file').click()"
+          style="flex:1;background:rgba(212,160,23,.08);border:1px dashed rgba(212,160,23,.3);
+          color:rgba(212,160,23,.6);padding:.4rem;border-radius:5px;cursor:pointer;font-size:.78rem">
+          📂 上傳本機圖片
+        </button>
+        <input type="file" id="imgmgr-file" accept="image/*" style="display:none" onchange="imgMgrFromFile(event)">
+      </div>
+      <input class="text-inp" id="imgmgr-keywords" placeholder="關鍵字（逗號分隔，AI回覆含關鍵字時自動切換）" style="margin-bottom:.5rem">
+      <button onclick="imgMgrAdd()" class="btn-confirm" style="width:100%">✅ 新增到圖片庫</button>
+    </div>
+
+    <!-- Slot list -->
+    <div style="font-size:.75rem;color:rgba(212,160,23,.5);margin-bottom:.35rem;letter-spacing:.06em">圖片庫 <span id="imgmgr-count" style="color:rgba(212,160,23,.3)">0 張</span></div>
+    <div class="img-slot-list" id="imgmgr-list"></div>
+
+    <!-- Keyword auto-switch toggle -->
+    <div style="margin-top:.75rem;border-top:1px solid rgba(212,160,23,.12);padding-top:.65rem">
+      <div class="s-toggle-row" style="padding:0">
+        <span style="font-size:.8rem;color:rgba(245,230,200,.65)">🔍 關鍵字自動換圖</span>
+        <label class="tog">
+          <input type="checkbox" id="imgmgr-auto-kw" checked onchange="imgState.autoKw=this.checked">
+          <span class="tog-slider"></span>
+        </label>
+      </div>
+      <div style="font-size:.68rem;color:rgba(212,160,23,.3);margin-top:.3rem">AI 回覆含關鍵字時自動切換浮動視窗圖片</div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:.8rem">
+      <button class="btn-cancel" onclick="closeSidePanel('imgmgr-panel')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHAT IMAGE INSERT MODAL ══ -->
+<div id="chat-img-modal" class="modal-bg" onclick="if(event.target===this)closeChatImgModal()" style="display:none">
+  <div class="modal-box" style="width:min(92vw,400px)">
+    <div class="modal-title">📎 插入圖片到對話</div>
+    <input class="text-inp" id="chat-img-url-inp" placeholder="圖片網址（直鏈 URL）" style="margin-bottom:.5rem">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+      <span style="font-size:.75rem;color:rgba(245,230,200,.4)">或</span>
+      <button onclick="document.getElementById('chat-img-file-inp2').click()"
+        style="flex:1;background:rgba(100,160,212,.08);border:1px dashed rgba(100,160,212,.3);
+        color:rgba(150,200,255,.6);padding:.4rem;border-radius:5px;cursor:pointer;font-size:.78rem">
+        📂 上傳本機圖片
+      </button>
+      <input type="file" id="chat-img-file-inp2" accept="image/*" style="display:none" onchange="chatImgFromFile2(event)">
+    </div>
+    <!-- Library quick pick -->
+    <div id="chat-img-lib-pick" style="display:none">
+      <div style="font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.35rem">或從圖片庫選取</div>
+      <div id="chat-img-lib-chips" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.5rem"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="chatImgInsertFromModal()">✅ 插入</button>
+      <button class="btn-cancel" onclick="closeChatImgModal()">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FX PANEL ══ -->
+<div id="fx-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('fx-panel')">
+  <div class="side-panel-box" style="max-height:88vh;overflow-y:auto;width:min(92vw,480px)">
+    <div class="side-panel-title">✨ 視覺特效</div>
+    <div class="side-panel-desc" style="margin-bottom:.9rem">點選即時套用 · 可疊加 · 存檔還原</div>
+
+    <!-- 訊息入場 -->
+    <div class="fx-section">
+      <div class="fx-section-title">💫 訊息入場動畫</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="anim" data-val="">關閉</span>
+        <span class="fx-chip" data-fx="anim" data-val="fade">淡入</span>
+        <span class="fx-chip" data-fx="anim" data-val="slide">滑入</span>
+        <span class="fx-chip" data-fx="anim" data-val="type">打字機</span>
+        <span class="fx-chip" data-fx="anim" data-val="bounce">彈跳 🆕</span>
+        <span class="fx-chip" data-fx="anim" data-val="heartbeat">心跳 🆕</span>
+      </div>
+    </div>
+
+    <!-- 背景特效 -->
+    <div class="fx-section">
+      <div class="fx-section-title">🌌 背景特效</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="bg" data-val="">關閉</span>
+        <span class="fx-chip" data-fx="bg" data-val="particles">粒子</span>
+        <span class="fx-chip" data-fx="bg" data-val="stars">星空</span>
+        <span class="fx-chip" data-fx="bg" data-val="snow">飄雪</span>
+        <span class="fx-chip" data-fx="bg" data-val="fire">火焰</span>
+      </div>
+    </div>
+
+    <!-- 文字特效 -->
+    <div class="fx-section">
+      <div class="fx-section-title">✍️ 文字特效</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="text" data-val="">關閉</span>
+        <span class="fx-chip" data-fx="text" data-val="glow">發光</span>
+        <span class="fx-chip" data-fx="text" data-val="shadow">陰影</span>
+        <span class="fx-chip" data-fx="text" data-val="grad">漸層色</span>
+      </div>
+    </div>
+
+    <!-- 對話泡泡 -->
+    <div class="fx-section">
+      <div class="fx-section-title">💬 對話泡泡樣式</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="bbl" data-val="">預設</span>
+        <span class="fx-chip" data-fx="bbl" data-val="parchment">羊皮紙</span>
+        <span class="fx-chip" data-fx="bbl" data-val="neon">霓虹</span>
+        <span class="fx-chip" data-fx="bbl" data-val="slate">石板</span>
+        <span class="fx-chip" data-fx="bbl" data-val="hacker">駭客 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="chat">聊天室 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="live">直播間 🆕</span>
+        <span class="fx-chip" data-fx="bbl" data-val="glass">毛玻璃 🆕</span>
+      </div>
+    </div>
+
+    <!-- 全域特效 -->
+    <div class="fx-section">
+      <div class="fx-section-title">⚡ 全域特效</div>
+      <div class="fx-chips">
+        <span class="fx-chip" data-fx="scan" data-val="" >掃描線 關</span>
+        <span class="fx-chip" data-fx="scan" data-val="on">掃描線 開</span>
+      </div>
+      <div class="fx-chips" style="margin-top:.35rem">
+        <span class="fx-chip" data-fx="glitch" data-val="">故障 關</span>
+        <span class="fx-chip" data-fx="glitch" data-val="bbl">故障·泡泡</span>
+        <span class="fx-chip" data-fx="glitch" data-val="global">故障·全局</span>
+      </div>
+      <div class="fx-chips" style="margin-top:.35rem">
+        <span class="fx-chip" data-fx="theme" data-val="">動態主題 關</span>
+        <span class="fx-chip" data-fx="theme" data-val="drift">動態主題 開</span>
+      </div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:.5rem">
+      <button class="btn-confirm" onclick="fxResetAll()">↺ 全部關閉</button>
+      <button class="btn-cancel" onclick="closeSidePanel('fx-panel')">關閉</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
