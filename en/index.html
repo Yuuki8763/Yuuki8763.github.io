@@ -624,6 +624,38 @@
   .qload-in-ta:focus{border-color:var(--gold)}
   .qload-in-ta::placeholder{color:rgba(212,160,23,.22)}
 
+  /* ── CUSTOM COLOR TAGS ── */
+  .r-cx{font-style:normal;font-weight:bold}
+  .ctag-item{display:flex;align-items:center;gap:.35rem;background:rgba(0,0,0,.3);
+    border:1px solid rgba(212,160,23,.15);border-radius:5px;padding:.32rem .5rem}
+  .ctag-name-inp{flex:1;background:transparent;border:none;outline:none;
+    color:rgba(245,230,200,.8);font-size:.78rem;font-family:monospace;min-width:0;
+    -webkit-user-select:text;user-select:text}
+  .ctag-name-inp::placeholder{color:rgba(212,160,23,.25)}
+  input[type=color].ctag-color{width:26px;height:22px;border:none;background:none;
+    cursor:pointer;padding:0;flex-shrink:0;border-radius:3px}
+
+  /* ── TOKEN LIMITS ── */
+  .token-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem}
+  .token-field{display:flex;flex-direction:column;gap:.22rem}
+  .token-inp{width:100%;background:rgba(8,3,0,.9);border:1px solid var(--border);
+    color:#fff;padding:.45rem .7rem;border-radius:4px;font-size:.84rem;
+    font-family:monospace;outline:none;transition:border-color .3s;
+    -webkit-user-select:text;user-select:text}
+  .token-inp:focus{border-color:var(--gold2)}
+
+  /* ── SIDE PANELS ── */
+  .side-panel{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
+    display:none;align-items:center;justify-content:center}
+  .side-panel.open{display:flex}
+  .side-panel-box{background:linear-gradient(160deg,#1a0a00,#0d0500);
+    border:1px solid var(--border);border-radius:12px;
+    padding:1.4rem 1.6rem;width:min(92vw,420px);
+    box-shadow:0 8px 40px rgba(0,0,0,.8)}
+  .side-panel-title{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1rem;
+    color:var(--gold2);letter-spacing:.15em;margin-bottom:.35rem}
+  .side-panel-desc{font-size:.72rem;color:rgba(212,160,23,.4);margin-bottom:.2rem}
+
   /* ── SIDE PANELS ── */
   .side-panel{
     position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
@@ -746,11 +778,21 @@
     </div>
     <div class="toggle-row" style="margin-top:.4rem">
       <div class="toggle-label">
-        Narrative Tag Rendering [H] [N] [P] [T]
-        <span class="toggle-sub">Convert AI output tags to colorized formatting</span>
+        Built-in Narrative Tags [H] [N] [P] [T]
+        <span class="toggle-sub">Convert AI output tags to colorized formatting (gold names, blue locations…)</span>
       </div>
       <label class="tog">
         <input type="checkbox" id="tog-render" checked>
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row" style="margin-top:.4rem">
+      <div class="toggle-label">
+        Custom Color Tags [N1] [N2]…
+        <span class="toggle-sub">Render custom color tags defined below</span>
+      </div>
+      <label class="tog">
+        <input type="checkbox" id="tog-render-custom" checked>
         <span class="tog-slider"></span>
       </label>
     </div>
@@ -764,27 +806,51 @@
         <span class="tog-slider"></span>
       </label>
     </div>
+    <div style="margin-top:.8rem;border-top:1px solid rgba(212,160,23,.12);padding-top:.75rem">
+      <div style="font-size:.75rem;color:rgba(212,160,23,.6);margin-bottom:.35rem;letter-spacing:.06em">TOKEN LIMITS</div>
+      <div class="token-row">
+        <div class="token-field">
+          <label class="field-label">Output limit (max_tokens)</label>
+          <input class="token-inp" id="tok-out" type="number" min="256" max="32000" placeholder="Empty = unlimited">
+        </div>
+        <div class="token-field">
+          <label class="field-label">Context window (messages)</label>
+          <input class="token-inp" id="tok-ctx" type="number" min="1" max="200" placeholder="Empty = all">
+        </div>
+      </div>
+      <div class="field-hint">Leave empty for no limit. Context N = only send the last N messages to the AI.</div>
+    </div>
+  </div>
+
+  <!-- Custom Color Tags -->
+  <div class="sp-card">
+    <div class="sp-card-title">🎨 Custom Color Tags <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Unlimited</span></div>
+    <div class="field-hint" style="margin-bottom:.6rem">Define a tag purpose and color. AI will wrap matching content with the tag.<br>e.g. "NPC dialogue" → AI uses [N1]…[/N1] around NPC speech, rendered in your chosen color.</div>
+    <div id="ctag-rows" style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem"></div>
+    <button onclick="addCtagRow()" style="background:rgba(212,160,23,.1);border:1px dashed rgba(212,160,23,.3);color:rgba(212,160,23,.6);padding:.35rem .8rem;border-radius:4px;cursor:pointer;font-size:.78rem;width:100%;transition:all .2s"
+      onmouseover="this.style.background='rgba(212,160,23,.18)'" onmouseout="this.style.background='rgba(212,160,23,.1)'">＋ Add Tag</button>
   </div>
 
   <!-- Image Generation -->
   <div class="sp-card">
-    <div class="sp-card-title">🖼️ Image Generation <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Pollinations API</span></div>
-    <div class="toggle-row">
-      <div class="toggle-label">
-        Enable AI Image Generation
-        <span class="toggle-sub">Requires an API Key to activate</span>
-      </div>
-      <label class="tog">
-        <input type="checkbox" id="tog-img" onchange="document.getElementById('img-settings').style.display=this.checked?'block':'none'">
-        <span class="tog-slider"></span>
-      </label>
+    <div class="sp-card-title">🖼️ Image Generation <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">Optional · Pollinations BYOP</span></div>
+    <div id="byop-status" style="display:none;align-items:center;gap:.6rem;margin-bottom:.6rem;background:rgba(100,200,100,.08);border:1px solid rgba(100,200,100,.2);border-radius:6px;padding:.5rem .75rem">
+      <span style="font-size:.85rem">✅</span>
+      <span style="font-size:.78rem;color:rgba(180,240,180,.8)">Connected to Pollinations — image generation ready</span>
+      <button onclick="byopDisconnect()" style="margin-left:auto;background:none;border:none;color:rgba(255,120,120,.5);cursor:pointer;font-size:.72rem;padding:0"
+        onmouseover="this.style.color='rgba(255,120,120,.9)'" onmouseout="this.style.color='rgba(255,120,120,.5)'">✕ Disconnect</button>
     </div>
-    <div id="img-settings" style="display:none; margin-top:.7rem; border-top:1px solid rgba(212,160,23,.15); padding-top:.7rem">
-      <label class="field-label">Image API Key</label>
-      <input class="text-inp" id="img-key-inp" placeholder="Enter your Pollinations API Key">
-      <label class="field-label" style="margin-top:.5rem">Image Model (default: flux)</label>
+    <button id="byop-btn" onclick="byopAuth()" style="width:100%;background:linear-gradient(135deg,rgba(212,160,23,.15),rgba(212,160,23,.08));border:1px solid rgba(212,160,23,.35);color:rgba(245,230,200,.85);padding:.65rem 1rem;border-radius:6px;cursor:pointer;font-size:.85rem;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:.5rem"
+      onmouseover="this.style.background='linear-gradient(135deg,rgba(212,160,23,.25),rgba(212,160,23,.15))'"
+      onmouseout="this.style.background='linear-gradient(135deg,rgba(212,160,23,.15),rgba(212,160,23,.08))'">
+      🌼 Connect Pollinations (free image gen)
+    </button>
+    <div class="field-hint">After connecting, image costs are charged to your own account — developer pays $0. Keys expire in 30 days.</div>
+    <div id="img-settings" style="margin-top:.7rem;border-top:1px solid rgba(212,160,23,.12);padding-top:.6rem;display:none">
+      <label class="field-label">Image Model (default: flux)</label>
       <input class="text-inp" id="img-model-inp" value="flux" placeholder="e.g. flux, nanobanana">
     </div>
+    <input type="hidden" id="img-key-inp" value="">
   </div>
 
   <!-- BGM -->
@@ -846,6 +912,8 @@
     <div class="s-pin-badge" id="bgm-badge">—</div>
     <hr>
     <div class="s-label">IMAGE GEN</div>
+    <div class="s-pin-badge" id="ig-byop-badge">🔗 Not connected</div>
+    <button class="s-btn" id="ig-byop-btn" onclick="byopAuth()">🌼 Connect Pollinations</button>
     <div class="s-toggle-row">
       <span>🖼️ Enable Generation</span>
       <label class="tog">
@@ -853,16 +921,49 @@
         <span class="tog-slider"></span>
       </label>
     </div>
-    <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">🔑 Change Image Key / Model</button>
+    <button class="s-btn" onclick="openSidePanel('img-panel')" style="font-size:.72rem;color:rgba(212,160,23,.5)">⚙️ Change Image Model</button>
     <hr>
     <div class="s-label">APPEARANCE</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 Color Theme</button>
+    <div class="s-toggle-row">
+      <span>🏷️ Built-in Narrative Tags</span>
+      <label class="tog">
+        <input type="checkbox" id="ig-tog-render" onchange="toggleRenderTags(this.checked)">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <div class="s-toggle-row">
+      <span>🎨 Custom Color Tags</span>
+      <label class="tog">
+        <input type="checkbox" id="ig-tog-render-custom" onchange="gameCfg.renderCustomTags=this.checked;reRenderAllMsgs()">
+        <span class="tog-slider"></span>
+      </label>
+    </div>
+    <button class="s-btn" onclick="openCtagPanel()" style="font-size:.72rem;color:rgba(212,160,23,.5)">✏️ Edit Color Tags</button>
     <div class="s-toggle-row">
       <span>🕐 Inject Real Time</span>
       <label class="tog">
         <input type="checkbox" id="ig-tog-realtime" onchange="gameCfg.injectRealTime=this.checked">
         <span class="tog-slider"></span>
       </label>
+    </div>
+    <div style="padding:.35rem .62rem;font-size:.74rem;color:rgba(245,230,200,.5)">
+      <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem">
+        <span style="flex:1">📤 max_tokens</span>
+        <input type="number" id="ig-tok-out" min="256" max="32000"
+          style="width:80px;background:rgba(0,0,0,.5);border:1px solid var(--border);
+          color:var(--paper);padding:.2rem .4rem;border-radius:3px;font-size:.74rem;
+          font-family:monospace;outline:none;text-align:right" placeholder="∞"
+          onchange="gameCfg.maxTokens=this.value?parseInt(this.value):null">
+      </div>
+      <div style="display:flex;align-items:center;gap:.4rem">
+        <span style="flex:1">✂️ context messages</span>
+        <input type="number" id="ig-tok-ctx" min="1" max="200"
+          style="width:80px;background:rgba(0,0,0,.5);border:1px solid var(--border);
+          color:var(--paper);padding:.2rem .4rem;border-radius:3px;font-size:.74rem;
+          font-family:monospace;outline:none;text-align:right" placeholder="∞"
+          onchange="gameCfg.ctxLimit=this.value?parseInt(this.value):null">
+      </div>
     </div>
     <hr>
     <div class="s-label">HELP</div>
@@ -995,10 +1096,14 @@ let gameCfg = {
   opening: '',
   deltaEnabled: true,
   renderTags: true,
+  renderCustomTags: true,
   injectRealTime: false,
   imgEnabled: false,
   imgKey: '',
   imgModel: 'flux',
+  maxTokens: null,
+  ctxLimit: null,
+  customTags: [],
 };
 
 const DEFAULT_STATE = () => ({
@@ -1254,32 +1359,13 @@ function buildSYS() {
   let base = moduleText || FREE_MODE_PROMPT;
   if (gameCfg.deltaEnabled) base += DELTA_ADDON;
   if (gameCfg.renderTags)   base += RENDER_ADDON;
-  return base;
-}
-
-function buildStateContext() {
-  const pcEntries = Object.entries(GS.pc);
-  const pcLine = pcEntries.length
-    ? pcEntries.map(([k,v])=>`${k}:${v}`).join(' ')
-    : '(No PC values)';
-  const charLines = Object.entries(GS.chars).map(([n,c]) => {
-    const fields = Object.entries(c).filter(([k])=>k!=='_route').map(([k,v])=>`${k}:${v}`).join(' ');
-    return `  ${n}${c._route?' ['+c._route+']':''}  ${fields}`;
-  }).join('\n');
-  let realTimeLine = '';
-  if (gameCfg.injectRealTime) {
-    const now = new Date();
-    const rtStr = now.toLocaleString('en-US', {
-      year:'numeric', month:'2-digit', day:'2-digit',
-      weekday:'short', hour:'2-digit', minute:'2-digit'
-    });
-    realTimeLine = `\nReal-world time: ${rtStr}`;
+  if (gameCfg.renderCustomTags && gameCfg.customTags && gameCfg.customTags.length > 0) {
+    const tagLines = gameCfg.customTags.map(t =>
+      `  [N${t.slot}]text[/N${t.slot}] → purpose: ${t.name}`
+    ).join('\n');
+    base += `\n\n[Custom Color Tags]\nUse the following tags to mark matching content in your narration:\n${tagLines}\nRule: wrap any text matching the purpose with the tag, e.g. if N1 is "NPC dialogue", wrap NPC speech with [N1]...[/N1].`;
   }
-  return `[Current World State (Turn ${GS.turn})]
-Time: ${GS.time}　Location: ${GS.location}${realTimeLine}
-PC: ${pcLine}
-${charLines?'Entity States:\n'+charLines:'(No entities on scene yet)'}
-——The above are precise values calculated by the frontend. Use these as reference.——`;
+  return base;
 }
 
 function buildMsgs() {
@@ -1306,7 +1392,33 @@ function buildMsgs() {
       {role:'assistant', content:'Priority memory noted and remembered.'}
     );
   }
-  return [...pre, ...hist];
+  const limitedHist = (gameCfg.ctxLimit > 0) ? hist.slice(-gameCfg.ctxLimit) : hist;
+  return [...pre, ...limitedHist];
+}
+
+function buildStateContext() {
+  const pcEntries = Object.entries(GS.pc);
+  const pcLine = pcEntries.length
+    ? pcEntries.map(([k,v])=>`${k}:${v}`).join(' ')
+    : '(No PC values)';
+  const charLines = Object.entries(GS.chars).map(([n,c]) => {
+    const fields = Object.entries(c).filter(([k])=>k!=='_route').map(([k,v])=>`${k}:${v}`).join(' ');
+    return `  ${n}${c._route?' ['+c._route+']':''}  ${fields}`;
+  }).join('\n');
+  let realTimeLine = '';
+  if (gameCfg.injectRealTime) {
+    const now = new Date();
+    const rtStr = now.toLocaleString('en-US', {
+      year:'numeric', month:'2-digit', day:'2-digit',
+      weekday:'short', hour:'2-digit', minute:'2-digit'
+    });
+    realTimeLine = `\nReal-world time: ${rtStr}`;
+  }
+  return `[Current World State (Turn ${GS.turn})]
+Time: ${GS.time}　Location: ${GS.location}${realTimeLine}
+PC: ${pcLine}
+${charLines?'Entity States:\n'+charLines:'(No entities on scene yet)'}
+——The above are precise values calculated by the frontend. Use these as reference.——`;
 }
 
 // ══════════════════════════════════════════════
@@ -1551,12 +1663,17 @@ function go(){
   gameCfg.opening=document.getElementById('opening-ta').value.trim();
   gameCfg.deltaEnabled=document.getElementById('tog-delta').checked;
   gameCfg.renderTags=document.getElementById('tog-render').checked;
+  gameCfg.renderCustomTags=document.getElementById('tog-render-custom').checked;
   gameCfg.injectRealTime=document.getElementById('tog-realtime').checked;
 
-  gameCfg.imgEnabled = document.getElementById('tog-img').checked;
-  gameCfg.imgKey = document.getElementById('img-key-inp').value.trim();
+  gameCfg.imgEnabled = !!gameCfg.imgKey;
   gameCfg.imgModel = document.getElementById('img-model-inp').value.trim() || 'flux';
-  if (gameCfg.imgEnabled && !gameCfg.imgKey) gameCfg.imgEnabled = false;
+
+  gameCfg.maxTokens = document.getElementById('tok-out').value ? parseInt(document.getElementById('tok-out').value) : null;
+  gameCfg.ctxLimit  = document.getElementById('tok-ctx').value ? parseInt(document.getElementById('tok-ctx').value) : null;
+  gameCfg.customTags = readCustomTags();
+  document.getElementById('ig-tok-out').value = gameCfg.maxTokens || '';
+  document.getElementById('ig-tok-ctx').value = gameCfg.ctxLimit  || '';
 
   const info=P[cfg.provider];
   document.getElementById('sbadge').innerHTML=info.label+'<br><span style="color:rgba(212,160,23,.8);font-size:.7rem">'+cfg.model+'</span>';
@@ -1567,6 +1684,11 @@ function go(){
 
   const igRt = document.getElementById('ig-tog-realtime');
   if (igRt) igRt.checked = gameCfg.injectRealTime;
+  const igRender = document.getElementById('ig-tog-render');
+  if (igRender) igRender.checked = gameCfg.renderTags;
+  const igRenderCustom = document.getElementById('ig-tog-render-custom');
+  if (igRenderCustom) igRenderCustom.checked = gameCfg.renderCustomTags;
+  updateByopUI(!!gameCfg.imgKey);
 
   const sp=document.getElementById('splash');
   sp.style.opacity='0';
@@ -1819,7 +1941,7 @@ async function callAPI(_msg, init){
       }
     }
     const displayRaw=r.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
-    addMsg('a', (gameCfg.renderTags?renderNarrative(displayRaw):esc(displayRaw)) + deltaInfo, r);
+    addMsg('a', renderNarrative(displayRaw) + deltaInfo, r);
   }catch(e){
     rmThink(tid);
     addMsg('a',`<span style="color:#f66">⚠ Error: ${esc(e.message)}</span><br>
@@ -1830,11 +1952,13 @@ async function callAPI(_msg, init){
 }
 
 async function apiAnthropic(SYS){
+  const body={model:cfg.model,system:SYS,messages:buildMsgs()};
+  body.max_tokens = gameCfg.maxTokens || 8192;
   const r=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':cfg.key,
       'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:cfg.model,max_tokens:4096,system:SYS,messages:buildMsgs()})
+    body:JSON.stringify(body)
   });
   const d=await r.json();
   if(!r.ok)throw new Error(d.error?.message||'HTTP '+r.status);
@@ -1842,10 +1966,12 @@ async function apiAnthropic(SYS){
 }
 async function apiOAI(SYS){
   const ep=cfg.provider==='custom'&&cfg.ep?cfg.ep:'https://api.openai.com/v1/chat/completions';
+  const body={model:cfg.model,messages:[{role:'system',content:SYS},...buildMsgs()]};
+  if(gameCfg.maxTokens) body.max_tokens=gameCfg.maxTokens;
   const r=await fetch(ep,{
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},
-    body:JSON.stringify({model:cfg.model,max_tokens:4096,messages:[{role:'system',content:SYS},...buildMsgs()]})
+    body:JSON.stringify(body)
   });
   const d=await r.json();
   if(!r.ok)throw new Error(d.error?.message||'HTTP '+r.status);
@@ -1853,13 +1979,15 @@ async function apiOAI(SYS){
 }
 async function apiGemini(SYS){
   const url=`https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${cfg.key}`;
+  const genCfg={};
+  if(gameCfg.maxTokens) genCfg.maxOutputTokens=gameCfg.maxTokens;
   const r=await fetch(url,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       system_instruction:{parts:[{text:SYS}]},
       contents:buildMsgs().map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]})),
-      generationConfig:{maxOutputTokens:4096}
+      generationConfig:genCfg
     })
   });
   const d=await r.json();
@@ -1876,26 +2004,59 @@ const OPT_COLORS=['#944','#649','#974','#494','#446','#694'];
 function renderNarrative(raw){
   raw=raw.replace(/\r\n/g,'\n').replace(/\n/g,'<br>');
   raw=raw.replace(/\[ST\][\s\S]*?\[\/ST\]/gi,'');
-  let optIdx=0;
-  let html=raw
-    .replace(/\[H\]([\s\S]*?)\[\/H\]/g,(_,t)=>`<p class="r-h">${t}</p>`)
-    .replace(/\[N\]([\s\S]*?)\[\/N\]/g,(_,t)=>`<b class="r-n">${t}</b>`)
-    .replace(/\[P\]([\s\S]*?)\[\/P\]/g,(_,t)=>`<b class="r-p">${t}</b>`)
-    .replace(/\[T\]([\s\S]*?)\[\/T\]/g,(_,t)=>`<em class="r-t">[${t}]</em>`)
-    .replace(/\[K\]([\s\S]*?)\[\/K\]/g,(_,t)=>`<b class="r-k">${t}</b>`)
-    .replace(/\[SAVE\]([\s\S]*?)\[\/SAVE\]/g,(_,body)=>{
-      const id='sv'+Math.random().toString(36).slice(2);
-      return `<div class="r-save"><div class="r-save-hd" onclick="togSave('${id}')">📋 Summary <span id="${id}a">▼</span></div>` +
-        `<pre class="r-save-body" id="${id}">${body.replace(/</g,'&lt;')}</pre></div>`;
-    })
-    .replace(/\[OPT\]([\s\S]*?)\[\/OPT\]/g,(_,t)=>{
-      const p=t.split('|');
-      const label=p[0]||'';
-      const sv=(p[1]||p[0]||'').replace(/'/g,"&#39;");
-      const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
-      optIdx++;
-      return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
+  // Custom color tags (N1, N2…)
+  if (gameCfg.renderCustomTags && gameCfg.customTags && gameCfg.customTags.length > 0) {
+    gameCfg.customTags.forEach(tag => {
+      const n = tag.slot;
+      const re = new RegExp(`\\[N${n}\\]([\\s\\S]*?)\\[/N${n}\\]`, 'g');
+      raw = raw.replace(re, (_, t) => `<span class="r-cx" style="color:${tag.color}">${t}</span>`);
     });
+  } else if (!gameCfg.renderCustomTags) {
+    raw = raw.replace(/\[N\d+\]([\s\S]*?)\[\/N\d+\]/g, '$1');
+  }
+  let optIdx=0;
+  let html;
+  if (gameCfg.renderTags) {
+    html=raw
+      .replace(/\[H\]([\s\S]*?)\[\/H\]/g,(_,t)=>`<p class="r-h">${t}</p>`)
+      .replace(/\[N\]([\s\S]*?)\[\/N\]/g,(_,t)=>`<b class="r-n">${t}</b>`)
+      .replace(/\[P\]([\s\S]*?)\[\/P\]/g,(_,t)=>`<b class="r-p">${t}</b>`)
+      .replace(/\[T\]([\s\S]*?)\[\/T\]/g,(_,t)=>`<em class="r-t">[${t}]</em>`)
+      .replace(/\[K\]([\s\S]*?)\[\/K\]/g,(_,t)=>`<b class="r-k">${t}</b>`)
+      .replace(/\[SAVE\]([\s\S]*?)\[\/SAVE\]/g,(_,body)=>{
+        const id='sv'+Math.random().toString(36).slice(2);
+        return `<div class="r-save"><div class="r-save-hd" onclick="togSave('${id}')">📋 Summary <span id="${id}a">▼</span></div>` +
+          `<pre class="r-save-body" id="${id}">${body.replace(/</g,'&lt;')}</pre></div>`;
+      })
+      .replace(/\[OPT\]([\s\S]*?)\[\/OPT\]/g,(_,t)=>{
+        const p=t.split('|');
+        const label=p[0]||'';
+        const sv=(p[1]||p[0]||'').replace(/'/g,"&#39;");
+        const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
+        optIdx++;
+        return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
+      });
+  } else {
+    html=raw
+      .replace(/\[H\]([\s\S]*?)\[\/H\]/g,'$1')
+      .replace(/\[N\]([\s\S]*?)\[\/N\]/g,'$1')
+      .replace(/\[P\]([\s\S]*?)\[\/P\]/g,'$1')
+      .replace(/\[T\]([\s\S]*?)\[\/T\]/g,'[$1]')
+      .replace(/\[K\]([\s\S]*?)\[\/K\]/g,'$1')
+      .replace(/\[SAVE\]([\s\S]*?)\[\/SAVE\]/g,(_,body)=>{
+        const id='sv'+Math.random().toString(36).slice(2);
+        return `<div class="r-save"><div class="r-save-hd" onclick="togSave('${id}')">📋 Summary <span id="${id}a">▼</span></div>` +
+          `<pre class="r-save-body" id="${id}">${body.replace(/</g,'&lt;')}</pre></div>`;
+      })
+      .replace(/\[OPT\]([\s\S]*?)\[\/OPT\]/g,(_,t)=>{
+        const p=t.split('|');
+        const label=p[0]||'';
+        const sv=(p[1]||p[0]||'').replace(/'/g,"&#39;");
+        const color=p[2]||OPT_COLORS[optIdx%OPT_COLORS.length];
+        optIdx++;
+        return `<span class="r-opt" style="background:${color}" onclick="send('${sv}')">${label}</span>`;
+      });
+  }
   if(optIdx>0) html=html.replace(/(<span class="r-opt"[\s\S]*?<\/span>\s*)+/g,m=>`<div class="r-opts">${m}</div>`);
   return html;
 }
@@ -2141,17 +2302,26 @@ function restoreFromData(data) {
     restoreThemeFromCfg();
     const igRt = document.getElementById('ig-tog-realtime');
     if (igRt) igRt.checked = !!gameCfg.injectRealTime;
-    // Restore image settings UI
-    const togImg     = document.getElementById('tog-img');
-    const imgKeyInp  = document.getElementById('img-key-inp');
-    const imgModelInp= document.getElementById('img-model-inp');
-    const imgSettings= document.getElementById('img-settings');
-    const igTogImg   = document.getElementById('ig-tog-img');
-    if (togImg)      togImg.checked       = !!gameCfg.imgEnabled;
-    if (imgKeyInp)   imgKeyInp.value      = gameCfg.imgKey   || '';
-    if (imgModelInp) imgModelInp.value    = gameCfg.imgModel || 'flux';
+    const igRender = document.getElementById('ig-tog-render');
+    if (igRender) igRender.checked = gameCfg.renderTags !== false;
+    const igRenderCustom = document.getElementById('ig-tog-render-custom');
+    if (igRenderCustom) igRenderCustom.checked = gameCfg.renderCustomTags !== false;
+    const imgModelInp = document.getElementById('img-model-inp');
+    const imgSettings = document.getElementById('img-settings');
+    const igTogImg    = document.getElementById('ig-tog-img');
+    if (imgModelInp) imgModelInp.value = gameCfg.imgModel || 'flux';
     if (imgSettings) imgSettings.style.display = gameCfg.imgEnabled ? 'block' : 'none';
-    if (igTogImg)    igTogImg.checked     = !!gameCfg.imgEnabled;
+    if (igTogImg)    igTogImg.checked = !!gameCfg.imgEnabled;
+    const tokOut = document.getElementById('tok-out');
+    const tokCtx = document.getElementById('tok-ctx');
+    const igTokOut = document.getElementById('ig-tok-out');
+    const igTokCtx = document.getElementById('ig-tok-ctx');
+    if (tokOut) tokOut.value = gameCfg.maxTokens || '';
+    if (tokCtx) tokCtx.value = gameCfg.ctxLimit  || '';
+    if (igTokOut) igTokOut.value = gameCfg.maxTokens || '';
+    if (igTokCtx) igTokCtx.value = gameCfg.ctxLimit  || '';
+    if (Array.isArray(gameCfg.customTags)) restoreCustomTagsUI(gameCfg.customTags);
+    updateByopUI(!!gameCfg.imgKey);
   }
   if (Array.isArray(data.modules) && data.modules.length) {
     modules = [...data.modules]; _modId = modules.length;
@@ -2176,7 +2346,7 @@ function restoreFromData(data) {
     if (m.role === 'user') addMsg('u', esc(m.content), m.content);
     else if (m.role === 'assistant') {
       const disp = m.content.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi, '').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi, '').trim();
-      addMsg('a', gameCfg.renderTags ? renderNarrative(disp) : esc(disp), m.content);
+      addMsg('a', renderNarrative(disp), m.content);
     }
   });
   renderStatePanel();
@@ -2926,6 +3096,8 @@ function doRestore() {
 
 document.addEventListener('DOMContentLoaded', function() {
   initThemeSwatches();
+  byopHandleRedirect();
+  byopRestoreFromStorage();
 
   // Try to restore from localStorage
   try {
@@ -3070,24 +3242,82 @@ Rules:
 }
 
 // ── Image settings in-game ──
-function applyImgSettings() {
-  const key   = document.getElementById('ig-img-key').value.trim();
-  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
-  gameCfg.imgKey   = key;
-  gameCfg.imgModel = model;
-  gameCfg.imgEnabled = !!(key);
+// ── BYOP (Bring Your Own Pollen) ──
+const BYOP_APP_KEY = 'pk_ZXcZGYfE3D6wsygt';
+const BYOP_LS_KEY  = 'rpgengine_byop_key';
+
+function byopAuth() {
+  const params = new URLSearchParams({
+    redirect_url: 'https://yuuki8763.github.io/index.html',
+    app_key: BYOP_APP_KEY,
+    models: 'flux,turbo,nanobanana',
+    expiry: '30',
+  });
+  window.location.href = `https://enter.pollinations.ai/authorize?${params}`;
+}
+
+function byopDisconnect() {
+  gameCfg.imgKey = '';
+  gameCfg.imgEnabled = false;
+  localStorage.removeItem(BYOP_LS_KEY);
+  updateByopUI(false);
   const tog = document.getElementById('ig-tog-img');
-  if (tog) tog.checked = gameCfg.imgEnabled;
-  document.getElementById('img-gen-btn').style.display = gameCfg.imgEnabled ? '' : 'none';
+  if (tog) tog.checked = false;
+  document.getElementById('img-gen-btn').style.display = 'none';
+  toast('🔗 Disconnected from Pollinations');
+}
+
+function updateByopUI(connected) {
+  const status = document.getElementById('byop-status');
+  const btn    = document.getElementById('byop-btn');
+  const imgSet = document.getElementById('img-settings');
+  if (status) status.style.display = connected ? 'flex' : 'none';
+  if (btn)    btn.style.display    = connected ? 'none' : 'flex';
+  if (imgSet) imgSet.style.display = connected ? 'block' : 'none';
+  const badge  = document.getElementById('ig-byop-badge');
+  const igBtn  = document.getElementById('ig-byop-btn');
+  const igTog  = document.getElementById('ig-tog-img');
+  if (badge) badge.textContent = connected ? '✅ Connected to Pollinations' : '🔗 Not connected';
+  if (igBtn) igBtn.textContent = connected ? '🔗 Re-authorize' : '🌼 Connect Pollinations';
+  if (igTog) igTog.checked = connected && !!gameCfg.imgEnabled;
+  const genBtn = document.getElementById('img-gen-btn');
+  if (genBtn) genBtn.style.display = (connected && gameCfg.imgEnabled) ? '' : 'none';
+}
+
+function byopHandleRedirect() {
+  const hash = window.location.hash;
+  if (!hash) return;
+  const params = new URLSearchParams(hash.slice(1));
+  const key = params.get('api_key');
+  if (!key) return;
+  gameCfg.imgKey = key;
+  gameCfg.imgEnabled = true;
+  try { localStorage.setItem(BYOP_LS_KEY, key); } catch(e) {}
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  updateByopUI(true);
+  const genBtn = document.getElementById('img-gen-btn');
+  if (genBtn && document.getElementById('app').classList.contains('on')) genBtn.style.display = '';
+  toast('✅ Pollinations connected! Image generation enabled');
+}
+
+function byopRestoreFromStorage() {
+  try {
+    const key = localStorage.getItem(BYOP_LS_KEY);
+    if (key) { gameCfg.imgKey = key; gameCfg.imgEnabled = true; updateByopUI(true); }
+  } catch(e) {}
+}
+
+function applyImgSettings() {
+  const model = document.getElementById('ig-img-model').value.trim() || 'flux';
+  gameCfg.imgModel = model;
   closeSidePanel('img-panel');
-  toast(key ? '✅ Image settings updated — generation ' + (gameCfg.imgEnabled ? 'enabled' : 'disabled (empty key)') : '⚠ Key is empty — image gen disabled');
+  toast('✅ Image model updated: ' + model);
 }
 
 function toggleImgIG(checked) {
   if (checked && !gameCfg.imgKey) {
     document.getElementById('ig-tog-img').checked = false;
-    openSidePanel('img-panel');
-    toast('⚠ Please enter an API Key first');
+    toast('⚠ Please connect Pollinations first');
     return;
   }
   gameCfg.imgEnabled = checked && !!gameCfg.imgKey;
@@ -3098,7 +3328,6 @@ function toggleImgIG(checked) {
 // ── Side Panel helpers ──
 function openSidePanel(id) {
   if (id === 'img-panel') {
-    document.getElementById('ig-img-key').value   = gameCfg.imgKey   || '';
     document.getElementById('ig-img-model').value = gameCfg.imgModel || 'flux';
   }
   if (id === 'bgm-panel') {
@@ -3109,6 +3338,112 @@ function openSidePanel(id) {
 }
 function closeSidePanel(id) {
   document.getElementById(id).classList.remove('open');
+}
+
+// ── Re-render helpers ──
+function toggleRenderTags(checked) {
+  gameCfg.renderTags = checked;
+  reRenderAllMsgs();
+}
+function reRenderAllMsgs() {
+  document.querySelectorAll('.msg.a').forEach(el => {
+    const raw = el.dataset.raw;
+    if (raw) {
+      const disp = raw.replace(/\[DELTA\][\s\S]*?\[\/DELTA\]/gi,'').replace(/\[IMG\][\s\S]*?\[\/IMG\]/gi,'').trim();
+      el.querySelector('.bbl').innerHTML = renderNarrative(disp);
+    }
+  });
+}
+
+// ── Custom Color Tags (dynamic, unlimited) ──
+let _ctagCount = 0;
+const CTAG_PRESET_COLORS = ['#e8c97a','#7abbe8','#7ae8a0','#e87ab0','#c87ae8','#e8a07a','#a0e8e8','#e8e87a'];
+
+function addCtagRow(name='', color='') {
+  const idx = _ctagCount++;
+  const c = color || CTAG_PRESET_COLORS[idx % CTAG_PRESET_COLORS.length];
+  const container = document.getElementById('ctag-rows');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'ctag-item';
+  div.id = `ctag-row-${idx}`;
+  div.innerHTML = `
+    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
+    <input class="ctag-name-inp" placeholder="Purpose, e.g.: NPC dialogue, narration…" value="${name.replace(/"/g,'&quot;')}">
+    <input type="color" class="ctag-color" value="${c}" title="Pick color">
+    <button onclick="removeCtagRow(${idx})" title="Remove"
+      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
+      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
+  container.appendChild(div);
+}
+
+function removeCtagRow(idx) {
+  const el = document.getElementById(`ctag-row-${idx}`);
+  if (el) el.remove();
+}
+
+function readCustomTags() {
+  const tags = [];
+  const container = document.getElementById('ctag-rows');
+  if (!container) return tags;
+  container.querySelectorAll('.ctag-item').forEach((row, i) => {
+    const name  = (row.querySelector('.ctag-name-inp')?.value || '').trim();
+    const color = row.querySelector('.ctag-color')?.value || '#ffffff';
+    if (name) tags.push({ name, color, slot: i + 1 });
+  });
+  return tags;
+}
+
+function restoreCustomTagsUI(tags) {
+  _ctagCount = 0;
+  const container = document.getElementById('ctag-rows');
+  if (!container) return;
+  container.innerHTML = '';
+  tags.forEach(t => addCtagRow(t.name || '', t.color || ''));
+}
+
+// ── In-game ctag panel ──
+let _igCtagCount = 0;
+
+function openCtagPanel() {
+  _igCtagCount = 0;
+  const container = document.getElementById('ig-ctag-rows');
+  container.innerHTML = '';
+  gameCfg.customTags.forEach(t => igAddCtagRow(t.name, t.color));
+  document.getElementById('ctag-panel').classList.add('open');
+}
+
+function igAddCtagRow(name='', color='') {
+  const idx = _igCtagCount++;
+  const c = color || CTAG_PRESET_COLORS[idx % CTAG_PRESET_COLORS.length];
+  const container = document.getElementById('ig-ctag-rows');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'ctag-item';
+  div.id = `ig-ctag-row-${idx}`;
+  div.innerHTML = `
+    <span style="font-size:.7rem;color:rgba(212,160,23,.35);flex-shrink:0;min-width:1.8rem">N${idx+1}</span>
+    <input class="ctag-name-inp" placeholder="Purpose, e.g.: NPC dialogue…" value="${name.replace(/"/g,'&quot;')}">
+    <input type="color" class="ctag-color" value="${c}" title="Pick color">
+    <button onclick="document.getElementById('ig-ctag-row-${idx}').remove()" title="Remove"
+      style="background:none;border:none;color:rgba(255,100,100,.4);cursor:pointer;font-size:.9rem;flex-shrink:0;padding:0 .1rem;line-height:1"
+      onmouseover="this.style.color='rgba(255,100,100,.8)'" onmouseout="this.style.color='rgba(255,100,100,.4)'">✕</button>`;
+  container.appendChild(div);
+}
+
+function applyCtagPanel() {
+  const container = document.getElementById('ig-ctag-rows');
+  const tags = [];
+  container.querySelectorAll('.ctag-item').forEach((row, i) => {
+    const name  = (row.querySelector('.ctag-name-inp')?.value || '').trim();
+    const color = row.querySelector('.ctag-color')?.value || '#ffffff';
+    if (name) tags.push({ name, color, slot: i + 1 });
+  });
+  gameCfg.customTags = tags;
+  restoreCustomTagsUI(tags);
+  closeSidePanel('ctag-panel');
+  reRenderAllMsgs();
+  toast(`✅ Color tags updated (${tags.length} tag${tags.length!==1?'s':''})`);
 }
 
 // ══════════════════════════════════════════════
@@ -3272,18 +3607,27 @@ function stopBGM() {
 <!-- ══ IMG SIDE PANEL ══ -->
 <div id="img-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('img-panel')">
   <div class="side-panel-box">
-    <div class="side-panel-title">🖼️ Image Generation Settings</div>
-    <div class="side-panel-desc">Update your Pollinations API Key and model</div>
-
-    <label class="field-label" style="margin-top:.6rem">Image API Key</label>
-    <input class="text-inp" id="ig-img-key" placeholder="Enter your Pollinations API Key">
-
+    <div class="side-panel-title">🖼️ Image Model</div>
+    <div class="side-panel-desc">Change the Pollinations image model</div>
     <label class="field-label" style="margin-top:.6rem">Image Model</label>
     <input class="text-inp" id="ig-img-model" placeholder="flux, nanobanana …">
-
     <div class="modal-actions" style="margin-top:1rem">
       <button class="btn-confirm" onclick="applyImgSettings()">✅ Apply</button>
       <button class="btn-cancel" onclick="closeSidePanel('img-panel')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="ctag-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('ctag-panel')">
+  <div class="side-panel-box">
+    <div class="side-panel-title">🎨 Edit Color Tags</div>
+    <div class="side-panel-desc">Changes apply immediately and re-render all messages</div>
+    <div id="ig-ctag-rows" style="display:flex;flex-direction:column;gap:.4rem;margin:.6rem 0"></div>
+    <button onclick="igAddCtagRow()" style="background:rgba(212,160,23,.1);border:1px dashed rgba(212,160,23,.3);color:rgba(212,160,23,.6);padding:.3rem .8rem;border-radius:4px;cursor:pointer;font-size:.78rem;width:100%;margin-bottom:.5rem"
+      onmouseover="this.style.background='rgba(212,160,23,.18)'" onmouseout="this.style.background='rgba(212,160,23,.1)'">＋ Add Tag</button>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="applyCtagPanel()">✅ Apply</button>
+      <button class="btn-cancel" onclick="closeSidePanel('ctag-panel')">Cancel</button>
     </div>
   </div>
 </div>
