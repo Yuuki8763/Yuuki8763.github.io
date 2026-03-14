@@ -1055,6 +1055,16 @@
   }
   .chat-img-remove:hover{background:rgba(180,30,30,.8);color:#fff}
 </style>
+  <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#d4a017">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RPG Engine">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+</script>
 </head>
 <body>
 
