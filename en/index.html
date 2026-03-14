@@ -329,7 +329,7 @@
 
   #sidebar::-webkit-scrollbar{width:3px}
   #sidebar::-webkit-scrollbar-thumb{background:var(--border)}
-  @media(max-width:600px){#sidebar{display:none}.msg.u{max-width:90%}}
+  @media(max-width:600px){.msg.u{max-width:90%}}
 
   .save-toast{
     position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(2rem);
@@ -916,14 +916,26 @@
   }
 
   /* 7. responsive — already handled but add smooth sidebar collapse */
-  @media(max-width:768px){
+@media(max-width:768px){
     #app{flex-direction:column}
     #sidebar{
+      display:block !important;
       width:100% !important;height:auto !important;
-      max-height:52px;overflow:hidden;transition:max-height .3s ease;
+      max-height:48px;overflow:hidden;transition:max-height .3s ease;
       border-right:none !important;border-bottom:1px solid var(--border);
+      cursor:pointer;
     }
-    #sidebar.mob-open{max-height:80vh;overflow-y:auto}
+    #sidebar.mob-open{max-height:80vh;overflow-y:auto;cursor:default}
+    #sidebar:not(.mob-open)::before{
+      content:'☰ Menu';
+      display:block;
+      text-align:center;
+      color:rgba(212,160,23,.7);
+      font-size:.82rem;
+      padding:.7rem 0;
+      letter-spacing:.15em;
+      background:rgba(212,160,23,.05);
+    }
     #mob-sidebar-toggle{display:flex !important}
   }
   #mob-sidebar-toggle{
@@ -1347,7 +1359,7 @@
   </div>
 
   <div id="chat-wrap">
-    <button id="mob-sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('mob-open')" title="Menu">☰</button>
+<button id="mob-sidebar-toggle" onclick="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="Menu">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
