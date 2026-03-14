@@ -1359,7 +1359,7 @@
   </div>
 
   <div id="chat-wrap">
-    <button id="mob-sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('mob-open')" title="選單">☰</button>
+    <button id="mob-sidebar-toggle" onclick="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="選單">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
@@ -4829,6 +4829,7 @@ function restoreCustomTagsUI(tags) {
     sb.classList.add('mob-open');
     e.stopPropagation();
   });
+  // 讓小按鈕的 toggle 不被 document 監聽器干擾（已由按鈕自身 stopPropagation 處理）
   document.addEventListener('click', function(e){
     if (window.innerWidth > 768) return;
     if (!sb.classList.contains('mob-open')) return;
