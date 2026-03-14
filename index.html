@@ -924,10 +924,19 @@
       border-right:none !important;border-bottom:1px solid var(--border);
     }
     #sidebar.mob-open{max-height:80vh;overflow-y:auto}
+#sidebar:not(.mob-open)::after{
+  content:'☰ 選單';
+  display:block;
+  text-align:center;
+  color:rgba(212,160,23,.6);
+  font-size:.78rem;
+  padding:.15rem 0;
+  letter-spacing:.1em;
+}
     #mob-sidebar-toggle{display:flex !important}
   }
   #mob-sidebar-toggle{
-    display:none;position:fixed;bottom:4.5rem;right:.8rem;z-index:400;
+    display:none;position:fixed;bottom:4.5rem;right:.8rem;z-index:600;touch-action:manipulation;
     width:42px;height:42px;border-radius:50%;
     background:rgba(212,160,23,.2);border:1px solid var(--gold);
     color:var(--gold2);font-size:1.1rem;cursor:pointer;
@@ -4807,6 +4816,22 @@ function restoreCustomTagsUI(tags) {
     </div>
   </div>
 </div>
-
+<script>
+(function(){
+  var sb = document.getElementById('sidebar');
+  if (!sb) return;
+  sb.addEventListener('click', function(e){
+    if (window.innerWidth > 768) return;
+    if (sb.classList.contains('mob-open')) return;
+    sb.classList.add('mob-open');
+    e.stopPropagation();
+  });
+  document.addEventListener('click', function(e){
+    if (window.innerWidth > 768) return;
+    if (!sb.classList.contains('mob-open')) return;
+    if (!sb.contains(e.target)) sb.classList.remove('mob-open');
+  });
+})();
+</script>
 </body>
 </html>
