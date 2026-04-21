@@ -1678,6 +1678,7 @@ document.addEventListener('DOMContentLoaded', setupCardDropZone);
     <div class="s-label">外觀</div>
     <button class="s-btn" onclick="openThemeModal()">🎨 色彩主題</button>
     <button class="s-btn" onclick="openSidePanel('fx-panel')">✨ 視覺特效</button>
+    <button class="s-btn" onclick="openSidePanel('ai-style-panel')">🪄 AI 自訂外觀</button>
     <div class="s-toggle-row">
       <span>🏷️ 內建敘事標籤</span>
       <label class="tog">
@@ -5129,7 +5130,25 @@ function restoreCustomTagsUI(tags) {
     </div>
   </div>
 </div>
-
+<!-- ══ AI STYLE PANEL ══ -->
+<div id="ai-style-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('ai-style-panel')">
+  <div class="side-panel-box" style="width:min(92vw,480px)">
+    <div class="side-panel-title">🪄 AI 自訂外觀</div>
+    <div class="side-panel-desc">用自然語言描述你想要的風格，AI 會自動生成 CSS</div>
+    <textarea id="ai-style-input" class="modal-ta" style="min-height:100px;margin-top:.7rem"
+      placeholder="例如：我想要深海藍色調，對話泡泡有發光邊框，字體大一點，背景更暗..."></textarea>
+    <div id="ai-style-preview" style="display:none;margin-top:.6rem;
+      background:rgba(0,0,0,.4);border:1px solid rgba(212,160,23,.2);border-radius:5px;
+      padding:.55rem .75rem;font-size:.68rem;font-family:monospace;
+      color:rgba(100,220,100,.7);line-height:1.6;word-break:break-all;max-height:140px;overflow-y:auto"></div>
+    <div id="ai-style-err" style="font-size:.73rem;color:#f99;margin-top:.35rem;min-height:1em"></div>
+    <div class="modal-actions" style="margin-top:.8rem">
+      <button class="btn-confirm" id="ai-style-btn" onclick="submitAiStyle()">✨ 生成並套用</button>
+      <button class="btn-cancel" onclick="resetAiStyle()">↺ 還原預設</button>
+      <button class="btn-cancel" onclick="closeSidePanel('ai-style-panel')">關閉</button>
+    </div>
+  </div>
+</div>
 <!-- ══ FX PANEL ══ -->
 <div id="fx-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('fx-panel')">
   <div class="side-panel-box" style="max-height:88vh;overflow-y:auto;width:min(92vw,480px)">
@@ -5228,6 +5247,110 @@ function restoreCustomTagsUI(tags) {
     if (!sb.contains(e.target)) sb.classList.remove('mob-open');
   });
 })();
+// ══════════════════════════════════════════════
+// AI STYLE SYSTEM
+// ══════════════════════════════════════════════
+let _aiStyleEl = null;
+
+async function submitAiStyle() {
+  const input = document.getElementById('ai-style-input').value.trim();
+  if (!input) { toast('⚠ 請輸入想要的風格描述'); return; }
+  const btn = document.getElementById('ai-style-btn');
+  const preview = document.getElementById('ai-style-preview');
+  const errEl = document.getElementById('ai-style-err');
+  btn.disabled = true;
+  btn.textContent = '⏳ AI 生成中…';
+  preview.style.display = 'none';
+  errEl.textContent = '';
+
+  const sysprompt = `你是一個 CSS 樣式設計師。根據使用者的描述，只輸出純 CSS 程式碼，不要任何說明、markdown、反引號。
+目前頁面使用以下 CSS 變數（可直接覆蓋）：
+--th-bg（背景深色）、--th-bg2（背景次色）
+--th-accent（強調色主）、--th-accent2（強調色亮）
+--th-text（文字色）
+--th-u-bg1、--th-u-bg2（玩家泡泡背景）
+--th-u-border（玩家泡泡邊框）
+--th-a-bg（GM泡泡背景）、--th-a-border（GM泡泡邊框）
+--gold、--gold2（金色系）、--border（邊框色）
+
+可以針對以下 selector 寫樣式：
+.msg.u .bbl（玩家泡泡）
+.msg.a .bbl（GM泡泡）
+#sidebar（側欄）
+#chat-hd（頂部標題列）
+#inp-area（輸入區）
+body、#app（全局）
+#msgs（對話區）
+
+只輸出 CSS，不輸出任何其他文字。`;
+
+  try {
+    let css = '';
+    const messages = [{ role: 'user', content: `請根據以下描述生成 CSS：${input}` }];
+
+    if (cfg.provider === 'anthropic') {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': cfg.key,
+          'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 1000, system: sysprompt, messages })
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error?.message || 'HTTP ' + r.status);
+      css = d.content.map(b => b.type === 'text' ? b.text : '').join('').trim();
+    } else if (cfg.provider === 'gemini') {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${cfg.model}:generateContent?key=${cfg.key}`;
+      const r = await fetch(url, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: sysprompt }] },
+          contents: messages.map(m => ({ role: 'user', parts: [{ text: m.content }] })),
+          generationConfig: { maxOutputTokens: 1000 }
+        })
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error?.message || 'HTTP ' + r.status);
+      css = d.candidates?.[0]?.content?.parts?.map(p => p.text||'').join('').trim() || '';
+    } else {
+      const ep = cfg.provider === 'custom' && cfg.ep ? cfg.ep : 'https://api.openai.com/v1/chat/completions';
+      const r = await fetch(ep, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
+        body: JSON.stringify({ model: cfg.model, max_tokens: 1000,
+          messages: [{ role: 'system', content: sysprompt }, ...messages] })
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error?.message || 'HTTP ' + r.status);
+      css = d.choices[0].message.content.trim();
+    }
+
+    // 清除 markdown 包裝
+    css = css.replace(/^```css\s*/i, '').replace(/^```\s*/i, '').replace(/```$/,'').trim();
+
+    // 注入 CSS
+    if (!_aiStyleEl) {
+      _aiStyleEl = document.createElement('style');
+      _aiStyleEl.id = 'ai-custom-style';
+      document.head.appendChild(_aiStyleEl);
+    }
+    _aiStyleEl.textContent = css;
+
+    preview.textContent = css;
+    preview.style.display = 'block';
+    toast('✅ 樣式已套用！');
+  } catch(e) {
+    errEl.textContent = '❌ ' + e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = '✨ 生成並套用';
+}
+
+function resetAiStyle() {
+  if (_aiStyleEl) _aiStyleEl.textContent = '';
+  document.getElementById('ai-style-preview').style.display = 'none';
+  document.getElementById('ai-style-err').textContent = '';
+  toast('↺ 已還原預設樣式');
+}
 </script>
 </body>
 </html>
