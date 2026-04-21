@@ -1064,255 +1064,6 @@
   if ('serviceWorker' in navigator) {
     // navigator.serviceWorker.register('/sw.js'); // 本地 file:// 執行時暫時註解避免報錯
   }
-
-// ────────────────────────────────────────────
-// 1. PNG tEXt chunk parsing
-// ────────────────────────────────────────────
-function parsePNGTextChunks(buffer) {
-  const view = new DataView(buffer);
-  const sig = [137, 80, 78, 71, 13, 10, 26, 10];
-  for (let i = 0; i < 8; i++) {
-    if (view.getUint8(i) !== sig[i]) throw new Error('Not a valid PNG file');
-  }
-  const chunks = {};
-  let offset = 8;
-  while (offset < buffer.byteLength) {
-    const length = view.getUint32(offset);
-    const type = String.fromCharCode(
-      view.getUint8(offset + 4), view.getUint8(offset + 5),
-      view.getUint8(offset + 6), view.getUint8(offset + 7)
-    );
-    if (type === 'tEXt' || type === 'iTXt') {
-      const data = new Uint8Array(buffer, offset + 8, length);
-      let nullIdx = 0;
-      while (nullIdx < data.length && data[nullIdx] !== 0) nullIdx++;
-      const keyword = new TextDecoder().decode(data.slice(0, nullIdx));
-      const valueStart = type === 'tEXt' ? nullIdx + 1 : nullIdx + 3;
-      const rawValue = data.slice(valueStart);
-      let value;
-      try { value = new TextDecoder('utf-8').decode(rawValue); }
-      catch { value = String.fromCharCode(...rawValue); }
-      chunks[keyword] = value;
-    }
-    if (type === 'IEND') break;
-    offset += 12 + length;
-  }
-  return chunks;
-}
-
-// ────────────────────────────────────────────
-// 2. Parse Character Card JSON
-// ────────────────────────────────────────────
-function parseCharaCard(jsonStr) {
-  const raw = JSON.parse(jsonStr);
-  const d = raw.data || raw;
-  return {
-    name:                   d.name                   || raw.name || 'Unknown Character',
-    description:            d.description            || '',
-    personality:            d.personality            || '',
-    scenario:               d.scenario               || '',
-    first_mes:              d.first_mes              || '',
-    mes_example:            d.mes_example            || '',
-    system_prompt:          d.system_prompt          || '',
-    post_history_instructions: d.post_history_instructions || '',
-    tags:                   d.tags                   || [],
-    creator_notes:          d.creator_notes          || '',
-    character_book:         d.character_book         || d.world_book || null,
-    spec:                   raw.spec                 || 'V1',
-  };
-}
-
-// ────────────────────────────────────────────
-// 3. Split character card into modules
-// ────────────────────────────────────────────
-function cardToModules(card) {
-  const modules = [];
-  let coreText = `# ${card.name} — Character Settings\n\n`;
-  if (card.description)  coreText += `## Character Description\n${card.description.trim()}\n\n`;
-  if (card.personality)  coreText += `## Personality\n${card.personality.trim()}\n\n`;
-  if (card.scenario)     coreText += `## Scenario\n${card.scenario.trim()}\n\n`;
-  if (card.creator_notes && card.creator_notes.trim())
-    coreText += `## Creator Notes\n${card.creator_notes.trim()}\n\n`;
-  if (card.tags.length)  coreText += `Tags: ${card.tags.join(', ')}\n`;
-  modules.push({
-    id: 'mod' + (++_modId),
-    name: `🧑 ${card.name} — Core Settings`,
-    size: coreText.length,
-    text: coreText.trim(),
-    enabled: true,
-    _pinned: true,
-  });
-
-  if (card.system_prompt.trim()) {
-    const t = `# System Prompt\n\n${card.system_prompt.trim()}`;
-    modules.push({ id: 'mod' + (++_modId), name: `⚙️ ${card.name} — System Prompt`, size: t.length, text: t, enabled: true });
-  }
-  if (card.mes_example.trim()) {
-    const t = `# Message Example\n\n${card.mes_example.trim()}`;
-    modules.push({ id: 'mod' + (++_modId), name: `💬 ${card.name} — Message Example`, size: t.length, text: t, enabled: true });
-  }
-  if (card.post_history_instructions.trim()) {
-    const t = `# Post History Instructions\n\n${card.post_history_instructions.trim()}`;
-    modules.push({ id: 'mod' + (++_modId), name: `📌 ${card.name} — Post History Instructions`, size: t.length, text: t, enabled: true });
-  }
-  if (card.first_mes.trim()) {
-    const openingEl = document.getElementById('opening-ta');
-    if (openingEl && !openingEl.value.trim()) openingEl.value = card.first_mes.trim();
-  }
-  if (card.character_book) {
-    const entries = card.character_book.entries || [];
-    const constants  = entries.filter(e => e.constant  && !e.disable);
-    const selectives = entries.filter(e => !e.constant && !e.disable);
-    const disabled   = entries.filter(e => e.disable);
-
-    if (constants.length) {
-      const t = buildLoreText(constants, 'Global Lore (Constant)');
-      modules.push({ id: 'mod' + (++_modId), name: `📚 ${card.name} — World Book (Constant ${constants.length} entries)`, size: t.length, text: t, enabled: true });
-    }
-    if (selectives.length) {
-      const groups = {};
-      selectives.forEach(e => {
-        const g = e.group || e.comment || 'Other';
-        if (!groups[g]) groups[g] = [];
-        groups[g].push(e);
-      });
-      Object.entries(groups).forEach(([gname, elist]) => {
-        const t = buildLoreText(elist, `Triggered: ${gname}`);
-        modules.push({
-          id: 'mod' + (++_modId), name: `🔍 ${gname} (${elist.length} entries)`, size: t.length, text: t, enabled: false,
-          keywords: elist.flatMap(e => e.keys || []).slice(0, 8).join(','),
-        });
-      });
-    }
-    if (disabled.length) {
-      const t = buildLoreText(disabled, 'Disabled Entries (For Reference)');
-      modules.push({ id: 'mod' + (++_modId), name: `🚫 ${card.name} — Disabled Entries (${disabled.length} entries)`, size: t.length, text: t, enabled: false });
-    }
-  }
-  return modules;
-}
-
-function buildLoreText(entries, title) {
-  let t = `# ${title}\n\n`;
-  entries.forEach((e, i) => {
-    const keys = (e.keys || []).join(', ');
-    const comment = e.comment ? ` [${e.comment}]` : '';
-    t += `### Entry ${i + 1}${comment}\n`;
-    if (keys) t += `Trigger Keywords: ${keys}\n`;
-    t += `${(e.content || '').trim()}\n\n`;
-  });
-  return t.trim();
-}
-
-function loreBookToModules(entries, bookName) {
-  const arr = Array.isArray(entries) ? entries : Object.values(entries);
-  const constants  = arr.filter(e => e.constant  && !e.disable);
-  const selectives = arr.filter(e => !e.constant && !e.disable);
-  const mods = [];
-  if (constants.length) {
-    const t = buildLoreText(constants, 'Constant Entries');
-    mods.push({ id:'mod'+(++_modId), name:`📚 ${bookName} — Constant (${constants.length} entries)`, size:t.length, text:t, enabled:true });
-  }
-  const groups = {};
-  selectives.forEach(e => {
-    const g = e.group || e.comment || 'Other';
-    (groups[g] = groups[g]||[]).push(e);
-  });
-  Object.entries(groups).forEach(([gname, elist]) => {
-    const t = buildLoreText(elist, gname);
-    mods.push({ id:'mod'+(++_modId), name:`🔍 ${bookName} · ${gname} (${elist.length} entries)`, size:t.length, text:t, enabled:false, keywords: elist.flatMap(e=>e.keys||[]).slice(0,8).join(',') });
-  });
-  return mods.length ? mods : null;
-}
-
-function trySmartSplit(text, fileName) {
-  const ext = fileName.split('.').pop().toLowerCase();
-  if (ext === 'json') {
-    try {
-      const raw = JSON.parse(text);
-      if (raw.spec || raw.name || (raw.data && raw.data.name)) {
-        try {
-          const card = parseCharaCard(text);
-          const mods = cardToModules(card);
-          if (mods.length > 1) { toast(`✅ Character card "${card.name}" parsed (${mods.length} modules)`); return mods; }
-        } catch(e) {}
-      }
-      const entries = raw.entries || (raw.data && raw.data.entries);
-      if (entries) {
-        const baseName = fileName.replace(/\.[^.]+$/, '');
-        const mods = loreBookToModules(entries, baseName);
-        if (mods) { toast(`✅ World book "${baseName}" parsed (${mods.length} modules)`); return mods; }
-      }
-    } catch(e) {}
-    return null;
-  }
-  if (['txt','md','text'].includes(ext)) {
-    const byHr = text.split(/\n-{3,}\n/);
-    if (byHr.length > 1) {
-      return byHr.map((p, i) => {
-        p = p.trim(); if (!p) return null;
-        const firstLine = p.split('\n')[0].replace(/^#+\s*/,'').trim();
-        return { id:'mod'+(++_modId), name:(firstLine.slice(0,40)||`${fileName} #${i+1}`), size:p.length, text:p, enabled:true };
-      }).filter(Boolean);
-    }
-    const byH1 = text.split(/(?=^# .+)/m);
-    if (byH1.length > 1) {
-      return byH1.map((p, i) => {
-        p = p.trim(); if (!p) return null;
-        const firstLine = p.split('\n')[0].replace(/^# /,'').trim();
-        return { id:'mod'+(++_modId), name:(firstLine.slice(0,40)||`${fileName} #${i+1}`), size:p.length, text:p, enabled:true };
-      }).filter(Boolean);
-    }
-  }
-  return null;
-}
-
-function loadSTCardFile(file) {
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const chunks = parsePNGTextChunks(e.target.result);
-      const charaRaw = chunks['chara'];
-      if (!charaRaw) throw new Error('This PNG does not contain character card data');
-      const jsonStr = decodeURIComponent(escape(atob(charaRaw)));
-      const card    = parseCharaCard(jsonStr);
-      const newMods = cardToModules(card);
-      modules.unshift(...newMods);
-      renderModuleList();
-      updateRuleTag();
-      const badge = document.getElementById('card-import-badge');
-      if (badge) {
-        badge.textContent = `✅ Imported: ${card.name} (${newMods.length} modules)`;
-        badge.style.color = 'rgba(100,220,100,.8)';
-      }
-      toast(`✅ Character card "${card.name}" imported with ${newMods.length} modules`);
-    } catch(err) {
-      const badge = document.getElementById('card-import-badge');
-      if (badge) {
-        badge.textContent = '❌ ' + err.message;
-        badge.style.color = 'rgba(255,120,120,.8)';
-      }
-      toast('❌ Character card import failed: ' + err.message);
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-function setupCardDropZone() {
-  const zone = document.getElementById('card-drop-zone');
-  if (!zone) return;
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault();
-    zone.classList.remove('drag');
-    const f = e.dataTransfer.files[0];
-    if (f && f.name.toLowerCase().endsWith('.png')) loadSTCardFile(f);
-    else toast('⚠ Please drop a character card in PNG format');
-  });
-}
-document.addEventListener('DOMContentLoaded', setupCardDropZone);
 </script>
 </head>
 <body>
@@ -4998,7 +4749,7 @@ Output ONLY CSS, do not output any other text.`;
     }
     _aiStyleEl.textContent = css;
 
-    preview.textContent = css;
+    preview.value = css;
     preview.style.display = 'block';
     toast('✅ Style applied!');
   } catch(e) {
@@ -5014,6 +4765,34 @@ function resetAiStyle() {
   document.getElementById('ai-style-err').textContent = '';
   toast('↺ Restored to default style');
 }
+function applyManualStyle() {
+  const preview = document.getElementById('ai-style-preview');
+  const css = preview.value.trim();
+  
+  if (!css) { 
+    toast('⚠ CSS is empty'); 
+    return; 
+  }
+
+  // 確保 <style> 標籤存在
+  if (!_aiStyleEl) {
+    _aiStyleEl = document.createElement('style');
+    _aiStyleEl.id = 'ai-custom-style';
+    document.head.appendChild(_aiStyleEl);
+  }
+  
+  // 直接注入玩家手寫的 CSS
+  _aiStyleEl.textContent = css;
+  toast('🎨 Manual CSS applied!');
+}
+
+// 讓玩家一打開面板，如果想要純手動，也能直接看到編輯框
+document.getElementById('ai-style-input').addEventListener('input', function() {
+    const preview = document.getElementById('ai-style-preview');
+    if (preview.style.display === 'none') {
+        preview.style.display = 'block';
+    }
+});
 </script>
 <!-- ══ BGM SIDE PANEL ══ -->
 <div id="bgm-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('bgm-panel')">
@@ -5168,18 +4947,24 @@ function resetAiStyle() {
 </div>
 <div id="ai-style-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('ai-style-panel')">
   <div class="side-panel-box" style="width:min(92vw,480px)">
-    <div class="side-panel-title">🪄 AI Custom Style</div>
-    <div class="side-panel-desc">Describe the style you want in natural language, and the AI will automatically generate the CSS</div>
-    <textarea id="ai-style-input" class="modal-ta" style="min-height:100px;margin-top:.7rem"
-      placeholder="For example: I want a deep sea blue theme, glowing borders for chat bubbles, larger fonts, a darker background..."></textarea>
-    <div id="ai-style-preview" style="display:none;margin-top:.6rem;
+    <div class="side-panel-title">🪄 AI & Manual Custom Style</div>
+    <div class="side-panel-desc">Let AI generate CSS, or manually write/edit your own CSS below.</div>
+    
+    <textarea id="ai-style-input" class="modal-ta" style="min-height:80px;margin-top:.7rem"
+      placeholder="E.g.: I want a deep sea blue theme, glowing borders for chat bubbles... (Leave blank for pure manual editing)"></textarea>
+    
+    <textarea id="ai-style-preview" style="display:none;margin-top:.6rem;
       background:rgba(0,0,0,.4);border:1px solid rgba(212,160,23,.2);border-radius:5px;
       padding:.55rem .75rem;font-size:.68rem;font-family:monospace;
-      color:rgba(100,220,100,.7);line-height:1.6;word-break:break-all;max-height:140px;overflow-y:auto"></div>
+      color:rgba(100,220,100,.7);line-height:1.6;width:100%;min-height:140px;resize:vertical;" 
+      spellcheck="false" placeholder="Manually enter or edit CSS here..."></textarea>
+      
     <div id="ai-style-err" style="font-size:.73rem;color:#f99;margin-top:.35rem;min-height:1em"></div>
-    <div class="modal-actions" style="margin-top:.8rem">
-      <button class="btn-confirm" id="ai-style-btn" onclick="submitAiStyle()">✨ Generate & Apply</button>
-      <button class="btn-cancel" onclick="resetAiStyle()">↺ Restore Default</button>
+    
+    <div class="modal-actions" style="margin-top:.8rem; flex-wrap:wrap;">
+      <button class="btn-confirm" id="ai-style-btn" onclick="submitAiStyle()">✨ AI Generate</button>
+      <button class="btn-confirm" style="background:linear-gradient(135deg,var(--gold),#8a6305);border-color:var(--gold2);" onclick="applyManualStyle()">🎨 Apply Manual CSS</button>
+      <button class="btn-cancel" onclick="resetAiStyle()">↺ Reset</button>
       <button class="btn-cancel" onclick="closeSidePanel('ai-style-panel')">Close</button>
     </div>
   </div>
