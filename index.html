@@ -5133,17 +5133,23 @@ function restoreCustomTagsUI(tags) {
 <!-- ══ AI STYLE PANEL ══ -->
 <div id="ai-style-panel" class="side-panel" onclick="if(event.target===this)closeSidePanel('ai-style-panel')">
   <div class="side-panel-box" style="width:min(92vw,480px)">
-    <div class="side-panel-title">🪄 AI 自訂外觀</div>
-    <div class="side-panel-desc">用自然語言描述你想要的風格，AI 會自動生成 CSS</div>
-    <textarea id="ai-style-input" class="modal-ta" style="min-height:100px;margin-top:.7rem"
-      placeholder="例如：我想要深海藍色調，對話泡泡有發光邊框，字體大一點，背景更暗..."></textarea>
-    <div id="ai-style-preview" style="display:none;margin-top:.6rem;
+    <div class="side-panel-title">🪄 AI & 手動自訂外觀</div>
+    <div class="side-panel-desc">讓 AI 生成 CSS，或直接在下方編輯區手動輸入你專屬的 CSS 樣式。</div>
+    
+    <textarea id="ai-style-input" class="modal-ta" style="min-height:80px;margin-top:.7rem"
+      placeholder="例如：我想要深海藍色調，對話泡泡有發光邊框，字體大一點... (若要純手動請留空)"></textarea>
+    
+    <textarea id="ai-style-preview" style="display:none;margin-top:.6rem;
       background:rgba(0,0,0,.4);border:1px solid rgba(212,160,23,.2);border-radius:5px;
       padding:.55rem .75rem;font-size:.68rem;font-family:monospace;
-      color:rgba(100,220,100,.7);line-height:1.6;word-break:break-all;max-height:140px;overflow-y:auto"></div>
+      color:rgba(100,220,100,.7);line-height:1.6;width:100%;min-height:140px;resize:vertical;" 
+      spellcheck="false" placeholder="在這裡手動輸入或修改 CSS..."></textarea>
+      
     <div id="ai-style-err" style="font-size:.73rem;color:#f99;margin-top:.35rem;min-height:1em"></div>
-    <div class="modal-actions" style="margin-top:.8rem">
-      <button class="btn-confirm" id="ai-style-btn" onclick="submitAiStyle()">✨ 生成並套用</button>
+    
+    <div class="modal-actions" style="margin-top:.8rem; flex-wrap:wrap;">
+      <button class="btn-confirm" id="ai-style-btn" onclick="submitAiStyle()">✨ AI 生成</button>
+      <button class="btn-confirm" style="background:linear-gradient(135deg,var(--gold),#8a6305);border-color:var(--gold2);" onclick="applyManualStyle()">🎨 手動套用 CSS</button>
       <button class="btn-cancel" onclick="resetAiStyle()">↺ 還原預設</button>
       <button class="btn-cancel" onclick="closeSidePanel('ai-style-panel')">關閉</button>
     </div>
@@ -5335,7 +5341,7 @@ body、#app（全局）
     }
     _aiStyleEl.textContent = css;
 
-    preview.textContent = css;
+    preview.value = css;
     preview.style.display = 'block';
     toast('✅ 樣式已套用！');
   } catch(e) {
@@ -5351,6 +5357,34 @@ function resetAiStyle() {
   document.getElementById('ai-style-err').textContent = '';
   toast('↺ 已還原預設樣式');
 }
+function applyManualStyle() {
+  const preview = document.getElementById('ai-style-preview');
+  const css = preview.value.trim();
+  
+  if (!css) { 
+    toast('⚠ CSS 內容為空'); 
+    return; 
+  }
+
+  // 確保 <style> 標籤存在
+  if (!_aiStyleEl) {
+    _aiStyleEl = document.createElement('style');
+    _aiStyleEl.id = 'ai-custom-style';
+    document.head.appendChild(_aiStyleEl);
+  }
+  
+  // 直接注入玩家手寫的 CSS
+  _aiStyleEl.textContent = css;
+  toast('🎨 手動 CSS 已套用！');
+}
+
+// 讓玩家一打開面板，如果想要純手動，也能直接看到編輯框
+document.getElementById('ai-style-input').addEventListener('input', function() {
+    const preview = document.getElementById('ai-style-preview');
+    if (preview.style.display === 'none') {
+        preview.style.display = 'block';
+    }
+});
 </script>
 </body>
 </html>
