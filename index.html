@@ -1064,6 +1064,328 @@
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');
   }
+// ────────────────────────────────────────────
+// 1. PNG tEXt chunk 解析
+// ────────────────────────────────────────────
+function parsePNGTextChunks(buffer) {
+  const view = new DataView(buffer);
+  // 驗證 PNG 簽名
+  const sig = [137, 80, 78, 71, 13, 10, 26, 10];
+  for (let i = 0; i < 8; i++) {
+    if (view.getUint8(i) !== sig[i]) throw new Error('不是有效的 PNG 檔案');
+  }
+  const chunks = {};
+  let offset = 8;
+  while (offset < buffer.byteLength) {
+    const length = view.getUint32(offset);
+    const type = String.fromCharCode(
+      view.getUint8(offset + 4), view.getUint8(offset + 5),
+      view.getUint8(offset + 6), view.getUint8(offset + 7)
+    );
+    if (type === 'tEXt' || type === 'iTXt') {
+      const data = new Uint8Array(buffer, offset + 8, length);
+      // 找 null 分隔符
+      let nullIdx = 0;
+      while (nullIdx < data.length && data[nullIdx] !== 0) nullIdx++;
+      const keyword = new TextDecoder().decode(data.slice(0, nullIdx));
+      // iTXt 有額外的 header bytes，tEXt 直接是 value
+      const valueStart = type === 'tEXt' ? nullIdx + 1 : nullIdx + 3;
+      const rawValue = data.slice(valueStart);
+      // 嘗試 UTF-8，失敗則 latin1
+      let value;
+      try { value = new TextDecoder('utf-8').decode(rawValue); }
+      catch { value = String.fromCharCode(...rawValue); }
+      chunks[keyword] = value;
+    }
+    if (type === 'IEND') break;
+    offset += 12 + length;
+  }
+  return chunks;
+}
+
+// ────────────────────────────────────────────
+// 2. 解析角色卡 JSON（V1 / V2 / V3 相容）
+// ────────────────────────────────────────────
+function parseCharaCard(jsonStr) {
+  const raw = JSON.parse(jsonStr);
+  // V2/V3 把資料包在 data 欄位；V1 直接在根層
+  const d = raw.data || raw;
+  return {
+    name:                   d.name                   || raw.name || '未知角色',
+    description:            d.description            || '',
+    personality:            d.personality            || '',
+    scenario:               d.scenario               || '',
+    first_mes:              d.first_mes              || '',
+    mes_example:            d.mes_example            || '',
+    system_prompt:          d.system_prompt          || '',
+    post_history_instructions: d.post_history_instructions || '',
+    tags:                   d.tags                   || [],
+    creator_notes:          d.creator_notes          || '',
+    character_book:         d.character_book         || d.world_book || null,
+    spec:                   raw.spec                 || 'V1',
+  };
+}
+
+// ────────────────────────────────────────────
+// 3. 將角色卡拆分成模組陣列
+// ────────────────────────────────────────────
+function cardToModules(card) {
+  const modules = [];
+  const BOOK_ENTRY_FIELDS = ['keys','keysecondary','content','comment','constant',
+    'selective','order','position','disable','probability','depth'];
+
+  // ── 核心角色設定（永遠啟用）──
+  let coreText = `# ${card.name} — 角色設定\n\n`;
+  if (card.description)  coreText += `## 角色描述\n${card.description.trim()}\n\n`;
+  if (card.personality)  coreText += `## 個性\n${card.personality.trim()}\n\n`;
+  if (card.scenario)     coreText += `## 場景\n${card.scenario.trim()}\n\n`;
+  if (card.creator_notes && card.creator_notes.trim())
+    coreText += `## 作者備注\n${card.creator_notes.trim()}\n\n`;
+  if (card.tags.length)  coreText += `標籤：${card.tags.join('、')}\n`;
+  modules.push({
+    id: 'mod' + (++_modId),
+    name: `🧑 ${card.name} — 核心設定`,
+    size: coreText.length,
+    text: coreText.trim(),
+    enabled: true,
+    _pinned: true,
+  });
+
+  // ── 系統提示詞 ──
+  if (card.system_prompt.trim()) {
+    const t = `# 系統提示詞\n\n${card.system_prompt.trim()}`;
+    modules.push({
+      id: 'mod' + (++_modId),
+      name: `⚙️ ${card.name} — 系統提示詞`,
+      size: t.length, text: t, enabled: true,
+    });
+  }
+
+  // ── 對話範例 ──
+  if (card.mes_example.trim()) {
+    const t = `# 對話示範\n\n${card.mes_example.trim()}`;
+    modules.push({
+      id: 'mod' + (++_modId),
+      name: `💬 ${card.name} — 對話示範`,
+      size: t.length, text: t, enabled: true,
+    });
+  }
+
+  // ── 後置指令 ──
+  if (card.post_history_instructions.trim()) {
+    const t = `# 後置指令\n\n${card.post_history_instructions.trim()}`;
+    modules.push({
+      id: 'mod' + (++_modId),
+      name: `📌 ${card.name} — 後置指令`,
+      size: t.length, text: t, enabled: true,
+    });
+  }
+
+  // ── 開場白 ──
+  if (card.first_mes.trim()) {
+    // 開場白不進 module，改為預填 opening-ta
+    const openingEl = document.getElementById('opening-ta');
+    if (openingEl && !openingEl.value.trim()) {
+      openingEl.value = card.first_mes.trim();
+    }
+  }
+
+  // ── 世界書 / 角色書 entries ──
+  if (card.character_book) {
+    const entries = card.character_book.entries || [];
+    // 依 constant（全局）與 selective（觸發型）分組
+    const constants  = entries.filter(e => e.constant  && !e.disable);
+    const selectives = entries.filter(e => !e.constant && !e.disable);
+    const disabled   = entries.filter(e => e.disable);
+
+    if (constants.length) {
+      const t = buildLoreText(constants, '全局知識（常駐）');
+      modules.push({
+        id: 'mod' + (++_modId),
+        name: `📚 ${card.name} — 世界書 (常駐 ${constants.length}條)`,
+        size: t.length, text: t, enabled: true,
+      });
+    }
+
+    // 選擇性條目：按 comment / group 分組，每組一個模組
+    if (selectives.length) {
+      const groups = {};
+      selectives.forEach(e => {
+        const g = e.group || e.comment || '其他';
+        if (!groups[g]) groups[g] = [];
+        groups[g].push(e);
+      });
+      Object.entries(groups).forEach(([gname, elist]) => {
+        const t = buildLoreText(elist, `觸發型：${gname}`);
+        const kwSample = elist.flatMap(e => e.keys || []).slice(0, 4).join('、');
+        modules.push({
+          id: 'mod' + (++_modId),
+          name: `🔍 ${gname} (${elist.length}條)`,
+          size: t.length, text: t,
+          enabled: false,  // 觸發型預設關閉，用關鍵字自動啟用
+          keywords: elist.flatMap(e => e.keys || []).slice(0, 8).join(','),
+        });
+      });
+    }
+
+    // 停用條目彙整成一個關閉的模組（供參考）
+    if (disabled.length) {
+      const t = buildLoreText(disabled, '停用條目（參考用）');
+      modules.push({
+        id: 'mod' + (++_modId),
+        name: `🚫 ${card.name} — 停用條目 (${disabled.length}條)`,
+        size: t.length, text: t, enabled: false,
+      });
+    }
+  }
+
+  return modules;
+}
+
+function buildLoreText(entries, title) {
+  let t = `# ${title}\n\n`;
+  entries.forEach((e, i) => {
+    const keys = (e.keys || []).join(', ');
+    const comment = e.comment ? ` [${e.comment}]` : '';
+    t += `### 條目 ${i + 1}${comment}\n`;
+    if (keys) t += `觸發關鍵字：${keys}\n`;
+    t += `${(e.content || '').trim()}\n\n`;
+  });
+  return t.trim();
+}
+// ── 世界書 JSON entries → 模組陣列 ──
+function loreBookToModules(entries, bookName) {
+  const arr = Array.isArray(entries) ? entries : Object.values(entries);
+  const constants  = arr.filter(e => e.constant  && !e.disable);
+  const selectives = arr.filter(e => !e.constant && !e.disable);
+  const mods = [];
+
+  if (constants.length) {
+    const t = buildLoreText(constants, '常駐條目');
+    mods.push({ id:'mod'+(++_modId), name:`📚 ${bookName} — 常駐 (${constants.length}條)`,
+      size:t.length, text:t, enabled:true });
+  }
+  const groups = {};
+  selectives.forEach(e => {
+    const g = e.group || e.comment || '其他';
+    (groups[g] = groups[g]||[]).push(e);
+  });
+  Object.entries(groups).forEach(([gname, elist]) => {
+    const t = buildLoreText(elist, gname);
+    mods.push({ id:'mod'+(++_modId),
+      name:`🔍 ${bookName} · ${gname} (${elist.length}條)`,
+      size:t.length, text:t, enabled:false,
+      keywords: elist.flatMap(e=>e.keys||[]).slice(0,8).join(',') });
+  });
+  return mods.length ? mods : null;
+}
+
+// ── 智慧拆分：JSON / TXT / MD → 模組陣列，無法拆則回傳 null ──
+function trySmartSplit(text, fileName) {
+  const ext = fileName.split('.').pop().toLowerCase();
+
+  /* ── JSON ── */
+  if (ext === 'json') {
+    try {
+      const raw = JSON.parse(text);
+      // 角色卡格式
+      if (raw.spec || raw.name || (raw.data && raw.data.name)) {
+        try {
+          const card = parseCharaCard(text);
+          const mods = cardToModules(card);
+          if (mods.length > 1) { toast(`✅ 角色卡「${card.name}」解析完成（${mods.length} 模組）`); return mods; }
+        } catch(e) {}
+      }
+      // 世界書 / Lorebook
+      const entries = raw.entries || (raw.data && raw.data.entries);
+      if (entries) {
+        const baseName = fileName.replace(/\.[^.]+$/, '');
+        const mods = loreBookToModules(entries, baseName);
+        if (mods) { toast(`✅ 世界書「${baseName}」解析完成（${mods.length} 模組）`); return mods; }
+      }
+    } catch(e) {}
+    return null;
+  }
+
+  /* ── TXT / MD ── */
+  if (['txt','md','text'].includes(ext)) {
+    // 方案 A：--- 分隔線
+    const byHr = text.split(/\n-{3,}\n/);
+    if (byHr.length > 1) {
+      return byHr.map((p, i) => {
+        p = p.trim(); if (!p) return null;
+        const firstLine = p.split('\n')[0].replace(/^#+\s*/,'').trim();
+        return { id:'mod'+(++_modId), name:(firstLine.slice(0,40)||`${fileName} #${i+1}`),
+          size:p.length, text:p, enabled:true };
+      }).filter(Boolean);
+    }
+    // 方案 B：# 一級標題切塊
+    const byH1 = text.split(/(?=^# .+)/m);
+    if (byH1.length > 1) {
+      return byH1.map((p, i) => {
+        p = p.trim(); if (!p) return null;
+        const firstLine = p.split('\n')[0].replace(/^# /,'').trim();
+        return { id:'mod'+(++_modId), name:(firstLine.slice(0,40)||`${fileName} #${i+1}`),
+          size:p.length, text:p, enabled:true };
+      }).filter(Boolean);
+    }
+  }
+
+  return null; // 無法自動拆分，當單一模組
+}
+
+// ────────────────────────────────────────────
+// 4. 主入口：讀取 PNG → 解析 → 渲染模組列表
+// ────────────────────────────────────────────
+function loadSTCardFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const chunks = parsePNGTextChunks(e.target.result);
+      const charaRaw = chunks['chara'];
+      if (!charaRaw) throw new Error('此 PNG 不含角色卡資料（找不到 chara chunk）');
+      const jsonStr = decodeURIComponent(escape(atob(charaRaw)));
+      const card    = parseCharaCard(jsonStr);
+      const newMods = cardToModules(card);
+      // 加到現有 modules 最前面（優先順序）
+      modules.unshift(...newMods);
+      renderModuleList();
+      updateRuleTag();
+      // 更新 badge
+      const badge = document.getElementById('card-import-badge');
+      if (badge) {
+        badge.textContent = `✅ 已匯入：${card.name}（${newMods.length} 個模組）`;
+        badge.style.color = 'rgba(100,220,100,.8)';
+      }
+      toast(`✅ 角色卡「${card.name}」已匯入 ${newMods.length} 個模組`);
+    } catch(err) {
+      const badge = document.getElementById('card-import-badge');
+      if (badge) {
+        badge.textContent = '❌ ' + err.message;
+        badge.style.color = 'rgba(255,120,120,.8)';
+      }
+      toast('❌ 角色卡匯入失敗：' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// 拖放支援
+function setupCardDropZone() {
+  const zone = document.getElementById('card-drop-zone');
+  if (!zone) return;
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    const f = e.dataTransfer.files[0];
+    if (f && f.name.toLowerCase().endsWith('.png')) loadSTCardFile(f);
+    else toast('⚠ 請拖入 PNG 格式的角色卡');
+  });
+}
+document.addEventListener('DOMContentLoaded', setupCardDropZone);
 </script>
 </head>
 <body>
@@ -1127,6 +1449,43 @@
       <div class="field-hint" id="khint"></div>
     </div>
   </div>
+<div class="sp-card">
+  <div class="sp-card-title">🃏 SillyTavern 角色卡匯入
+    <span style="font-size:.7rem;color:rgba(212,160,23,.38);font-family:sans-serif;font-weight:normal;letter-spacing:0">
+      選填 · 自動拆分成模組
+    </span>
+  </div>
+
+  <div class="mod-drop-zone" id="card-drop-zone"
+       style="margin-bottom:.7rem"
+       ondragover="event.preventDefault();this.classList.add('drag')"
+       ondragleave="this.classList.remove('drag')"
+       ondrop="
+         event.preventDefault();
+         this.classList.remove('drag');
+         const f=event.dataTransfer.files[0];
+         if(f&&f.name.toLowerCase().endsWith('.png')) loadSTCardFile(f);
+         else toast('⚠ 請拖入 PNG 格式的角色卡');
+       ">
+    <div class="uz-icon">🃏</div>
+    <div class="uz-title">點擊或拖曳 SillyTavern 角色卡 PNG</div>
+    <div class="uz-sub">自動解析並拆分為：核心設定、世界書常駐、觸發條目… 各別模組</div>
+    <input type="file" accept=".png,image/png"
+           onchange="if(this.files[0])loadSTCardFile(this.files[0]);this.value=''">
+  </div>
+
+  <div id="card-import-badge"
+       style="font-size:.75rem;color:rgba(212,160,23,.45);min-height:1.2em;
+              padding:.15rem 0;transition:color .3s">
+    尚未匯入角色卡
+  </div>
+
+  <div class="field-hint" style="margin-top:.4rem">
+    匯入後角色設定自動加到「規則模組」區，可在下方分別開關或預覽每個模組。<br>
+    觸發型世界書條目預設<b style="color:rgba(212,160,23,.7)">關閉</b>，關鍵字欄位已自動填入，
+    AI 回覆含關鍵字時會<b style="color:rgba(100,220,100,.7)">自動啟用</b>對應模組。
+  </div>
+</div>
 
   <!-- Rule Modules -->
   <div class="sp-card">
@@ -1543,11 +1902,23 @@ function dropModules(ev) {
 function readModuleFile(file) {
   const reader = new FileReader();
   reader.onload = e => {
-    const id = 'mod' + (_modId++);
-    modules.push({ id, name: file.name, size: file.size, text: e.target.result, enabled: true });
+    const buf = e.target.result;
+    let text;
+    try { text = new TextDecoder('utf-8', {fatal:true}).decode(buf); }
+    catch { text = new TextDecoder('gbk').decode(buf); }
+
+    const mods = trySmartSplit(text, file.name);
+    if (mods && mods.length > 1) {
+      modules.push(...mods);
+      toast(`📂 「${file.name}」→ 自動拆分為 ${mods.length} 個模組`);
+    } else {
+      modules.push({ id:'mod'+(++_modId), name:file.name,
+        size:file.size, text, enabled:true });
+    }
     renderModuleList();
+    updateRuleTag();
   };
-  reader.readAsText(file, 'utf-8');
+  reader.readAsArrayBuffer(file);
 }
 
 function renderModuleList() {
@@ -1711,7 +2082,18 @@ function addModulesIG(evt) {
       modules.push({id:'mod'+(++_modId), name:f.name, size:f.size, text:e.target.result, enabled:true});
       renderInGameModuleList(); updateRuleTag();
     };
-    reader.readAsText(f, 'utf-8');
+    reader.readAsArrayBuffer(f);
+reader.onload = e => {
+  const buf = e.target.result;
+  let text;
+  try {
+    text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+  } catch {
+    text = new TextDecoder('gbk').decode(buf);
+  }
+  modules.push({ id:'mod'+(++_modId), name:f.name, size:f.size, text, enabled:true });
+  renderInGameModuleList(); updateRuleTag();
+};
   });
 }
 
