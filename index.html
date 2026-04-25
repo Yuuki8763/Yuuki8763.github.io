@@ -934,6 +934,11 @@
       cursor:pointer;
     }
     #sidebar.mob-open{max-height:80vh;overflow-y:auto;cursor:default}
+  #state-panel {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
   #sidebar.mob-open {
     position: fixed;
     top: 0;
@@ -943,10 +948,6 @@
     max-height: 80vh;
     overflow-y: auto;
     cursor: default;
-  #state-panel {
-    position: sticky;
-    top: 0;
-    z-index: 50;
   }
 #sidebar:not(.mob-open)::before{
   content:'☰ 選單';
