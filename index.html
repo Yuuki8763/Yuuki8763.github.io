@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI · RPG Engine</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -475,7 +478,8 @@
 
   /* ── DICE PANEL ── */
   #dice-panel{
-    position:absolute;bottom:calc(100% + .5rem);right:0;
+    position:absolute;bottom:calc(100% + .5rem);left:0;
+    max-width: 90vw;
     background:linear-gradient(160deg,#1a0800,#0e0400);
     border:1px solid var(--gold);border-radius:12px;
     padding:1rem 1.1rem 1rem;width:300px;
@@ -1061,8 +1065,22 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RPG Engine">
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      // 每次載入頁面時，強制向伺服器檢查是否有新的 sw.js
+      reg.update(); 
+      
+      reg.onupdatefound = () => {
+        const installingWorker = reg.installing;
+        installingWorker.onstatechange = () => {
+          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // 偵測到新版本！自動重整頁面以載入最新內容
+            console.log('偵測到新版本，正在重新載入...');
+            window.location.reload(true); 
+          }
+        };
+      };
+    }).catch(err => console.error('Service Worker 註冊失敗:', err));
   }
 // ────────────────────────────────────────────
 // 1. PNG tEXt chunk 解析
