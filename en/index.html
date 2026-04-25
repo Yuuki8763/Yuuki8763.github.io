@@ -921,6 +921,10 @@
 
   /* 7. responsive — already handled but add smooth sidebar collapse */
 @media(max-width:768px){
+  #mob-sidebar-toggle {
+    bottom: 5.5rem;
+    z-index: 700;
+  }
     #app{flex-direction:column}
     #sidebar{
       display:block !important;
@@ -929,6 +933,21 @@
       border-right:none !important;border-bottom:1px solid var(--border);
       cursor:pointer;
     }
+  #sidebar.mob-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 600;
+    max-height: 80vh;
+    overflow-y: auto;
+    cursor: default;
+  }
+  #state-panel {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
     #sidebar.mob-open{max-height:80vh;overflow-y:auto;cursor:default}
     #sidebar:not(.mob-open)::before{
       content:'☰ Menu';
@@ -1411,7 +1430,7 @@
   </div>
 
   <div id="chat-wrap">
-<button id="mob-sidebar-toggle" onclick="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="Menu">☰</button>
+<button id="mob-sidebar-toggle" onmousedown="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="Menu">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
