@@ -5272,6 +5272,7 @@ function restoreCustomTagsUI(tags) {
     if (sb.classList.contains('mob-open')) return;
     sb.classList.add('mob-open');
     e.stopPropagation();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   });
   // 讓小按鈕的 toggle 不被 document 監聽器干擾（已由按鈕自身 stopPropagation 處理）
   document.addEventListener('mousedown', function(e){
