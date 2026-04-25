@@ -922,7 +922,11 @@
   /* 7. responsive — already handled but add smooth sidebar collapse */
   @media(max-width:768px){
     #app{flex-direction:column}
-    #sidebar{
+    #sidebar{  
+    #mob-sidebar-toggle {
+    bottom: 5.5rem;
+    z-index: 700;
+  }
       display:block !important;
       width:100% !important;height:auto !important;
       max-height:48px;overflow:hidden;transition:max-height .3s ease;
@@ -930,6 +934,11 @@
       cursor:pointer;
     }
     #sidebar.mob-open{max-height:80vh;overflow-y:auto;cursor:default}
+  #state-panel {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
 #sidebar:not(.mob-open)::before{
   content:'☰ 選單';
   display:block;
@@ -1747,7 +1756,7 @@ document.addEventListener('DOMContentLoaded', setupCardDropZone);
   </div>
 
   <div id="chat-wrap">
-    <button id="mob-sidebar-toggle" onclick="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="選單">☰</button>
+    <button id="mob-sidebar-toggle" onmousedown="event.stopPropagation();document.getElementById('sidebar').classList.toggle('mob-open')" title="選單">☰</button>
     <div id="chat-hd">
       <div class="sdot" id="sdot"></div>
       <div class="title-text" id="chat-title">RPG Engine</div>
@@ -5265,7 +5274,7 @@ function restoreCustomTagsUI(tags) {
     e.stopPropagation();
   });
   // 讓小按鈕的 toggle 不被 document 監聽器干擾（已由按鈕自身 stopPropagation 處理）
-  document.addEventListener('click', function(e){
+  document.addEventListener('mousedown', function(e){
     if (window.innerWidth > 768) return;
     if (!sb.classList.contains('mob-open')) return;
     if (!sb.contains(e.target)) sb.classList.remove('mob-open');
