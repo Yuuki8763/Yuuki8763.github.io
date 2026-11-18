@@ -4,6 +4,78 @@
     <meta charset="UTF-8">
     <title>批量文字取代工具</title>
     <style>
+        /* 預設：淺色模式顏色變數 */
+:root {
+    --bg-color: #f5f5f5;        /* 網頁背景色 */
+    --box-bg: #ffffff;          /* 文字框/區塊背景色 */
+    --text-color: #333333;      /* 預設文字顏色 */
+    --border-color: #cccccc;    /* 邊框顏色 */
+    --btn-bg: #4a90e2;          /* 按鈕顏色 */
+}
+
+/* 觸發：深色模式顏色變數 */
+[data-theme="dark"] {
+    --bg-color: #121212;        /* 深色背景 */
+    --box-bg: #1e1e1e;          /* 深色文字框 */
+    --text-color: #e0e0e0;      /* 深色文字 (不要純白，眼睛才不痛) */
+    --border-color: #444444;    /* 深色邊框 */
+    --btn-bg: #357abd;          /* 深色按鈕 */
+}
+
+/* 將變數套用到你的網頁元素上 (並且加上漸變動畫) */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease; /* 切換時的柔和漸變 */
+}
+
+textarea, select, input {
+    background-color: var(--box-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+/* 🍎 蘋果風格的精緻切換開關 */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+.theme-switch {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 44px;
+}
+.theme-switch input {
+    display: none;
+}
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 16px;
+    left: 4px;
+    position: absolute;
+    transition: 0.3s;
+    width: 16px;
+    border-radius: 50%;
+}
+input:checked + .slider { background-color: #4a90e2; }
+input:checked + .slider:before { transform: translateX(20px); }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 20px;
@@ -19,9 +91,17 @@
         }
         .controls label { font-weight: 600; margin-right: 5px; }
         #status { margin-top: 5px; font-style: italic; color: #6c757d; font-weight: 500; flex-grow: 1; }
-        
-        .main-flex-container { display: flex; gap: 20px; }
-        .flex-item { flex: 1; display: flex; flex-direction: column; }
+        .main-flex-container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* 將畫面精準切成左右兩欄 */
+    gap: 20px; 
+}
+
+.flex-item { 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 450px; /* 賦予最小高度，讓上下兩排的文字框有充足的編輯空間 */
+}
         .textarea-header {
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-bottom: 10px;
@@ -1041,6 +1121,40 @@ chunk = chunk.replace(spamRegex, (...args) => {
                 alert("❌ URL 解碼失敗！請確認貼上的字串格式（例如不要夾雜不合法的單一 % 符號）。\n錯誤訊息：" + err.message);
             }
         });
+        const toggleSwitch = document.querySelector('#theme-checkbox');
+const themeText = document.querySelector('#theme-text');
+
+// 1. 檢查 LocalStorage 是否已經有記憶的設定
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+    // 如果有記憶，就套用記憶的設定
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+        themeText.textContent = "切換淺色模式";
+    }
+} else {
+    // 2. 如果沒記憶，自動偵測使用者的系統是不是深色模式
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        toggleSwitch.checked = true;
+        themeText.textContent = "切換淺色模式";
+    }
+}
+
+// 3. 綁定開關點擊事件
+toggleSwitch.addEventListener('change', function(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark'); // 記憶起來
+        themeText.textContent = "切換淺色模式";
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeText.textContent = "切換深色模式";
+    }
+});
     </script>
 </body>
 </html>
